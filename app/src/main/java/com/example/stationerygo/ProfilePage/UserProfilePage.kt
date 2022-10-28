@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 
 private lateinit var binding : FragmentUserProfileBinding
 private lateinit var database: DatabaseReference
@@ -39,6 +40,10 @@ class UserProfilePage : Fragment() {
 //            database = FirebaseDatabase.getInstance().getReference("Users")
 //            database.child(email!!)
             binding.userEmailTxt.text = email
+            binding.imageURITxt.text = user.photoUrl.toString()
+            Picasso.get()
+                .load(user.photoUrl.toString())
+                .into(binding.profileImageImg)
         }
 
         binding.logoutBtn.setOnClickListener{
