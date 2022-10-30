@@ -36,14 +36,16 @@ class UserProfilePage : Fragment() {
         auth = Firebase.auth
         val user = Firebase.auth.currentUser
         user?.let {
-            val email = user.displayName
-//            database = FirebaseDatabase.getInstance().getReference("Users")
-//            database.child(email!!)
-            binding.userEmailTxt.text = email
-            binding.imageURITxt.text = user.photoUrl.toString()
+            val name = user.displayName
+            binding.displayUserName.text = name
             Picasso.get()
                 .load(user.photoUrl.toString())
                 .into(binding.profileImageImg)
+        }
+
+        binding.shopBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_homePage_to_createStorePage)
+//            findNavController().navigate(R.id.action_homePage_to_createStoreAddressPage)
         }
 
         binding.logoutBtn.setOnClickListener{

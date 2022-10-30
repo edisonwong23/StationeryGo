@@ -9,12 +9,14 @@
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable/round_image.xml" value="0.1" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/activity_main.xml" value="0.1889564336372847" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_store.xml" value="0.1833839918946302" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_create_store_address_page.xml" value="0.25" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_create_store_page.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_home_page.xml" value="0.1469098277608916" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_login_page.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_order_list.xml" value="0.15374873353596757" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_register_page.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_store_list.xml" value="0.1770516717325228" />
-        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_user_profile.xml" value="0.67" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_user_profile.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/menu/nav_menu.xml" value="0.24259259259259258" />
       </map>
     </option>

@@ -66,6 +66,7 @@ class RegisterPage : Fragment() {
         // Inflate the layout for this fragment
         return binding.root
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage) {

@@ -37,5 +37,22 @@
         <action
             android:id="@+id/action_homePage_to_loginPage"
             app:destination="@id/loginPage" />
+        <action
+            android:id="@+id/action_homePage_to_createStorePage"
+            app:destination="@id/createStorePage" />
     </fragment>
+    <fragment
+        android:id="@+id/createStorePage"
+        android:name="com.example.stationerygo.StoreOwner.CreateStorePage"
+        android:label="Create Store Details"
+        tools:layout="@layout/fragment_create_store_page" >
+        <action
+            android:id="@+id/action_createStorePage_to_createStoreAddressPage"
+            app:destination="@id/createStoreAddressPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/createStoreAddressPage"
+        android:name="com.example.stationerygo.StoreOwner.CreateStoreAddressPage"
+        android:label="Create Store Address"
+        tools:layout="@layout/fragment_create_store_address_page" />
 </navigation>
