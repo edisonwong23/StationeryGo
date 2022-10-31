@@ -44,8 +44,8 @@ class UserProfilePage : Fragment() {
         }
 
         binding.shopBtn.setOnClickListener{
-            findNavController().navigate(R.id.action_homePage_to_createStorePage)
-//            findNavController().navigate(R.id.action_homePage_to_createStoreAddressPage)
+//            findNavController().navigate(R.id.action_homePage_to_createStorePage)
+            findNavController().navigate(R.id.action_homePage_to_mainStorePage)
         }
 
         binding.logoutBtn.setOnClickListener{

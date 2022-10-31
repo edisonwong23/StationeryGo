@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".StoreOwner.CreateStorePage">
+    tools:context=".StoreCreate.CreateStorePage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -119,7 +119,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/operatingDayStart_TextField"
-                    style="@style/inputBox"
+                    style="@style/dropDownBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -136,19 +136,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/operatingTime_TextField"
                     app:startIconContentDescription="@string/label">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/operatingDayStart_EdittextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="false"
+                        android:inputType="none"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/operatingDayEnd_TextField"
-                    style="@style/inputBox"
+                    style="@style/dropDownBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
@@ -162,12 +161,11 @@
                     app:layout_constraintTop_toTopOf="@+id/operatingDayStart_TextField"
                     app:startIconContentDescription="@string/label">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/operatingDayEnd_EdittextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="false"
+                        android:inputType="none"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -193,8 +191,8 @@
                         android:id="@+id/storeEmail_EdittextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="false"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences|textAutoCorrect|text"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -220,8 +218,8 @@
                         android:id="@+id/storePhone_EdittextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="false"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapSentences|textAutoCorrect|text"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>

@@ -1,4 +1,4 @@
-package com.example.stationerygo.StoreOwner
+package com.example.stationerygo.StoreCreate
 
 import android.Manifest
 import android.app.AlertDialog
@@ -15,22 +15,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.stationerygo.LoginPage.imagePathFromFirebase
 import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentCreateStoreAddressPageBinding
-import com.example.stationerygo.databinding.FragmentCreateStorePageBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.OnTokenCanceledListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.async
 import java.lang.Exception
 import java.util.*
 
 private lateinit var binding : FragmentCreateStoreAddressPageBinding
 private lateinit var fusedLocationClient: FusedLocationProviderClient
+private lateinit var database: DatabaseReference
+private lateinit var auth: FirebaseAuth
 
 class CreateStoreAddressPage : Fragment() {
 
@@ -89,12 +101,17 @@ class CreateStoreAddressPage : Fragment() {
                 .addOnSuccessListener { location: Location? ->
                     Log.d("Store","Location Starting")
                     val progress = ProgressDialog(activity)
-                    progress.setTitle("Registering Account")
+                    progress.setTitle("Getting Current Location")
+                    val lat = location?.latitude
+                    val lon = location?.longitude
+                    Log.d("Store","Lat: $lat")
+                    Log.d("Store","Lon: $lon")
                     progress.show()
                     if (location == null)
                     {
                         Toast.makeText(context, "Cannot get location.", Toast.LENGTH_SHORT).show()
                         Log.d("Store", "No Location Found")
+                        progress.hide()
                     }
                     else {
                         try {
@@ -134,6 +151,9 @@ class CreateStoreAddressPage : Fragment() {
                 }
         }
 
+        binding.createStoreBtn.setOnClickListener{
+            insertToFileStorage()
+        }
 
         return binding.root
     }
@@ -146,6 +166,72 @@ class CreateStoreAddressPage : Fragment() {
             ),
             MY_PERMISSIONS_REQUEST_LOCATION
         )
+    }
+
+    private fun insertToFileStorage(){
+        val data = arguments?.getString("storeImage")?.toUri()
+        Log.d("Store",data.toString())
+        if(data != null){
+            val progress = ProgressDialog(activity)
+            progress.setTitle("Uploading Image To Storage")
+            progress.show()
+            val fileName = UUID.randomUUID().toString() + ".jpg"
+            val refStorage = FirebaseStorage.getInstance().reference.child("store_images/$fileName")
+            refStorage.putFile(data).addOnSuccessListener(
+                OnSuccessListener<UploadTask.TaskSnapshot>{
+                        taskSnapshot -> taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                    imagePathFromFirebase = it.toString()
+                    progress.hide()
+                    getCurrentUser(imagePathFromFirebase)
+                }
+                }).addOnFailureListener{
+                    Log.d("Store",it.toString())
+            }
+        }
+    }
+
+    private fun getCurrentUser(imagePathFromFirebase:String){
+        auth = Firebase.auth
+        val currentUser = Firebase.auth.currentUser
+        currentUser?.let {
+            var getCurrentUser = currentUser.email.toString()
+            var uid = currentUser.uid.toString()
+            insetToDatabase(imagePathFromFirebase,getCurrentUser,uid)
+        }
+    }
+
+    private fun insetToDatabase(imagePathFromFirebase:String,currentUser:String,uid:String){
+
+
+        val progress = ProgressDialog(activity)
+        progress.setTitle("Uploading Store Details")
+        progress.show()
+
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+        val storeName = arguments?.getString("storeName").toString()
+        val description = arguments?.getString("description").toString()
+        val timeStart = arguments?.getString("timeStart").toString()
+        val timeEnd = arguments?.getString("timeEnd").toString()
+        val dayStart = arguments?.getString("dayStart").toString()
+        val dayEnd = arguments?.getString("dayEnd").toString()
+        val email = arguments?.getString("email").toString()
+        val phone = arguments?.getString("phone").toString()
+        val address = binding.addressTextField.editText?.text.toString()
+        val state = binding.stateTextField.editText?.text.toString()
+        val postal = binding.postalCodeTextField.editText?.text.toString()
+        val city = binding.cityTextField.editText?.text.toString()
+
+        val user = CreateStoreData(currentUser,storeName,description,timeStart,timeEnd,dayStart,dayEnd,email,phone,address,state,postal,city,imagePathFromFirebase)
+
+        database.child(uid).setValue(user).addOnCompleteListener {
+            Toast.makeText(getContext(), "Store Created", Toast.LENGTH_SHORT).show()
+            progress.hide()
+            findNavController().navigate(R.id.action_createStoreAddressPage_to_mainStorePage)
+        }.addOnFailureListener{
+            Log.d("Store", "Failure happen" +it.toString())
+            Toast.makeText(getContext(), it.toString(), Toast.LENGTH_SHORT).show()
+            progress.hide()
+        }
     }
 
     companion object {

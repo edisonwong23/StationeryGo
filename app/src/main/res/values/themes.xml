@@ -21,4 +21,10 @@
         <item name="boxStrokeColor">@color/secondaryColor</item>
         <item name="hintTextColor">@color/primaryTextColor</item>
     </style>
+
+    <style name="dropDownBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="colorPrimary">@color/primaryTextColor</item>
+        <item name="boxStrokeColor">@color/secondaryColor</item>
+        <item name="hintTextColor">@color/primaryTextColor</item>
+    </style>
 </resources>
