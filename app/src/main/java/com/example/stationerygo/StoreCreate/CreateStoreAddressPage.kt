@@ -139,7 +139,8 @@ class CreateStoreAddressPage : Fragment() {
                                 binding.postalCodeEdittextField.setText("$postalCode")
                                 progress.hide()
                             }
-                        }catch (Ex: Exception){
+                        }
+                        catch (Ex: Exception){
                             progress.hide()
                             Toast.makeText(context,"Encounter error getting address",Toast.LENGTH_SHORT).show()
                             Log.d("Store","$Ex")

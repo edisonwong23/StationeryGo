@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.R
 import com.example.stationerygo.StoreCreate.CreateStoreData
 import com.example.stationerygo.databinding.FragmentCreateStorePageBinding
@@ -21,7 +23,7 @@ import com.google.firebase.ktx.Firebase
 private lateinit var binding : FragmentMainStorePageBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
-
+private var storeName: String = ""
 
 class MainStorePage : Fragment() {
 
@@ -44,6 +46,13 @@ class MainStorePage : Fragment() {
             Log.d("Stores","User UID: " +uid)
         }
 
+        binding.manageProductCard.setOnClickListener{
+            var bundle = bundleOf(
+                "storename" to storeName
+            )
+            findNavController().navigate(R.id.action_mainStorePage_to_productLists,bundle)
+        }
+
         return binding.root
     }
 
@@ -61,7 +70,9 @@ class MainStorePage : Fragment() {
                 var users = dataSnapshot.getValue(CreateStoreData::class.java)
                 Log.d("Store","Current Owner:" + users.toString())
                 var storename = dataSnapshot.child("storeName").getValue(String::class.java)
+                storeName = storename.toString()
 //                var user_password = dataSnapshot.child("password").getValue(String::class.java)
+
                 (activity as AppCompatActivity).supportActionBar?.title = storename
                 progress.hide()
             }

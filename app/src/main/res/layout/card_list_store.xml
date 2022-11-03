@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_Title" />
         <TextView
-            android:id="@+id/text_StartDate"
+            android:id="@+id/text_StartTime"
             android:layout_width="160dp"
             android:layout_height="22dp"
             android:layout_marginStart="15dp"
@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/text_City" />
 
         <TextView
-            android:id="@+id/text_EndDate"
+            android:id="@+id/text_EndTime"
             android:layout_width="160dp"
             android:layout_height="22dp"
             android:layout_marginStart="15dp"
@@ -90,7 +90,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_StartDate" />
+            app:layout_constraintTop_toBottomOf="@+id/text_StartTime" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

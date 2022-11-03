@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_homePage_to_mainStorePage"
             app:destination="@id/mainStorePage" />
+        <action
+            android:id="@+id/action_homePage_to_storeDetailPage"
+            app:destination="@id/storeDetailPage" />
     </fragment>
     <fragment
         android:id="@+id/createStorePage"
@@ -66,5 +69,32 @@
         android:id="@+id/mainStorePage"
         android:name="com.example.stationerygo.StoreOwner.MainStorePage"
         android:label="Main Store Page"
-        tools:layout="@layout/fragment_main_store_page" />
+        tools:layout="@layout/fragment_main_store_page" >
+        <action
+            android:id="@+id/action_mainStorePage_to_productLists"
+            app:destination="@id/productLists" />
+    </fragment>
+    <fragment
+        android:id="@+id/productLists"
+        android:name="com.example.stationerygo.StoreProducts.ProductLists"
+        android:label="Product List"
+        tools:layout="@layout/fragment_product_lists" >
+        <action
+            android:id="@+id/action_productLists_to_createProducts"
+            app:destination="@id/createProducts" />
+    </fragment>
+    <fragment
+        android:id="@+id/createProducts"
+        android:name="com.example.stationerygo.StoreProducts.CreateProducts.CreateProducts"
+        android:label="Create Products"
+        tools:layout="@layout/fragment_create_products" >
+        <action
+            android:id="@+id/action_createProducts_to_productLists"
+            app:destination="@id/productLists" />
+    </fragment>
+    <fragment
+        android:id="@+id/storeDetailPage"
+        android:name="com.example.stationerygo.StorePage.StoreDetailPage.StoreDetailPage"
+        android:label="fragment_store_detail_page"
+        tools:layout="@layout/fragment_store_detail_page" />
 </navigation>
