@@ -37,6 +37,7 @@ class MainStorePage : Fragment() {
             false
         )
 
+        checkUserOwnShop()
         auth = Firebase.auth
         val getUser = auth.currentUser
         getUser.let {
@@ -54,6 +55,42 @@ class MainStorePage : Fragment() {
         }
 
         return binding.root
+    }
+
+        private fun checkUserOwnShop() {
+        val progress = ProgressDialog(activity)
+        progress.setTitle("Checking Store")
+        progress.show()
+
+        auth = Firebase.auth
+        val user = Firebase.auth.currentUser?.uid
+        Log.d("User",user.toString())
+
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+        val checkUser = database.child(user.toString())
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var users = dataSnapshot.getValue(CreateStoreData::class.java)
+                Log.d("User","Current Owner:" + users.toString())
+                if(users == null){
+                    findNavController().navigate(R.id.action_mainStorePage_to_createStorePage)
+                    progress.hide()
+                }
+                else{
+//                    findNavController().navigate(R.id.action_homePage_to_mainStorePage)
+                    progress.hide()
+                }
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show()
+                Log.d("User","Fail to Get User")
+                progress.hide()
+            }
+        }
+        checkUser.addValueEventListener(postListener)
     }
 
 

@@ -53,7 +53,7 @@ class ProductLists : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var dataName: String = ""
-                    dataName = snapshot.child("storeName").value.toString()
+                    dataName = snapshot.child("storeID").value.toString()
 
 //                    dataName = it.value.toString()
                     Log.d("Details",dataName)

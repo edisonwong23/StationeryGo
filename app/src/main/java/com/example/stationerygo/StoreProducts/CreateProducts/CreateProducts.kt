@@ -97,9 +97,9 @@ class CreateProducts : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                     var dataName: String = ""
-                    dataName = snapshot.child("storeName").value.toString()
+                    dataName = snapshot.child("storeID").value.toString()
                 if(dataName == ""){
-                    Toast.makeText(context,"Couldnt get Shop Name",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Error in Database",Toast.LENGTH_SHORT).show()
                 }
                 else
                 uploadImageToFirebase(dataToFirebase,dataName)

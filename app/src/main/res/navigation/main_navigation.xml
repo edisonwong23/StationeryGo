@@ -38,14 +38,11 @@
             android:id="@+id/action_homePage_to_loginPage"
             app:destination="@id/loginPage" />
         <action
-            android:id="@+id/action_homePage_to_createStorePage"
-            app:destination="@id/createStorePage" />
+            android:id="@+id/action_homePage_to_storeDetailPage"
+            app:destination="@id/storeDetailPage" />
         <action
             android:id="@+id/action_homePage_to_mainStorePage"
             app:destination="@id/mainStorePage" />
-        <action
-            android:id="@+id/action_homePage_to_storeDetailPage"
-            app:destination="@id/storeDetailPage" />
     </fragment>
     <fragment
         android:id="@+id/createStorePage"
@@ -63,7 +60,8 @@
         tools:layout="@layout/fragment_create_store_address_page" >
         <action
             android:id="@+id/action_createStoreAddressPage_to_mainStorePage"
-            app:destination="@id/mainStorePage" />
+            app:destination="@id/mainStorePage"
+            app:popUpTo="@id/main_navigation" />
     </fragment>
     <fragment
         android:id="@+id/mainStorePage"
@@ -73,6 +71,9 @@
         <action
             android:id="@+id/action_mainStorePage_to_productLists"
             app:destination="@id/productLists" />
+        <action
+            android:id="@+id/action_mainStorePage_to_createStorePage"
+            app:destination="@id/createStorePage" />
     </fragment>
     <fragment
         android:id="@+id/productLists"

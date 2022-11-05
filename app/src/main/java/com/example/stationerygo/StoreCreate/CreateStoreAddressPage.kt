@@ -209,6 +209,7 @@ class CreateStoreAddressPage : Fragment() {
         progress.show()
 
         database = FirebaseDatabase.getInstance().getReference("Stores")
+        val storeID = UUID.randomUUID().toString()
         val storeName = arguments?.getString("storeName").toString()
         val description = arguments?.getString("description").toString()
         val timeStart = arguments?.getString("timeStart").toString()
@@ -222,16 +223,18 @@ class CreateStoreAddressPage : Fragment() {
         val postal = binding.postalCodeTextField.editText?.text.toString()
         val city = binding.cityTextField.editText?.text.toString()
 
-        val user = CreateStoreData(currentUser,storeName,description,timeStart,timeEnd,dayStart,dayEnd,email,phone,address,state,postal,city,imagePathFromFirebase)
+        val user = CreateStoreData(storeID,currentUser,storeName,description,timeStart,timeEnd,dayStart,dayEnd,email,phone,address,state,postal,city,imagePathFromFirebase)
 
-        database.child(uid).setValue(user).addOnCompleteListener {
-            Toast.makeText(getContext(), "Store Created", Toast.LENGTH_SHORT).show()
+        database.child(uid).setValue(user)
+            .addOnCompleteListener {
             progress.hide()
-            findNavController().navigate(R.id.action_createStoreAddressPage_to_mainStorePage)
-        }.addOnFailureListener{
+                findNavController().navigate(R.id.action_createStoreAddressPage_to_mainStorePage)
+//            findNavController().navigateUp()
+
+            }.addOnFailureListener{
             Log.d("Store", "Failure happen" +it.toString())
             Toast.makeText(getContext(), it.toString(), Toast.LENGTH_SHORT).show()
-            progress.hide()
+                progress.hide()
         }
     }
 
