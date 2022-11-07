@@ -127,11 +127,11 @@ class CreateStoreAddressPage : Fragment() {
                                 var state = addresses.get(0).adminArea
                                 var postalCode = addresses.get(0).postalCode
                                 var address = addresses.get(0).getAddressLine(0)
-
-                                Log.d("Store", "Address: $address")
-                                Log.d("Store", "City: $city")
-                                Log.d("Store", "State: $state")
-                                Log.d("Store", "Postal Code: $postalCode")
+//
+//                                Log.d("Store", "Address: $address")
+//                                Log.d("Store", "City: $city")
+//                                Log.d("Store", "State: $state")
+//                                Log.d("Store", "Postal Code: $postalCode")
 
                                 binding.addressEdittextField.setText("$address")
                                 binding.stateEdittextField.setText("$state")

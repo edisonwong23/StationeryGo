@@ -1,0 +1,31 @@
+package com.example.stationerygo.Cart.Payment
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.example.stationerygo.R
+import com.example.stationerygo.databinding.FragmentCartPageBinding
+import com.example.stationerygo.databinding.FragmentPaymentPageBinding
+
+private lateinit var binding : FragmentPaymentPageBinding
+
+class PaymentPage : Fragment() {
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding = FragmentPaymentPageBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        return binding.root
+    }
+
+}

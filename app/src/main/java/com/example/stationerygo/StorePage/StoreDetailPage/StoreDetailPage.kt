@@ -9,19 +9,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stationerygo.R
 import com.example.stationerygo.StorePage.StoreListData
 import com.example.stationerygo.StoreProducts.ProductListAdapter
 import com.example.stationerygo.StoreProducts.ProductListData
 import com.example.stationerygo.databinding.FragmentStoreDetailPageBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 
 
 private lateinit var binding: FragmentStoreDetailPageBinding
 private lateinit var database: DatabaseReference
-
+private lateinit var auth: FirebaseAuth
+private var dataID = ""
 
 class StoreDetailPage : Fragment() {
 
@@ -36,7 +42,16 @@ class StoreDetailPage : Fragment() {
             container,
             false
         )
+        auth = Firebase.auth
         getStoreDetails()
+
+
+        binding.navigateToCartFAB.setOnClickListener{
+            var bundle = bundleOf(
+                "StoreID" to dataID
+            )
+            findNavController().navigate(R.id.action_storeDetailPage_to_cart_Page,bundle)
+        }
 
         return binding.root
     }
@@ -54,6 +69,7 @@ class StoreDetailPage : Fragment() {
                 var dataName = ""
                 var dataImg = ""
                 snapshot.children.forEach{
+                    dataID = it.child("storeID").value.toString()
                     dataName = it.child("storeName").value.toString()
                     dataImg = it.child("storeImage").value.toString()
                     Picasso.get()
@@ -66,8 +82,9 @@ class StoreDetailPage : Fragment() {
                 }
                 else{
                     (activity as AppCompatActivity).supportActionBar?.title = dataName
-                    getStoreProducts(dataName)
+                    getStoreProducts(dataID)
                     progress.hide()
+                    checkTotalInCart()
                 }
 
             }
@@ -89,19 +106,17 @@ class StoreDetailPage : Fragment() {
         var productData = ArrayList<StoreProductData>()
         database = FirebaseDatabase.getInstance().getReference("Products")
         val postReference = database.child(dataName)
-        Log.d("Details","Data gotten:" + dataName)
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productData.clear()
                 var i = 0
                 snapshot.children.forEach{
-//                    Log.d("Products", it.child("productName").toString())
                     var productImage = it.child("productImage").value.toString()
+                    var productID = it.key
                     var productName = it.child("productName").value.toString()
                     var productQty = it.child("productQty").value.toString()
-                    productData.add(StoreProductData(i++,productImage,productName,productQty))
+                    productData.add(StoreProductData(i++,productID,productImage,productName,productQty))
                 }
-                Log.d("Products",productData.toString())
                 if(productData.isEmpty()){
                     progress.hide()
                     Toast.makeText(context,"Couldn't get Info from Database",Toast.LENGTH_SHORT).show()
@@ -109,10 +124,13 @@ class StoreDetailPage : Fragment() {
                     progress.hide()
                     val recyclerView = binding.storeDetailsRecyclerView
                     recyclerView.layoutManager = LinearLayoutManager(context)
-                    Log.d("Products","Loaded into Here First")
                     recyclerView.adapter = StoreProductAdapter(productData){ StoreProductData, position:Int ->
-                        var productName = productData[position].productName
-                        Toast.makeText(context,productName,Toast.LENGTH_SHORT).show()
+                        var productID = productData[position].productID
+                        var bundle = bundleOf(
+                            "storeID" to dataID,
+                            "itemID" to productID,
+                        )
+                        findNavController().navigate(R.id.action_storeDetailPage_to_itemDetailPage,bundle)
                     }
                 }
             }
@@ -123,5 +141,36 @@ class StoreDetailPage : Fragment() {
             }
         }
         postReference.addValueEventListener(postListener)
+    }
+
+    private fun checkTotalInCart(){
+        val progress = ProgressDialog(activity)
+        progress.show()
+        auth = FirebaseAuth.getInstance()
+        var uid = auth.currentUser?.uid.toString()
+
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+        var dataRef = database.child(uid).child(dataID)
+        var postRef = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.value != null){
+                    var total = snapshot.childrenCount
+                    binding.totalInCartTxt.visibility = View.VISIBLE
+                    binding.totalInCartTxt.text = total.toString()
+                    progress.hide()
+                }
+                else{
+                    binding.totalInCartTxt.visibility = View.INVISIBLE
+                    progress.hide()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+        dataRef.addListenerForSingleValueEvent(postRef)
+
     }
 }

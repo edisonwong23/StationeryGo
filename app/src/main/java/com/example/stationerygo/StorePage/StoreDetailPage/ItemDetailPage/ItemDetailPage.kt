@@ -1,0 +1,175 @@
+package com.example.stationerygo.StorePage.StoreDetailPage.ItemDetailPage
+
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import com.example.stationerygo.Cart.Cart_Data
+import com.example.stationerygo.R
+import com.example.stationerygo.StoreProducts.CreateProducts.CreateProductData
+import com.example.stationerygo.databinding.FragmentItemDetailPageBinding
+import com.example.stationerygo.databinding.FragmentStoreDetailPageBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
+
+private lateinit var binding: FragmentItemDetailPageBinding
+private lateinit var database: DatabaseReference
+private lateinit var auth: FirebaseAuth
+private var productImage: String = ""
+private var productName: String = ""
+
+
+class ItemDetailPage : Fragment() {
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentItemDetailPageBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+        auth = Firebase.auth
+        getDetailFromDatabase()
+        binding.addToCartBtn.setOnClickListener{
+            checkCart()
+        }
+
+        return binding.root
+    }
+
+    private fun getDetailFromDatabase(){
+        var itemID = arguments?.getString("itemID").toString()
+        var storeID = arguments?.getString("storeID").toString()
+        database = FirebaseDatabase.getInstance().getReference("Products")
+        var dataRef = database.child(storeID).child(itemID)
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var itemName = snapshot.child("productName").getValue().toString()
+                var itemImage = snapshot.child("productImage").getValue().toString()
+                productImage = itemImage
+                productName = itemName
+                binding.itemNameTxt.text = itemName
+                Picasso.get()
+                    .load(itemImage)
+                    .into(binding.imageView2)
+                Log.d("Items",itemName)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        }
+            dataRef.addValueEventListener(postListener)
+    }
+
+    private fun checkCart(){
+        val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+        var uid = auth.currentUser?.uid.toString()
+        var storeID = arguments?.getString("storeID").toString()
+
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+        var dataRef = database.child(uid)
+
+        var postRef = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.value != null){
+                    if(snapshot.child(storeID).exists()){
+                        addToCart()
+                    }
+                    else{
+                        alartDialog.apply {
+                            setTitle("Clear Cart")
+                            setMessage("Items from other shop are in the Cart. Do you want to clear them?")
+                            setPositiveButton("Clear"){ _: DialogInterface?, _: Int ->
+                                    clearCart()
+                            }
+                            setNegativeButton("Cancel"){_, _ ->
+                                Toast.makeText(context,"Failed to Add Item to Cart",Toast.LENGTH_SHORT).show()
+                            }
+                        }.create().show()
+                    }
+                }
+                else{
+                    addToCart()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        dataRef.addListenerForSingleValueEvent(postRef)
+    }
+
+
+
+
+    private fun addToCart(){
+        auth = FirebaseAuth.getInstance()
+        var uid = auth.currentUser?.uid.toString()
+        var storeID = arguments?.getString("storeID").toString()
+        var itemID = arguments?.getString("itemID").toString()
+
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+        var dataref = database.child(uid).child(storeID).child(itemID)
+
+        var postRef = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var cart = Cart_Data(itemID, productImage, productName,"5")
+               if(snapshot.exists()){
+                Toast.makeText(context,"Item Already in Cart",Toast.LENGTH_SHORT).show()
+               }
+                else{
+                   dataref.setValue(cart)
+                   Toast.makeText(context,"Item Added To Cart",Toast.LENGTH_SHORT).show()
+               }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+
+        dataref.addListenerForSingleValueEvent(postRef)
+
+
+//      Toast.makeText(context,"Remove Previous Cart",Toast.LENGTH_SHORT).show()
+
+    }
+
+    private fun clearCart(){
+        auth = FirebaseAuth.getInstance()
+        var uid = auth.currentUser?.uid.toString()
+
+
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+        var dataref = database.child(uid)
+
+        var postRef = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.ref.removeValue()
+                Toast.makeText(context,"Cart has been cleared",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+        dataref.addListenerForSingleValueEvent(postRef)
+    }
+
+}

@@ -97,5 +97,22 @@
         android:id="@+id/storeDetailPage"
         android:name="com.example.stationerygo.StorePage.StoreDetailPage.StoreDetailPage"
         android:label="fragment_store_detail_page"
-        tools:layout="@layout/fragment_store_detail_page" />
+        tools:layout="@layout/fragment_store_detail_page" >
+        <action
+            android:id="@+id/action_storeDetailPage_to_itemDetailPage"
+            app:destination="@id/itemDetailPage" />
+        <action
+            android:id="@+id/action_storeDetailPage_to_cart_Page"
+            app:destination="@id/cart_Page" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemDetailPage"
+        android:name="com.example.stationerygo.StorePage.StoreDetailPage.ItemDetailPage.ItemDetailPage"
+        android:label="fragment_item_detail_page"
+        tools:layout="@layout/fragment_item_detail_page" />
+    <fragment
+        android:id="@+id/cart_Page"
+        android:name="com.example.stationerygo.Cart.Cart_Page"
+        android:label="fragment_cart__page"
+        tools:layout="@layout/fragment_cart__page" />
 </navigation>
