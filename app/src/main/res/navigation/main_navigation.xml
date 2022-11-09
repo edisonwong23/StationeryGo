@@ -73,7 +73,8 @@
             app:destination="@id/productLists" />
         <action
             android:id="@+id/action_mainStorePage_to_createStorePage"
-            app:destination="@id/createStorePage" />
+            app:destination="@id/createStorePage"
+            app:popUpTo="@id/homePage" />
     </fragment>
     <fragment
         android:id="@+id/productLists"
@@ -108,11 +109,20 @@
     <fragment
         android:id="@+id/itemDetailPage"
         android:name="com.example.stationerygo.StorePage.StoreDetailPage.ItemDetailPage.ItemDetailPage"
-        android:label="fragment_item_detail_page"
+        android:label="Store Page"
         tools:layout="@layout/fragment_item_detail_page" />
     <fragment
         android:id="@+id/cart_Page"
         android:name="com.example.stationerygo.Cart.Cart_Page"
-        android:label="fragment_cart__page"
-        tools:layout="@layout/fragment_cart__page" />
+        android:label="Cart"
+        tools:layout="@layout/fragment_cart__page" >
+        <action
+            android:id="@+id/action_cart_Page_to_paymentPage"
+            app:destination="@id/paymentPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentPage"
+        android:name="com.example.stationerygo.Cart.Payment.PaymentPage"
+        android:label="Payment Page"
+        tools:layout="@layout/fragment_payment_page" />
 </navigation>

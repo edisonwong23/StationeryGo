@@ -25,6 +25,8 @@ private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 private var productImage: String = ""
 private var productName: String = ""
+private var productQty: String = ""
+private var productPrice: String = ""
 
 
 class ItemDetailPage : Fragment() {
@@ -57,12 +59,19 @@ class ItemDetailPage : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var itemName = snapshot.child("productName").getValue().toString()
                 var itemImage = snapshot.child("productImage").getValue().toString()
+                var itemQty = snapshot.child("productQty").getValue().toString()
+                var itemPrice = snapshot.child("productPrice").getValue().toString()
                 productImage = itemImage
                 productName = itemName
+                productQty = itemQty
+                productPrice = itemPrice
+
                 binding.itemNameTxt.text = itemName
                 Picasso.get()
                     .load(itemImage)
                     .into(binding.imageView2)
+                binding.itemQTYTxt.text = itemQty
+                binding.itemPriceTxt.text = itemPrice
                 Log.d("Items",itemName)
             }
 
@@ -127,7 +136,7 @@ class ItemDetailPage : Fragment() {
 
         var postRef = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var cart = Cart_Data(itemID, productImage, productName,"5")
+                var cart = Cart_Data(itemID, productImage, productName,"5", productPrice)
                if(snapshot.exists()){
                 Toast.makeText(context,"Item Already in Cart",Toast.LENGTH_SHORT).show()
                }

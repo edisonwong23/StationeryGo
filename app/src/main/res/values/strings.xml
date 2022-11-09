@@ -13,4 +13,10 @@
         <item>Sunday</item>
     </string-array>
 
+    <string-array name="Payments">
+        <item>MasterCard</item>
+        <item>Visa</item>
+        <item>Cash</item>
+    </string-array>
+
 </resources>

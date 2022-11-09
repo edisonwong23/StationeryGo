@@ -28,6 +28,7 @@ private lateinit var binding: FragmentStoreDetailPageBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 private var dataID = ""
+private var dataName = ""
 
 class StoreDetailPage : Fragment() {
 
@@ -48,8 +49,10 @@ class StoreDetailPage : Fragment() {
 
         binding.navigateToCartFAB.setOnClickListener{
             var bundle = bundleOf(
-                "StoreID" to dataID
+                "StoreID" to dataID,
+                "StoreName" to dataName
             )
+//            Log.d("Payment","ID: $dataID - Name: $dataName")
             findNavController().navigate(R.id.action_storeDetailPage_to_cart_Page,bundle)
         }
 
@@ -66,7 +69,6 @@ class StoreDetailPage : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 //                Log.d("Details", snapshot.value.toString())
-                var dataName = ""
                 var dataImg = ""
                 snapshot.children.forEach{
                     dataID = it.child("storeID").value.toString()

@@ -6,44 +6,214 @@
     tools:context=".Cart.Cart_Page">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       >
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
 
 
-        <Button
-            android:id="@+id/pickup_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Pick Up"
-            android:background="@drawable/transparent_button"
-            app:layout_constraintEnd_toStartOf="@+id/delivery_btn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/delivery_btn" />
+           <Button
+               android:id="@+id/pickup_btn"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:text="Pick Up"
+               android:background="@drawable/transparent_button"
+               app:layout_constraintEnd_toStartOf="@+id/delivery_btn"
+               app:layout_constraintHorizontal_bias="0.5"
+               app:layout_constraintHorizontal_chainStyle="packed"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="@+id/delivery_btn" />
 
-        <Button
-            android:id="@+id/delivery_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/transparent_button"
-            android:text="Deliver"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/pickup_btn"
-            app:layout_constraintTop_toTopOf="parent" />
+           <Button
+               android:id="@+id/delivery_btn"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:background="@drawable/transparent_button"
+               android:text="Deliver"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.5"
+               app:layout_constraintStart_toEndOf="@+id/pickup_btn"
+               app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cart_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/delivery_btn"
-            tools:listitem="@layout/card_list_cart_product">
+           <androidx.cardview.widget.CardView
+               android:id="@+id/addressEdit_Card"
+               android:layout_width="match_parent"
+               android:layout_height="150dp"
+               android:layout_marginStart="16dp"
+               android:layout_marginTop="16dp"
+               android:layout_marginEnd="16dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/pickup_btn">
 
-        </androidx.recyclerview.widget.RecyclerView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+
+                   <TextView
+                       android:id="@+id/cartAddress_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="8dp"
+                       android:text="Address"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent" />
+
+                   <Button
+                       android:id="@+id/cartEditAddress_btn"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Edit"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent" />
+
+                   <TextView
+                       android:id="@+id/cartCurrentAddress_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="8dp"
+                       android:text="Current Address"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/cartAddress_txt" />
+               </androidx.constraintlayout.widget.ConstraintLayout>
+           </androidx.cardview.widget.CardView>
+
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/cart_recyclerview"
+               android:layout_width="0dp"
+               android:layout_height="602dp"
+               android:layout_marginTop="8dp"
+               app:layout_constraintBottom_toTopOf="@+id/cardView"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/addressEdit_Card"
+               tools:listitem="@layout/card_list_cart_product">
+
+           </androidx.recyclerview.widget.RecyclerView>
+
+           <androidx.cardview.widget.CardView
+               android:id="@+id/cardView"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="24dp"
+               app:layout_constraintBottom_toTopOf="@+id/proceedPayment_btn"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/cart_recyclerview">
+
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   tools:layout_editor_absoluteX="-3dp"
+                   tools:layout_editor_absoluteY="-35dp">
+
+
+                   <TextView
+                       android:id="@+id/subTotal_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="16dp"
+                       android:layout_marginTop="16dp"
+                       android:text="Sub Total:"
+                       app:layout_constraintBottom_toTopOf="@+id/delivery_txt"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintVertical_chainStyle="spread" />
+
+                   <TextView
+                       android:id="@+id/delivery_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="16dp"
+                       android:layout_marginTop="8dp"
+                       android:text="Delivery Fee:"
+                       app:layout_constraintBottom_toTopOf="@+id/taxPercentage_txt"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/subTotal_txt" />
+
+                   <TextView
+                       android:id="@+id/taxPercentage_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="16dp"
+                       android:layout_marginTop="8dp"
+                       android:text="Tax (6%):"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/delivery_txt" />
+
+                   <TextView
+                       android:id="@+id/subTotalAmount_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="16dp"
+                       android:layout_marginEnd="32dp"
+                       android:text="0.00"
+                       app:layout_constraintBottom_toTopOf="@+id/deliveryFeeAmount_txt"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toTopOf="parent" />
+
+                   <TextView
+                       android:id="@+id/deliveryFeeAmount_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="8dp"
+                       android:layout_marginEnd="32dp"
+                       android:text="0.00"
+                       app:layout_constraintBottom_toTopOf="@+id/taxAmount_txt"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/subTotalAmount_txt" />
+
+                   <TextView
+                       android:id="@+id/taxAmount_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="8dp"
+                       android:layout_marginEnd="32dp"
+                       android:text="0.00"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/deliveryFeeAmount_txt" />
+
+                   <TextView
+                       android:id="@+id/totalAmount_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="16dp"
+                       android:layout_marginTop="32dp"
+                       android:layout_marginBottom="16dp"
+                       android:text="Total Amount:"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/taxPercentage_txt" />
+
+                   <TextView
+                       android:id="@+id/totalAmountAmount_txt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="32dp"
+                       android:layout_marginEnd="32dp"
+                       android:text="0.00"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toBottomOf="@+id/taxAmount_txt" />
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+
+           </androidx.cardview.widget.CardView>
+
+           <Button
+               android:id="@+id/proceedPayment_btn"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:text="Proceed To Payment"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent" />
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+   </ScrollView>
 </layout>

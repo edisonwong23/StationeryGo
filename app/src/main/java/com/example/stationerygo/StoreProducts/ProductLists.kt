@@ -71,11 +71,11 @@ class ProductLists : Fragment() {
 
         postRef.addValueEventListener(postListener)
     }
-    private fun getDataFromFirebase(dataName:String){
+    private fun getDataFromFirebase(storeID:String){
         var productData = ArrayList<ProductListData>()
         database = FirebaseDatabase.getInstance().getReference("Products")
-        val postReference = database.child(dataName)
-        Log.d("Details","Data gotten:" + dataName)
+        val postReference = database.child(storeID)
+        Log.d("Details","Data gotten:" + storeID)
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 productData.clear()

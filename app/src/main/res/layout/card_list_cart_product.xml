@@ -38,20 +38,24 @@
 
         <Button
             android:id="@+id/minus_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
+            android:gravity="center"
             app:icon="@drawable/remove"
+            app:iconGravity="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/add_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="165dp"
             android:contentDescription="@string/app_name"
+            android:gravity="center"
             app:icon="@drawable/add"
+            app:iconGravity="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
