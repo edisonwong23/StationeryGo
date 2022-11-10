@@ -7,11 +7,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stationerygo.OrderList.OrderListData
 import com.example.stationerygo.R
 import com.squareup.picasso.Picasso
 
-class CartAdapet (private val mList: List<Cart_Data>,
-                  val clickListener: (Cart_Data, Int) -> Unit)
+class CartAdapet(private val mList: ArrayList<Cart_Data>,
+                 val clickListener: (Cart_Data, Int) -> Unit)
     : RecyclerView.Adapter<CartAdapet.ViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,7 +52,7 @@ class CartAdapet (private val mList: List<Cart_Data>,
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val productImage: ImageView = itemView.findViewById(R.id.imageProduct)
-        val title: TextView = itemView.findViewById(R.id.productName_txt)
+        val title: TextView = itemView.findViewById(R.id.orderShopName_txt)
         val add: Button = itemView.findViewById(R.id.add_btn)
         val minus: Button = itemView.findViewById(R.id.minus_btn)
         val qty: TextView = itemView.findViewById(R.id.itemQTY_txt)

@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_homePage_to_mainStorePage"
             app:destination="@id/mainStorePage" />
+        <action
+            android:id="@+id/action_homePage_to_orderDetailPage"
+            app:destination="@id/orderDetailPage" />
     </fragment>
     <fragment
         android:id="@+id/createStorePage"
@@ -125,4 +128,9 @@
         android:name="com.example.stationerygo.Cart.Payment.PaymentPage"
         android:label="Payment Page"
         tools:layout="@layout/fragment_payment_page" />
+    <fragment
+        android:id="@+id/orderDetailPage"
+        android:name="com.example.stationerygo.OrderList.OrderDetailPage.OrderDetailPage"
+        android:label="Order Details"
+        tools:layout="@layout/fragment_order_detail_page" />
 </navigation>

@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stationerygo.R
-import com.example.stationerygo.StorePage.StoreListData
 import com.squareup.picasso.Picasso
 
 
@@ -51,7 +50,7 @@ class StoreProductAdapter(private val mList: List<StoreProductData>,
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val productImage: ImageView = itemView.findViewById(R.id.productimage)
-        val title: TextView = itemView.findViewById(R.id.productName_txt)
+        val title: TextView = itemView.findViewById(R.id.orderShopName_txt)
         val qty: TextView = itemView.findViewById(R.id.productQty_txt)
     }
 }

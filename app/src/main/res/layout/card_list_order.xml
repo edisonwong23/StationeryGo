@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/orderImageView"
-            android:layout_width="150dp"
-            android:layout_height="0dp"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/round_image"
             android:clipToOutline="true"
@@ -26,17 +26,32 @@
 
         <TextView
             android:id="@+id/orderShopName_txt"
-            android:layout_width="148dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="32dp"
-            android:text="Item Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Shop Name"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/orderImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/orderDate_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Order Date:"
+            app:layout_constraintStart_toStartOf="@+id/orderShopName_txt"
+            app:layout_constraintTop_toBottomOf="@+id/orderShopName_txt" />
 
+        <TextView
+            android:id="@+id/orderStatus_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Order Status:"
+            app:layout_constraintStart_toStartOf="@+id/orderDate_txt"
+            app:layout_constraintTop_toBottomOf="@+id/orderDate_txt" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

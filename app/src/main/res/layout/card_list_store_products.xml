@@ -26,7 +26,7 @@
             app:srcCompat="@drawable/default_image" />
 
         <TextView
-            android:id="@+id/productName_txt"
+            android:id="@+id/orderShopName_txt"
             android:layout_width="148dp"
             android:layout_height="43dp"
             android:layout_marginStart="16dp"
@@ -44,7 +44,7 @@
             android:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/productimage"
-            app:layout_constraintTop_toBottomOf="@+id/productName_txt" />
+            app:layout_constraintTop_toBottomOf="@+id/orderShopName_txt" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

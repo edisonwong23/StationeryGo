@@ -142,11 +142,22 @@ class PaymentPage : Fragment() {
         var paymentType = selectedPaymentType
         val sdf = SimpleDateFormat("dd/M/yyyy")
         val currentDate = sdf.format(Date())
+        val currentStatus = "Pending"
 //        Log.d("Payment",currentDate.toString())
 
 
         database = FirebaseDatabase.getInstance().getReference("Orders")
-        var dataRef = database.push().setValue(PaymentData(storeID,uid,paymentType,orderType,totalAmount,currentDate,cartData))
+        var orderID = UUID.randomUUID().toString()
+        var dataRef = database.push().
+        setValue(PaymentData(orderID,
+            storeID,
+            uid,
+            paymentType,
+            orderType,
+            totalAmount,
+            currentDate,
+            cartData,
+            currentStatus))
             .addOnCompleteListener{
             Toast.makeText(context,"Purchase Complete",Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {

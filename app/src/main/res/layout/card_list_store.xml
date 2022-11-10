@@ -16,7 +16,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/imageview"
+            android:id="@+id/orderImageView"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginStart="8dp"
@@ -41,7 +41,7 @@
             app:layout_constraintBottom_toTopOf="@+id/text_City"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageview" />
+            app:layout_constraintTop_toBottomOf="@+id/orderImageView" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"

@@ -1,25 +1,25 @@
-package com.example.stationerygo.StorePage
+package com.example.stationerygo.OrderList
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stationerygo.R
 import com.squareup.picasso.Picasso
 
+class OrderListAdapter (private val mList: List<OrderListData>,
+                        val clickListener: (OrderListData, Int) -> Unit)
+    : RecyclerView.Adapter<OrderListAdapter.ViewHolder>() {
 
-class StoreListAdapter(private val mList: List<StoreListData>,
-                       val clickListener: (StoreListData, Int) -> Unit)
-    : RecyclerView.Adapter<StoreListAdapter.ViewHolder>()
-{
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
         val view =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.card_list_store, parent, false)
+                .inflate(R.layout.card_list_order, parent, false)
 
         return ViewHolder(view)
     }
@@ -31,14 +31,13 @@ class StoreListAdapter(private val mList: List<StoreListData>,
         // sets the image to the imageview from our itemHolder class
 //        holder.imageView.setImageResource(ItemsViewModel.image)
         Picasso.get()
-            .load(ItemsViewModel.storeImage)
-            .into(holder.imageView)
+            .load(ItemsViewModel.orderImage)
+            .into(holder.orderImage)
 
         // sets the text to the textview from our itemHolder class
-        holder.title.text = ItemsViewModel.storeName
-        holder.city.text = "City: " +ItemsViewModel.city
-        holder.startTime.text = "Open Time: " + ItemsViewModel.startTime
-        holder.endTime.text = "End Time: " +ItemsViewModel.endTime
+        holder.shopName.text = ItemsViewModel.orderShop
+        holder.orderDate.text = "Order Date: " + ItemsViewModel.orderDate
+        holder.orderStatus.text = "Order Status: "+ ItemsViewModel.orderStatus
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 
@@ -52,11 +51,10 @@ class StoreListAdapter(private val mList: List<StoreListData>,
 
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.orderImageView)
-        val title: TextView = itemView.findViewById(R.id.text_Title)
-        val city: TextView = itemView.findViewById(R.id.text_City)
-        val startTime: TextView = itemView.findViewById(R.id.text_StartTime)
-        val endTime: TextView = itemView.findViewById(R.id.text_EndTime)
-
+        val orderImage: ImageView = itemView.findViewById(R.id.orderImageView)
+        val shopName: TextView = itemView.findViewById(R.id.orderShopName_txt)
+        val orderDate: TextView = itemView.findViewById(R.id.orderDate_txt)
+        val orderStatus: TextView = itemView.findViewById(R.id.orderStatus_txt)
     }
+
 }
