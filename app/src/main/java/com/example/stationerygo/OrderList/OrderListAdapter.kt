@@ -3,7 +3,6 @@ package com.example.stationerygo.OrderList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -51,10 +50,10 @@ class OrderListAdapter (private val mList: List<OrderListData>,
 
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val orderImage: ImageView = itemView.findViewById(R.id.orderImageView)
-        val shopName: TextView = itemView.findViewById(R.id.orderShopName_txt)
-        val orderDate: TextView = itemView.findViewById(R.id.orderDate_txt)
-        val orderStatus: TextView = itemView.findViewById(R.id.orderStatus_txt)
+        val orderImage: ImageView = itemView.findViewById(R.id.orderShopImage)
+        val shopName: TextView = itemView.findViewById(R.id.orderShopName)
+        val orderDate: TextView = itemView.findViewById(R.id.orderOrderDate)
+        val orderStatus: TextView = itemView.findViewById(R.id.orderOrderStatus)
     }
 
 }

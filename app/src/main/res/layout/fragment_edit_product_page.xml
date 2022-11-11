@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
-    tools:context=".StoreProducts.CreateProducts.CreateProducts">
+    tools:context=".StoreProducts.EditProducts.EditProductPage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
 
 
                 <ImageView
-                    android:id="@+id/productCreateImageView"
+                    android:id="@+id/productEditImageView"
                     android:layout_width="250dp"
                     android:layout_height="250dp"
                     android:layout_marginStart="8dp"
@@ -55,7 +54,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/productCreateImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/productEditImageView"
                     app:startIconContentDescription="@string/label">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -98,15 +97,12 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/productType_TextField"
-                    style="@style/inputBox"
+                    style="@style/dropDownBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     android:hint="Product Type"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="20"
-                    app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -114,12 +110,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/productDescription_TextField"
                     app:startIconContentDescription="@string/label">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/productType_EdittextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionDone"
-                        android:inputType="textCapSentences|textAutoCorrect|text"
+                        android:inputType="none"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -160,9 +155,6 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     android:hint="Product Price"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="20"
-                    app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -181,13 +173,13 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/createProduct_btn"
+                    android:id="@+id/editProduct_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Add Product"
+                    android:text="Edit Product"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
@@ -199,6 +191,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>

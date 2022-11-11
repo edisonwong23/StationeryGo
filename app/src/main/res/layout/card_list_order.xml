@@ -14,7 +14,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/orderImageView"
+            android:id="@+id/orderShopImage"
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
@@ -25,33 +25,33 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/orderShopName_txt"
+            android:id="@+id/orderShopName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Shop Name"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/orderImageView"
+            app:layout_constraintStart_toEndOf="@+id/orderShopImage"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/orderDate_txt"
+            android:id="@+id/orderOrderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Order Date:"
-            app:layout_constraintStart_toStartOf="@+id/orderShopName_txt"
-            app:layout_constraintTop_toBottomOf="@+id/orderShopName_txt" />
+            app:layout_constraintStart_toStartOf="@+id/orderShopName"
+            app:layout_constraintTop_toBottomOf="@+id/orderShopName" />
 
         <TextView
-            android:id="@+id/orderStatus_txt"
+            android:id="@+id/orderOrderStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Order Status:"
-            app:layout_constraintStart_toStartOf="@+id/orderDate_txt"
-            app:layout_constraintTop_toBottomOf="@+id/orderDate_txt" />
+            app:layout_constraintStart_toStartOf="@+id/orderOrderDate"
+            app:layout_constraintTop_toBottomOf="@+id/orderOrderDate" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

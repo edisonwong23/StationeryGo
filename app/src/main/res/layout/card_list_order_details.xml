@@ -15,11 +15,9 @@
 
         <ImageView
             android:id="@+id/orderShopImage"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:background="@drawable/round_image"
             android:clipToOutline="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,38 +28,30 @@
             android:id="@+id/orderShopName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="8dp"
             android:text="Item Name"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/orderShopImage"
-            app:layout_constraintTop_toTopOf="@+id/orderShopImage" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/manageProductQty"
+            android:id="@+id/orderOrderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Quantity:"
+            android:text="Order Price"
             app:layout_constraintStart_toStartOf="@+id/orderShopName"
             app:layout_constraintTop_toBottomOf="@+id/orderShopName" />
 
-        <Button
-            android:id="@+id/manageProductEdit_btn"
+        <TextView
+            android:id="@+id/orderOrderStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <Button
-            android:id="@+id/manageProductDelete_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            app:backgroundTint="?attr/colorError"
-            app:layout_constraintEnd_toStartOf="@+id/manageProductEdit_btn"
-            app:layout_constraintTop_toTopOf="@+id/manageProductEdit_btn" />
+            android:layout_marginTop="8dp"
+            android:text="Item Quantity"
+            app:layout_constraintStart_toStartOf="@+id/orderOrderDate"
+            app:layout_constraintTop_toBottomOf="@+id/orderOrderDate" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

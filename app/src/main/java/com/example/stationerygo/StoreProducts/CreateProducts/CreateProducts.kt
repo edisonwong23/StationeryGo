@@ -45,14 +45,14 @@ class CreateProducts : Fragment() {
             false
         )
 
-        imageView = binding.imageView3
+        imageView = binding.productCreateImageView
 
-        binding.imageView3.setOnClickListener{
+        binding.productCreateImageView.setOnClickListener{
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery, pickImage)
         }
 
-        binding.creareProductBtn.setOnClickListener{
+        binding.createProductBtn.setOnClickListener{
             getShopName()
         }
 

@@ -50,7 +50,7 @@ class StoreProductAdapter(private val mList: List<StoreProductData>,
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val productImage: ImageView = itemView.findViewById(R.id.productimage)
-        val title: TextView = itemView.findViewById(R.id.orderShopName_txt)
+        val title: TextView = itemView.findViewById(R.id.orderShopName)
         val qty: TextView = itemView.findViewById(R.id.productQty_txt)
     }
 }

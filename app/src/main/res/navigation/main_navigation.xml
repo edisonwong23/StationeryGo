@@ -87,6 +87,9 @@
         <action
             android:id="@+id/action_productLists_to_createProducts"
             app:destination="@id/createProducts" />
+        <action
+            android:id="@+id/action_productLists_to_editProductPage"
+            app:destination="@id/editProductPage" />
     </fragment>
     <fragment
         android:id="@+id/createProducts"
@@ -133,4 +136,9 @@
         android:name="com.example.stationerygo.OrderList.OrderDetailPage.OrderDetailPage"
         android:label="Order Details"
         tools:layout="@layout/fragment_order_detail_page" />
+    <fragment
+        android:id="@+id/editProductPage"
+        android:name="com.example.stationerygo.StoreProducts.EditProducts.EditProductPage"
+        android:label="Edit Product Page"
+        tools:layout="@layout/fragment_edit_product_page" />
 </navigation>

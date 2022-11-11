@@ -3,11 +3,17 @@ package com.example.stationerygo.StoreProducts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stationerygo.R
 import com.squareup.picasso.Picasso
+import kotlin.coroutines.coroutineContext
 
 class ProductListAdapter (private val mList: List<ProductListData>,
                           val clickListener: (ProductListData, Int) -> Unit)
@@ -39,7 +45,19 @@ class ProductListAdapter (private val mList: List<ProductListData>,
         // sets the text to the textview from our itemHolder class
         holder.title.text = ItemsViewModel.productName
 
-        holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
+        holder.qty.text = "Quantity " +ItemsViewModel.productQty
+
+        holder.editButton.setOnClickListener{
+            var bundle = bundleOf(
+                "storeID" to ItemsViewModel.storeID,
+                "productKey" to ItemsViewModel.productKey,
+            )
+            findNavController(it).navigate(R.id.action_productLists_to_editProductPage,bundle)
+        }
+
+        holder.deleteButton.setOnClickListener{
+            Toast.makeText(it.context,ItemsViewModel.productName.toString(),Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -52,8 +70,10 @@ class ProductListAdapter (private val mList: List<ProductListData>,
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
 
-        val imageView: ImageView = itemView.findViewById(R.id.orderImageView)
-        val title: TextView = itemView.findViewById(R.id.orderShopName_txt)
-
+        val imageView: ImageView = itemView.findViewById(R.id.orderShopImage)
+        val title: TextView = itemView.findViewById(R.id.orderShopName)
+        val qty: TextView = itemView.findViewById(R.id.manageProductQty)
+        val editButton: Button = itemView.findViewById(R.id.manageProductEdit_btn)
+        val deleteButton: Button = itemView.findViewById(R.id.manageProductDelete_btn)
     }
 }

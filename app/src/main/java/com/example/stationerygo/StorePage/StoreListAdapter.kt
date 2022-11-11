@@ -52,7 +52,7 @@ class StoreListAdapter(private val mList: List<StoreListData>,
 
     // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.orderImageView)
+        val imageView: ImageView = itemView.findViewById(R.id.orderShopImage)
         val title: TextView = itemView.findViewById(R.id.text_Title)
         val city: TextView = itemView.findViewById(R.id.text_City)
         val startTime: TextView = itemView.findViewById(R.id.text_StartTime)

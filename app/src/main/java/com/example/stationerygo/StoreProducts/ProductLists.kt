@@ -83,13 +83,16 @@ class ProductLists : Fragment() {
 //                    Log.d("Products", it.child("productName").toString())
                     var productImage = it.child("productImage").value.toString()
                     var productName = it.child("productName").value.toString()
-                    productData.add(ProductListData(productImage,productName))
+                    var productKey = it.key.toString()
+                    var productQty = it.child("productQty").value.toString()
+                    productData.add(ProductListData(storeID,productKey,productImage,productName,productQty))
                 }
 
                 val recyclerView = binding.recyclerviewProducts
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
                 recyclerView.adapter = ProductListAdapter(productData){ ProductListData,position:Int ->
+
                 }
 
             }

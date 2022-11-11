@@ -52,6 +52,7 @@ class OrderListPage : Fragment() {
             var orderID : MutableList<String> = ArrayList()
             var orderDate : MutableList<String> = ArrayList()
             var orderStatus : MutableList<String> = ArrayList()
+            var orderKey : MutableList<String> = ArrayList()
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 shopID.clear()
@@ -62,6 +63,7 @@ class OrderListPage : Fragment() {
                 snapshot.children.forEach{
                     var getUserOrders = it.child("userID").value?.equals(uid)
                     if(getUserOrders == true){
+                        orderKey.add(it.key.toString())
 //                        Log.d("Orders", it.child("orderID").value.toString())
                         shopID?.add(it.child("storeID").value.toString())
                         orderID?.add(it.child("orderID").value.toString())
@@ -76,7 +78,7 @@ class OrderListPage : Fragment() {
 
                 }
 //                Log.d("Orders", "OrderID: $orderID")
-                getShopNameImage(shopID,orderID,orderDate,orderStatus)
+                getShopNameImage(shopID,orderID,orderDate,orderStatus,orderKey)
 
             }
 
@@ -91,7 +93,8 @@ class OrderListPage : Fragment() {
     private fun getShopNameImage(shopID : MutableList<String>,
                                  orderID : MutableList<String>,
                                  orderDate : MutableList<String>,
-                                 orderStatus : MutableList<String>) {
+                                 orderStatus : MutableList<String>,
+                                 orderKey: MutableList<String>) {
         database = FirebaseDatabase.getInstance().getReference("Stores")
         var orderList = ArrayList<OrderListData>()
         var shopName: MutableList<String> = ArrayList()
@@ -120,6 +123,7 @@ class OrderListPage : Fragment() {
                     var bundle = bundleOf(
                         "orderID" to orderID[position],
                         "shopName" to shopName[position],
+                        "orderKey" to orderKey[position],
                     )
                     findNavController().navigate(R.id.action_homePage_to_orderDetailPage,bundle)
                 }
