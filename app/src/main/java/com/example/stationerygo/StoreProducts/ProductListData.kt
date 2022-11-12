@@ -6,4 +6,5 @@ data class ProductListData(
     val productImage:String ?=null,
     val productName:String ?= null,
     val productQty: String ?= null,
+    val productPrice: String ?= null,
 )

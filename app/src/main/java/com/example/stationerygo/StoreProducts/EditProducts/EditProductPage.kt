@@ -1,7 +1,12 @@
 package com.example.stationerygo.StoreProducts.EditProducts
 
+import android.app.Activity
+import android.app.ProgressDialog
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -10,19 +15,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.R
 import com.example.stationerygo.StoreProducts.CreateProducts.CreateProductData
 import com.example.stationerygo.databinding.FragmentCreateProductsBinding
 import com.example.stationerygo.databinding.FragmentEditProductPageBinding
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
+import java.util.*
 
 private lateinit var binding: FragmentEditProductPageBinding
 private lateinit var database: DatabaseReference
 private var current: String = ""
+private val pickImage = 100
+private var imageUri: Uri? = null
+lateinit var imageView: ImageView
+var dataToFirebase: Intent? = null
+var oldImagePath: String = ""
 
 class EditProductPage : Fragment() {
 
@@ -72,6 +87,11 @@ class EditProductPage : Fragment() {
 
         })
 
+        imageView = binding.productEditImageView
+        binding.productEditImageView.setOnClickListener{
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery, pickImage)
+        }
 
 
         loadProduct()
@@ -108,6 +128,7 @@ class EditProductPage : Fragment() {
                     .load(productImage)
                     .into(binding.productEditImageView)
 
+                oldImagePath = productImage
                 binding.productNameEdittextField.setText(productName)
                 binding.productDescriptionEdittextField.setText(productDesc)
                 binding.productTypeEdittextField.setText(productType,false)
@@ -137,7 +158,7 @@ class EditProductPage : Fragment() {
         else{
             newProductPrice = productPrice.toDouble()
         }
-        Log.d("Product", "$newProductPrice")
+        Log.d("Product", "$productPrice")
 
         var errorChecker = false
 
@@ -187,8 +208,12 @@ class EditProductPage : Fragment() {
             if(newProductPrice > 1000.00 ){
                 binding.productPriceTextField.error = "Price Cannot Be over RM1000.00"
                 errorChecker = true
-            }else if(newProductPrice < 1.00){
+            }else if(newProductPrice < 1.00 && newProductPrice != 0.00){
                 binding.productPriceTextField.error = "Price Needs To Be Over RM1.00"
+                errorChecker = true
+            }
+            else if(newProductPrice == 0.00){
+                binding.productPriceTextField.error = "Required*"
                 errorChecker = true
             }
             else{
@@ -200,21 +225,58 @@ class EditProductPage : Fragment() {
             Toast.makeText(context,"Please Check All Input Boxes",Toast.LENGTH_SHORT).show()
         }
         else{
-            updateProduct(productName,productDesc,productType,productQty,newProductPrice.toString())
+            if(dataToFirebase == null){
+                updateProduct(oldImagePath,productName,productDesc,productType,productQty,productPrice)
+            }
+            else{
+                uploadImageToFirebase(dataToFirebase,productName,productDesc,productType,productQty,productPrice)
+            }
+
         }
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == pickImage) {
+            imageUri = data?.data
+            imageView.setImageURI(imageUri)
+            dataToFirebase = data
+        }
+    }
 
-    private fun updateProduct(name:String,desc:String,type:String,quan:String,price:String){
+    private  fun  uploadImageToFirebase (data: Intent?,name:String,desc:String,type:String,quan:String,price:String){
+        if(data != null){
+            val progress = ProgressDialog(activity)
+            progress.setTitle("Updating Database")
+            progress.show()
+            val fileName = UUID.randomUUID().toString() + ".jpg"
+            val refStorage = FirebaseStorage.getInstance().reference.child("products/$fileName")
+            data?.data?.let {
+                refStorage.putFile(it).addOnSuccessListener(
+                    OnSuccessListener<UploadTask.TaskSnapshot>{
+                            taskSnapshot -> taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                        var imagePathFromFirebase = it.toString()
+                        updateProduct(imagePathFromFirebase,name,desc,type,quan,price)
+                        progress.hide()
+                    }
+                    }).addOnFailureListener({
+                        Toast.makeText(context,"Error in Database", Toast.LENGTH_SHORT).show()
+                })
+            }
+        }
+    }
+
+
+    private fun updateProduct(productImage:String,name:String,desc:String,type:String,quan:String,price:String){
         var storeID = arguments?.getString("storeID").toString()
         var productKey = arguments?.getString("productKey").toString()
-        var prodImg = "https://firebasestorage.googleapis.com/v0/b/stationerygo-18271.appspot.com/o/products%2F916cf288-db5d-44bb-b0ca-d36cebaf2861.jpg?alt=media&token=ff3f6a1d-94e4-4b0e-b3d0-4523580fdcf5"
 
-        var product = CreateProductData(prodImg,name,desc,type,quan,price)
+        var product = CreateProductData(productImage,name,desc,type,quan,price)
 
         database = FirebaseDatabase.getInstance().getReference("Products")
         database.child(storeID).child(productKey).setValue(product).addOnCompleteListener{
+            Toast.makeText(context,"Product $name Has Successfully Updated", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }.addOnFailureListener{
             Log.d("Product",it.toString())

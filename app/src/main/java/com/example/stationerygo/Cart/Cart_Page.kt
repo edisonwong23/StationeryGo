@@ -78,7 +78,7 @@ class Cart_Page : Fragment() {
                  var deliveryFee = "5.00"
                  binding.deliveryFeeAmountTxt.text = deliveryFee
 
-                 var tax = deliveryFee.toDouble() + productPriceTotal * 0.06
+                 var tax = productPriceTotal * 0.06
                  binding.taxAmountTxt.text = "%.2f".format(tax)
 
                  var totalAmount = subTotal+ deliveryFee.toDouble() + tax.toDouble()

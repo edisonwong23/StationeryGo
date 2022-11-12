@@ -85,7 +85,8 @@ class ProductLists : Fragment() {
                     var productName = it.child("productName").value.toString()
                     var productKey = it.key.toString()
                     var productQty = it.child("productQty").value.toString()
-                    productData.add(ProductListData(storeID,productKey,productImage,productName,productQty))
+                    var productPrice = it.child("productPrice").value.toString()
+                    productData.add(ProductListData(storeID,productKey,productImage,productName,productQty,productPrice))
                 }
 
                 val recyclerView = binding.recyclerviewProducts

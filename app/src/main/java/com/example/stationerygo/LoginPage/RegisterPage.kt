@@ -179,9 +179,6 @@ class RegisterPage : Fragment() {
                     progress.hide()
                     uploadImageToFirebase(dataToFirebase ,email,password,displayNameUser)
                     Log.d("Users",imagePathFromFirebase)
-
-
-
                 }
             else{
             progress.hide()

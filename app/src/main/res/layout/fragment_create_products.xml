@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
                     android:hint="Product Name"
                     app:counterEnabled="true"
@@ -55,7 +55,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/productCreateImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/productImageNotification_txt"
                     app:startIconContentDescription="@string/label">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -98,15 +98,12 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/productType_TextField"
-                    style="@style/inputBox"
+                    style="@style/dropDownBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     android:hint="Product Type"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="20"
-                    app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -114,12 +111,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/productDescription_TextField"
                     app:startIconContentDescription="@string/label">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/productType_EdittextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionDone"
-                        android:inputType="textCapSentences|textAutoCorrect|text"
+                        android:inputType="none"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -147,7 +143,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="textCapSentences|textAutoCorrect|text"
+                        android:inputType="number"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -193,6 +189,15 @@
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/productPrice_TextField" />
+
+                <TextView
+                    android:id="@+id/productImageNotification_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Press Image to Upload Product Image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/productCreateImageView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
