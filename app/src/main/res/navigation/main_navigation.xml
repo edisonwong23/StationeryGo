@@ -46,6 +46,12 @@
         <action
             android:id="@+id/action_homePage_to_orderDetailPage"
             app:destination="@id/orderDetailPage" />
+        <action
+            android:id="@+id/action_homePage_to_userProfileEdit"
+            app:destination="@id/userProfileEdit" />
+        <action
+            android:id="@+id/action_homePage_to_userProfilePassword"
+            app:destination="@id/userProfilePassword" />
     </fragment>
     <fragment
         android:id="@+id/createStorePage"
@@ -78,6 +84,9 @@
             android:id="@+id/action_mainStorePage_to_createStorePage"
             app:destination="@id/createStorePage"
             app:popUpTo="@id/homePage" />
+        <action
+            android:id="@+id/action_mainStorePage_to_shopOrderPage"
+            app:destination="@id/shopOrderPage" />
     </fragment>
     <fragment
         android:id="@+id/productLists"
@@ -141,4 +150,19 @@
         android:name="com.example.stationerygo.StoreProducts.EditProducts.EditProductPage"
         android:label="Edit Product Page"
         tools:layout="@layout/fragment_edit_product_page" />
+    <fragment
+        android:id="@+id/userProfileEdit"
+        android:name="com.example.stationerygo.ProfilePage.UserProfileEdit"
+        android:label="Edit User Profile"
+        tools:layout="@layout/fragment_user_profile_edit" />
+    <fragment
+        android:id="@+id/userProfilePassword"
+        android:name="com.example.stationerygo.ProfilePage.UserProfilePassword"
+        android:label="Change Password"
+        tools:layout="@layout/fragment_user_profile_password" />
+    <fragment
+        android:id="@+id/shopOrderPage"
+        android:name="com.example.stationerygo.StoreOwner.OrderPage.ShopOrderPage"
+        android:label="Customer Order"
+        tools:layout="@layout/fragment_shop_order_page" />
 </navigation>

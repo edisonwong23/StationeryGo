@@ -34,6 +34,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.callbackFlow
 import okhttp3.internal.wait
 import java.util.*
+import java.util.regex.Pattern
 
 private lateinit var binding: FragmentRegisterPageBinding
 private lateinit var database: DatabaseReference
@@ -108,6 +109,7 @@ class RegisterPage : Fragment() {
             displayName = displayNameUser
             photoUri = imagePathFromFirebase.toUri()
         }
+        savingContactNumber(user!!.uid,imagePathFromFirebase)
         user!!.updateProfile(profileUpdate)
             .addOnCompleteListener{
             task-> if(task.isSuccessful){
@@ -119,11 +121,54 @@ class RegisterPage : Fragment() {
         }
     }
 
-    fun validateUser(){
+    private fun savingContactNumber(uid:String,userImage:String){
+        var displayNameUser = binding.displayUsernameTextfield.editText?.text.toString()
+        var email = binding.emailTextfield.editText?.text.toString()
+        var phone = binding.phoneNumberTextfield.editText?.text.toString()
+        database = FirebaseDatabase.getInstance().getReference("Users")
+        var userImg = imagePathFromFirebase
+        var userDetails = DataUserRegister(displayNameUser,email,phone,userImage)
+
+        val dataRef = database.child(uid).setValue(userDetails)
+
+        dataRef.addOnCompleteListener{
+            if(it.isSuccessful){
+                Toast.makeText(context,"User Contact Saved",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context,"User Fail to Create",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun validateUser(){
+        var displayNameUser = binding.displayUsernameTextfield.editText?.text.toString()
         var email = binding.emailTextfield.editText?.text.toString()
         var password = binding.passwordTextfield.editText?.text.toString()
         var password2 = binding.passwordTextfield2.editText?.text.toString()
+        var phone = binding.phoneNumberTextfield.editText?.text.toString()
         var errorChecker = false
+
+        if(displayNameUser.isEmpty()){
+            binding.displayUsernameTextfield.error = "Required*"
+            errorChecker = true
+        }
+        else if(!displayNameUser.matches("^[a-zA-Z]*$".toRegex()))
+        {
+            binding.displayUsernameTextfield.error = "Must Only Contain Letters!"
+            errorChecker = true
+        }
+        else if(displayNameUser.count() < 5){
+            binding.displayUsernameTextfield.error = " Must be Less then 20 Letters!"
+            errorChecker = true
+        }
+        else if(displayNameUser.count() > 20){
+            binding.displayUsernameTextfield.error = "Display User Name is too short!"
+            errorChecker = true
+        }
+        else{
+            binding.displayUsernameTextfield.isErrorEnabled = false
+        }
 
         if(email.isEmpty()){
             binding.emailTextfield.error = "Required*"
@@ -137,8 +182,22 @@ class RegisterPage : Fragment() {
             binding.emailTextfield.isErrorEnabled = false
         }
 
+        var PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*])(?=\\S+$).{4,}$";
+        var pattern_password = Pattern.compile(PASSWORD_PATTERN)
         if(password.isEmpty()){
             binding.passwordTextfield.error = "Required*"
+            errorChecker = true
+        }
+        else if(password.count() < 5){
+            binding.passwordTextfield.error = "Password is too short!"
+            errorChecker = true
+        }
+        else if(password.count() > 20){
+            binding.passwordTextfield.error = "Password must be less then 20"
+            errorChecker = true
+        }
+        else if(!pattern_password.matcher(password).matches()){
+            binding.passwordTextfield.error = "Invalid Password Type"
             errorChecker = true
         }
         else
@@ -155,6 +214,33 @@ class RegisterPage : Fragment() {
         else
             binding.passwordTextfield2.isErrorEnabled = false
 
+        var PHONE_PATTERN = "\\+?6?(?:01[0-46-9]\\d{7,8}|0\\d{8})"
+        var pattern_phone = Pattern.compile(PHONE_PATTERN)
+        if(phone.isEmpty()){
+            binding.phoneNumberTextfield.error = "Required*"
+            errorChecker = true
+        }
+        else{
+            if(phone.count() != 10){
+                binding.phoneNumberTextfield.error = "Invalid Phone Number"
+                errorChecker = true
+            }
+            else if(!pattern_phone.matcher(phone).matches()){
+                binding.phoneNumberTextfield.error = "Invalid Malaysian Phone Number"
+                errorChecker = true
+            }
+            else{
+                binding.phoneNumberTextfield.isErrorEnabled = false
+            }
+        }
+
+        if(dataToFirebase == null){
+            binding.registerImageErrorTxt.visibility = View.VISIBLE
+            errorChecker = true
+        }
+        else{
+            binding.registerImageErrorTxt.visibility = View.GONE
+        }
 
         if(!errorChecker)
             registerAuthUser()
@@ -163,7 +249,7 @@ class RegisterPage : Fragment() {
 
     }
 
-    fun registerAuthUser(){
+    private fun registerAuthUser(){
         val progress = ProgressDialog(activity)
         progress.setTitle("Registering Account")
         progress.show()
@@ -182,28 +268,11 @@ class RegisterPage : Fragment() {
                 }
             else{
             progress.hide()
-            Toast.makeText(context,"User Fail to Create",Toast.LENGTH_SHORT).show()
+            binding.emailTextfield.error = "Email Already Exist!"
         }
             }
 
         }
     }
 
-//    fun registerUser(){
-//        database = FirebaseDatabase.getInstance().getReference("Users")
-//        var display_Username = binding.displayusernameTextfield.editText?.text.toString()
-//        var username = binding.usernameTextfield.editText?.text.toString()
-//        var password = binding.passwordTextfield.editText?.text.toString()
-//        var password2 = binding.passwordTextfield2.editText?.text.toString()
-//        var email = binding.emailTextfield.editText?.text.toString()
-//        var phone = binding.phoneTextfield.editText?.text.toString()
-//
-//        val user = DataUserRegister(display_Username,username,password,email,phone)
-//
-//        database.child(username).setValue(user).addOnSuccessListener {
-//            Toast.makeText(getContext(), "User Created", Toast.LENGTH_SHORT).show()
-//        }.addOnFailureListener{
-//            Toast.makeText(getContext(), it.toString(), Toast.LENGTH_SHORT).show()
-//        }
-//    }
 

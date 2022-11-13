@@ -1,22 +1,30 @@
 package com.example.stationerygo
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.stationerygo.OrderList.OrderListPage
 import com.example.stationerygo.ProfilePage.UserProfilePage
+import com.example.stationerygo.StoreCreate.CreateStoreAddressPage
 import com.example.stationerygo.StorePage.StoreList
 import com.example.stationerygo.databinding.FragmentHomePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var binding: FragmentHomePageBinding
 private lateinit var bottomNav : BottomNavigationView
+private lateinit var auth : FirebaseAuth
 
 class HomePage : Fragment() {
 
@@ -30,6 +38,31 @@ class HomePage : Fragment() {
             container,
             false
         )
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            AlertDialog.Builder(context)
+                .setTitle("Location Permission Needed")
+                .setMessage("This app needs the Location permission, please accept to use location functionality")
+                .setPositiveButton(
+                    "OK"
+                ) { _, _ ->
+
+                    requestLocationPermission()
+                }
+                .create()
+                .show()
+
+        }
+
+
 
 
         val transaction: FragmentTransaction = activity?.getSupportFragmentManager()!!.beginTransaction()
@@ -70,6 +103,21 @@ class HomePage : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ),
+            MY_PERMISSIONS_REQUEST_LOCATION
+        )
+    }
+
+    companion object {
+        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+//        private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
     }
 
 }

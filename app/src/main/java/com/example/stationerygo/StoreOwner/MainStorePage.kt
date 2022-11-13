@@ -24,6 +24,7 @@ private lateinit var binding : FragmentMainStorePageBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 private var storeName: String = ""
+private var storeID: String = ""
 
 class MainStorePage : Fragment() {
 
@@ -44,7 +45,14 @@ class MainStorePage : Fragment() {
             var email = getUser?.email.toString()
             var uid = getUser?.uid.toString()
             loginUser(uid)
-            Log.d("Stores","User UID: " +uid)
+//            Log.d("Stores","User UID: " +uid)
+        }
+
+        binding.orderCard.setOnClickListener{
+            var bundle = bundleOf(
+                "storeID" to storeID
+            )
+            findNavController().navigate(R.id.action_mainStorePage_to_shopOrderPage,bundle)
         }
 
         binding.manageProductCard.setOnClickListener{
@@ -64,7 +72,7 @@ class MainStorePage : Fragment() {
 
         auth = Firebase.auth
         val user = Firebase.auth.currentUser?.uid
-        Log.d("User",user.toString())
+//        Log.d("User",user.toString())
 
         database = FirebaseDatabase.getInstance().getReference("Stores")
         val checkUser = database.child(user.toString())
@@ -72,7 +80,7 @@ class MainStorePage : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var users = dataSnapshot.getValue(CreateStoreData::class.java)
-                Log.d("User","Current Owner:" + users.toString())
+//                Log.d("User","Current Owner:" + users.toString())
                 if(users == null){
                     findNavController().navigate(R.id.action_mainStorePage_to_createStorePage)
                     progress.hide()
@@ -107,7 +115,9 @@ class MainStorePage : Fragment() {
                 var users = dataSnapshot.getValue(CreateStoreData::class.java)
                 Log.d("Store","Current Owner:" + users.toString())
                 var storename = dataSnapshot.child("storeName").getValue(String::class.java)
+                var getStoreID = dataSnapshot.child("storeID").value.toString()
                 storeName = storename.toString()
+                storeID = getStoreID
 //                var user_password = dataSnapshot.child("password").getValue(String::class.java)
 
                 (activity as AppCompatActivity).supportActionBar?.title = storename

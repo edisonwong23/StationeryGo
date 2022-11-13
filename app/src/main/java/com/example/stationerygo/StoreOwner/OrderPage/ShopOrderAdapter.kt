@@ -1,4 +1,4 @@
-package com.example.stationerygo.OrderList.OrderDetailPage
+package com.example.stationerygo.StoreOwner.OrderPage
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.stationerygo.R
 import com.squareup.picasso.Picasso
 
-class OrderDetailsAdapter (private val mList: List<OrderDetailsClass>,
-                           val clickListener: (OrderDetailsClass, Int) -> Unit)
-    : RecyclerView.Adapter<OrderDetailsAdapter.ViewHolder>()
-{
+class ShopOrderAdapter(private val mList: List<ShopOrderData>,
+                       val clickListener: (ShopOrderData, Int) -> Unit)
+    : RecyclerView.Adapter<ShopOrderAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
@@ -30,13 +30,13 @@ class OrderDetailsAdapter (private val mList: List<OrderDetailsClass>,
         // sets the image to the imageview from our itemHolder class
 //        holder.imageView.setImageResource(ItemsViewModel.image)
         Picasso.get()
-            .load(ItemsViewModel.itemImage)
+            .load(ItemsViewModel.userImage)
             .into(holder.itemImage)
 
         // sets the text to the textview from our itemHolder class
-        holder.itemName.text = ItemsViewModel.itemName
-        holder.itemPrice.text = "Item Price(RM): " + ItemsViewModel.itemPrice
-        holder.itemQty.text = "Quantity: "+ ItemsViewModel.itemQty
+        holder.itemName.text = ItemsViewModel.userName
+        holder.itemPrice.text = "Order Status: " + ItemsViewModel.orderStatus
+        holder.itemQty.text = "Order Date: "+ ItemsViewModel.orderDate
 
 
     }

@@ -1,6 +1,8 @@
 package com.example.stationerygo.ProfilePage
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.R
 import com.example.stationerygo.StoreCreate.CreateStoreData
@@ -52,47 +55,32 @@ class UserProfilePage : Fragment() {
             findNavController().navigate(R.id.action_homePage_to_mainStorePage)
         }
 
+        binding.editUserBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_homePage_to_userProfileEdit)
+        }
+
+        binding.changePasswordBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_homePage_to_userProfilePassword)
+        }
+
         binding.logoutBtn.setOnClickListener{
-            auth.signOut()
-            findNavController().navigate(R.id.action_homePage_to_loginPage)
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+
+            alartDialog.apply {
+                setTitle("Logout User?")
+                setMessage("Are you sure you want to logout?")
+                setPositiveButton("Logout"){ _: DialogInterface?, _: Int ->
+                    auth.signOut()
+                    findNavController().navigate(R.id.action_homePage_to_loginPage)
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
+
         }
 
         return binding.root
     }
 
-//    private fun checkUserOwnShop() {
-//        val progress = ProgressDialog(activity)
-//        progress.setTitle("Checking Store")
-//        progress.show()
-//
-//        auth = Firebase.auth
-//        val user = Firebase.auth.currentUser?.uid
-//        Log.d("User",user.toString())
-//
-//        database = FirebaseDatabase.getInstance().getReference("Stores")
-//        val checkUser = database.child(user.toString())
-//
-//        val postListener = object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                var users = dataSnapshot.getValue(CreateStoreData::class.java)
-//                Log.d("User","Current Owner:" + users.toString())
-//                if(users == null){
-//                    progress.hide()
-//                }
-//                else{
-////                    findNavController().navigate(R.id.action_homePage_to_mainStorePage)
-//                    progress.hide()
-//                }
-//
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show()
-//                Log.d("User","Fail to Get User")
-//                progress.hide()
-//            }
-//        }
-//        checkUser.addValueEventListener(postListener)
-//    }
 
 }
