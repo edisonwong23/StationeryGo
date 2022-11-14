@@ -39,6 +39,8 @@ class ShopOrderAdapter(private val mList: List<ShopOrderData>,
         holder.itemQty.text = "Order Date: "+ ItemsViewModel.orderDate
 
 
+        holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
+
     }
 
 

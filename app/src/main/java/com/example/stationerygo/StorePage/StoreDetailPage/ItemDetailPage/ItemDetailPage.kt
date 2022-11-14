@@ -27,6 +27,7 @@ private var productImage: String = ""
 private var productName: String = ""
 private var productQty: String = ""
 private var productPrice: String = ""
+private var amountToCart: String = ""
 
 
 class ItemDetailPage : Fragment() {
@@ -42,12 +43,51 @@ class ItemDetailPage : Fragment() {
             false
         )
         auth = Firebase.auth
+
         getDetailFromDatabase()
+
         binding.addToCartBtn.setOnClickListener{
             checkCart()
         }
 
+        binding.itemMinusQuantityBtn.setOnClickListener {
+            minusAmount()
+        }
+        binding.itemAddQuantityBtn.setOnClickListener {
+//            binding.itemCurrentQuantityTxt.text
+              addAmount()
+        }
+
         return binding.root
+    }
+
+    private fun checkIfExistInCart(){
+        var uid = auth.currentUser?.uid.toString()
+        var itemID = arguments?.getString("itemID").toString()
+        var storeID = arguments?.getString("storeID").toString()
+
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+        val dataRef = database.child(uid).child(storeID).child(itemID)
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    var itemQty = snapshot.child("itemQty").getValue().toString()
+                    binding.itemCurrentQuantityTxt.text = itemQty
+                    binding.addToCartBtn.text = "Update Amount"
+
+                    var newPrice = productPrice.toDouble() * itemQty.toInt()
+                    binding.itemPriceTxt.text = "RM %.2f".format(newPrice)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        dataRef.addListenerForSingleValueEvent(postListener)
     }
 
     private fun getDetailFromDatabase(){
@@ -71,8 +111,9 @@ class ItemDetailPage : Fragment() {
                     .load(itemImage)
                     .into(binding.imageView2)
                 binding.itemQTYTxt.text = itemQty
-                binding.itemPriceTxt.text = itemPrice
+                binding.itemPriceTxt.text = "RM " + itemPrice
                 Log.d("Items",itemName)
+                checkIfExistInCart()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -130,15 +171,22 @@ class ItemDetailPage : Fragment() {
         var uid = auth.currentUser?.uid.toString()
         var storeID = arguments?.getString("storeID").toString()
         var itemID = arguments?.getString("itemID").toString()
+        var itemCurrentAmount = productQty
 
         database = FirebaseDatabase.getInstance().getReference("Cart")
         var dataref = database.child(uid).child(storeID).child(itemID)
 
         var postRef = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var cart = Cart_Data(itemID, productImage, productName,"5", productPrice)
+                var cart = Cart_Data(itemID, productImage, productName,amountToCart, productPrice, itemCurrentAmount)
                if(snapshot.exists()){
-                Toast.makeText(context,"Item Already in Cart",Toast.LENGTH_SHORT).show()
+                   dataref.child("itemQty").setValue(amountToCart).addOnCompleteListener{
+                       Toast.makeText(context,"Item Amount Been Updated",Toast.LENGTH_SHORT).show()
+                   }
+                       .addOnFailureListener{
+                       Toast.makeText(context,"$it",Toast.LENGTH_SHORT).show()
+                   }
+//                Toast.makeText(context,"Item Already in Cart",Toast.LENGTH_SHORT).show()
                }
                 else{
                    dataref.setValue(cart)
@@ -181,4 +229,37 @@ class ItemDetailPage : Fragment() {
         dataref.addListenerForSingleValueEvent(postRef)
     }
 
+    private fun minusAmount(){
+        var currentAmount = binding.itemCurrentQuantityTxt.text.toString()
+        var currentPrice = productPrice
+        if( currentAmount.toInt() <= 1){
+            Toast.makeText(context,"Cannot be less then 1",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            var newAmount = currentAmount.toInt() - 1
+            binding.itemCurrentQuantityTxt.text = newAmount.toString()
+
+            var newPrice = currentPrice.toDouble() * newAmount
+            binding.itemPriceTxt.text = "RM %.2f".format(newPrice)
+
+            amountToCart = newAmount.toString()
+        }
+    }
+
+    private fun addAmount(){
+        var currentAmount = binding.itemCurrentQuantityTxt.text.toString()
+        var currentPrice = productPrice
+        if( currentAmount.toInt() >= productQty.toInt()){
+            Toast.makeText(context,"Already Max Amount",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            var newAmount = currentAmount.toInt() + 1
+            binding.itemCurrentQuantityTxt.text = newAmount.toString()
+
+            var newPrice = currentPrice.toDouble() * newAmount
+            binding.itemPriceTxt.text = "RM %.2f".format(newPrice)
+
+            amountToCart = newAmount.toString()
+        }
+    }
 }

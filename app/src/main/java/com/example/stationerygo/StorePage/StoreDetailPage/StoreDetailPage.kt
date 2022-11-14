@@ -117,7 +117,8 @@ class StoreDetailPage : Fragment() {
                     var productID = it.key
                     var productName = it.child("productName").value.toString()
                     var productQty = it.child("productQty").value.toString()
-                    productData.add(StoreProductData(i++,productID,productImage,productName,productQty))
+                    var productPrice = it.child("productPrice").value.toString()
+                    productData.add(StoreProductData(i++,productID,productImage,productName,productQty,productPrice))
                 }
                 if(productData.isEmpty()){
                     progress.hide()
@@ -162,6 +163,7 @@ class StoreDetailPage : Fragment() {
                     progress.hide()
                 }
                 else{
+                    binding.navigateToCartFAB.visibility = View.GONE
                     binding.totalInCartTxt.visibility = View.INVISIBLE
                     progress.hide()
                 }

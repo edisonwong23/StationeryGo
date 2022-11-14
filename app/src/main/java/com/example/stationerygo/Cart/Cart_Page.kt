@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ private lateinit var binding : FragmentCartPageBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 private var totalPaymentAmount: String = ""
+private var itemInCart = false
 
 class Cart_Page : Fragment() {
 
@@ -37,7 +39,11 @@ class Cart_Page : Fragment() {
 
         binding.proceedPaymentBtn.setOnClickListener{
 
-            proceedToPayment()
+            if(itemInCart){
+                proceedToPayment()
+            }
+           else
+               Toast.makeText(context,"Cart Is Empty,Please Add Item to Cart!",Toast.LENGTH_SHORT).show()
         }
         return binding.root
     }
@@ -52,6 +58,7 @@ class Cart_Page : Fragment() {
         var dataRef = database.child(uid).child(storeID)
         val postListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                itemInCart = false
                 cartArray.clear()
                 var productQtyTotal = 0
                 var productPriceTotal = 0.00
@@ -61,13 +68,14 @@ class Cart_Page : Fragment() {
                     var productName = it.child("itemName").value.toString()
                     var productQty = it.child("itemQty").value.toString()
                     var productPrice = it.child("itemPrice").value.toString()
+                    var itemCurrentAmount = it.child("itemCurrentAmount").value.toString()
                     var currentPrice = productPrice.toDouble() * productQty.toInt()
 
                     productQtyTotal += productQty.toInt()
 
                     productPriceTotal += currentPrice
-
-                    cartArray.add(Cart_Data(productID,productImage,productName,productQty))
+                    itemInCart = true
+                    cartArray.add(Cart_Data(productID,productImage,productName,productQty,productPrice,itemCurrentAmount,storeID,uid))
                 }
 //                  Log.d("Cart", "Total Qty: $productQtyTotal")
 //                  Log.d("Cart", "Total Price: $productPriceTotal")
@@ -99,7 +107,7 @@ class Cart_Page : Fragment() {
             }
 
         }
-        dataRef.addListenerForSingleValueEvent(postListener)
+        dataRef.addValueEventListener(postListener)
     }
 
     private fun proceedToPayment(){

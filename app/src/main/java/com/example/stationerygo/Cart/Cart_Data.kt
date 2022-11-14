@@ -7,5 +7,7 @@ data class Cart_Data(
     val itemName : String ?= null,
     val itemQty : String ?= null,
     val itemPrice : String ?= null,
-
+    val itemCurrentAmount: String ?= null,
+    val shopID: String ?= null,
+    val userID: String ?= null,
 )

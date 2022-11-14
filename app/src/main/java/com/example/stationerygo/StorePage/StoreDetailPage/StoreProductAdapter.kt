@@ -35,7 +35,8 @@ class StoreProductAdapter(private val mList: List<StoreProductData>,
 
         // sets the text to the textview from our itemHolder class
         holder.title.text = ItemsViewModel.productName
-        holder.qty.text = "City: " +ItemsViewModel.productQty
+        holder.price.text = "Price(RM): " + ItemsViewModel.productPrice
+        holder.qty.text = "Quantity: " +ItemsViewModel.productQty
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 
@@ -51,6 +52,7 @@ class StoreProductAdapter(private val mList: List<StoreProductData>,
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val productImage: ImageView = itemView.findViewById(R.id.productimage)
         val title: TextView = itemView.findViewById(R.id.orderShopName)
+        val price: TextView = itemView.findViewById(R.id.productCardPrice_txt)
         val qty: TextView = itemView.findViewById(R.id.productQty_txt)
     }
 }

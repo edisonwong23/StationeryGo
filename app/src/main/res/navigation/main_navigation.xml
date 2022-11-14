@@ -134,6 +134,9 @@
         <action
             android:id="@+id/action_cart_Page_to_paymentPage"
             app:destination="@id/paymentPage" />
+        <action
+            android:id="@+id/action_cart_Page_to_itemDetailPage"
+            app:destination="@id/itemDetailPage" />
     </fragment>
     <fragment
         android:id="@+id/paymentPage"
@@ -164,5 +167,14 @@
         android:id="@+id/shopOrderPage"
         android:name="com.example.stationerygo.StoreOwner.OrderPage.ShopOrderPage"
         android:label="Customer Order"
-        tools:layout="@layout/fragment_shop_order_page" />
+        tools:layout="@layout/fragment_shop_order_page" >
+        <action
+            android:id="@+id/action_shopOrderPage_to_shopOrderDetails"
+            app:destination="@id/shopOrderDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopOrderDetails"
+        android:name="com.example.stationerygo.StoreOwner.OrderPage.ShopOrderDetails.ShopOrderDetails"
+        android:label="Order Details"
+        tools:layout="@layout/fragment_shop_order_details" />
 </navigation>

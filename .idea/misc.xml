@@ -21,7 +21,7 @@
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_order_details.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_product_owner.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_store.xml" value="0.33" />
-        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_store_products.xml" value="0.20491388044579534" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_store_products.xml" value="0.75" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_cart__page.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_create_products.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_create_store_address_page.xml" value="0.25" />
@@ -36,6 +36,7 @@
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_payment_page.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_product_lists.xml" value="0.17755825734549138" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_register_page.xml" value="0.33" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_shop_order_details.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_shop_order_page.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_store_detail_page.xml" value="0.4348206474190726" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_store_list.xml" value="0.1770516717325228" />

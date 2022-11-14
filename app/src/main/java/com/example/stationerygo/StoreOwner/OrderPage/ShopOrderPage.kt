@@ -49,9 +49,15 @@ class ShopOrderPage : Fragment() {
         var orderStatus : MutableList<String> = ArrayList()
         var orderDate : MutableList<String> = ArrayList()
         var orderID : MutableList<String> = ArrayList()
+        var orderKey : MutableList<String> = ArrayList()
 
         val postListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                userID.clear()
+                orderStatus.clear()
+                orderDate.clear()
+                orderID.clear()
+                orderKey.clear()
                 snapshot.children.forEach {
 //                    Log.d("Orders",it.value.toString())
                     if(it.child("storeID").value!!.equals(storeID)){
@@ -59,7 +65,8 @@ class ShopOrderPage : Fragment() {
                          orderStatus.add(it.child("orderStatus").value.toString())
                          orderDate.add(it.child("purchaseDate").value.toString())
                          orderID.add(it.child("orderID").value.toString())
-                         loadUserInfo(userID,orderStatus,orderDate,orderID)
+                        orderKey.add(it.key.toString())
+                         loadUserInfo(userID,orderStatus,orderDate,orderID,orderKey)
 //                        Log.d("Orders",orderID.toString())
                     }
                 }
@@ -75,7 +82,11 @@ class ShopOrderPage : Fragment() {
     }
 
 
-    private fun loadUserInfo(userID:MutableList<String>,orderStatus:MutableList<String>,orderDate:MutableList<String>,orderID:MutableList<String>){
+    private fun loadUserInfo(userID:MutableList<String>,
+                             orderStatus:MutableList<String>,
+                             orderDate:MutableList<String>,
+                             orderID:MutableList<String>,
+                             orderKey:MutableList<String>){
         database = FirebaseDatabase.getInstance().getReference("Users")
 
         val dataRef = database
@@ -86,7 +97,7 @@ class ShopOrderPage : Fragment() {
         var i = 0
         val postListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-
+                displayOrderList.clear()
                 for(data in orderID){
 //                      Log.d("Orders","UserID: " + userID[i])
 //                    Log.d("Orders","UserID " + snapshot.child(userID[i]).value.toString())
@@ -101,7 +112,11 @@ class ShopOrderPage : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
                 recyclerView.adapter = ShopOrderAdapter(displayOrderList){ StoreListData, position ->
-
+                    var bundle = bundleOf(
+                        "orderKey" to orderKey[position],
+                        "userID" to userID[position]
+                    )
+                    findNavController().navigate(R.id.action_shopOrderPage_to_shopOrderDetails,bundle)
                 }
             }
 
