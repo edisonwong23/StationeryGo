@@ -214,8 +214,8 @@ class CreateStoreAddressPage : Fragment() {
         val description = arguments?.getString("description").toString()
         val timeStart = arguments?.getString("timeStart").toString()
         val timeEnd = arguments?.getString("timeEnd").toString()
-        val dayStart = arguments?.getString("dayStart").toString()
-        val dayEnd = arguments?.getString("dayEnd").toString()
+        val operatingDay = arguments?.getString("operatingDays").toString()
+//        val operatingDay = "None"
         val email = arguments?.getString("email").toString()
         val phone = arguments?.getString("phone").toString()
         val address = binding.addressTextField.editText?.text.toString()
@@ -223,7 +223,7 @@ class CreateStoreAddressPage : Fragment() {
         val postal = binding.postalCodeTextField.editText?.text.toString()
         val city = binding.cityTextField.editText?.text.toString()
 
-        val user = CreateStoreData(storeID,currentUser,storeName,description,timeStart,timeEnd,dayStart,dayEnd,email,phone,address,state,postal,city,imagePathFromFirebase)
+        val user = CreateStoreData(storeID,currentUser,storeName,description,timeStart,timeEnd,operatingDay,email,phone,address,state,postal,city,imagePathFromFirebase)
 
         database.child(uid).setValue(user)
             .addOnCompleteListener {

@@ -37,7 +37,7 @@ class StoreListAdapter(private val mList: List<StoreListData>,
         // sets the text to the textview from our itemHolder class
         holder.title.text = ItemsViewModel.storeName
         holder.city.text = "City: " +ItemsViewModel.city
-        holder.startTime.text = "Open Time: " + ItemsViewModel.startTime
+        holder.startTime.text = "Operating Time: " + ItemsViewModel.startTime + " - " + ItemsViewModel.endTime
         holder.endTime.text = "End Time: " +ItemsViewModel.endTime
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }

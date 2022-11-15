@@ -120,6 +120,9 @@
         <action
             android:id="@+id/action_storeDetailPage_to_cart_Page"
             app:destination="@id/cart_Page" />
+        <action
+            android:id="@+id/action_storeDetailPage_to_storeDetailsDetailsPage"
+            app:destination="@id/storeDetailsDetailsPage" />
     </fragment>
     <fragment
         android:id="@+id/itemDetailPage"
@@ -177,4 +180,9 @@
         android:name="com.example.stationerygo.StoreOwner.OrderPage.ShopOrderDetails.ShopOrderDetails"
         android:label="Order Details"
         tools:layout="@layout/fragment_shop_order_details" />
+    <fragment
+        android:id="@+id/storeDetailsDetailsPage"
+        android:name="com.example.stationerygo.StorePage.StoreDetailPage.storeDetailsDetailsPage"
+        android:label="Store Details"
+        tools:layout="@layout/fragment_store_details_details_page" />
 </navigation>

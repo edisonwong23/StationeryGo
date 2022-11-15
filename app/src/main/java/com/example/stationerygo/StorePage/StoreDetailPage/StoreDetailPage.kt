@@ -46,6 +46,14 @@ class StoreDetailPage : Fragment() {
         auth = Firebase.auth
         getStoreDetails()
 
+        binding.storeDetailsBtn.setOnClickListener {
+            var storeName = arguments?.getString("storename").toString()
+            var bundle = bundleOf(
+                "storeName" to storeName
+            )
+
+            findNavController().navigate(R.id.action_storeDetailPage_to_storeDetailsDetailsPage,bundle)
+        }
 
         binding.navigateToCartFAB.setOnClickListener{
             var bundle = bundleOf(
@@ -80,7 +88,7 @@ class StoreDetailPage : Fragment() {
                 }
                 if(dataName == ""){
                     progress.hide()
-                    Toast.makeText(context,"Couldn't get Info from Database",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"No Item Listed!",Toast.LENGTH_SHORT).show()
                 }
                 else{
                     (activity as AppCompatActivity).supportActionBar?.title = dataName
@@ -122,7 +130,7 @@ class StoreDetailPage : Fragment() {
                 }
                 if(productData.isEmpty()){
                     progress.hide()
-                    Toast.makeText(context,"Couldn't get Info from Database",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Store is Empty",Toast.LENGTH_SHORT).show()
                 }else{
                     progress.hide()
                     val recyclerView = binding.storeDetailsRecyclerView

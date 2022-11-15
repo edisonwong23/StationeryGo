@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
                     android:hint="Store Name"
                     app:counterEnabled="true"
@@ -48,7 +48,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeImage"
+                    app:layout_constraintTop_toBottomOf="@+id/createStoretext"
                     app:startIconContentDescription="@string/label">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -70,7 +70,7 @@
                     android:layout_marginEnd="24dp"
                     android:hint="Store Description"
                     app:counterEnabled="true"
-                    app:counterMaxLength="20"
+                    app:counterMaxLength="150"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +84,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="textCapSentences|textAutoCorrect|text"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -117,58 +118,102 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/operatingDayStart_TextField"
-                    style="@style/dropDownBox"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="24dp"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:hint="Start Day"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/operatingDayEnd_TextField"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/operatingTime_TextField"
-                    app:startIconContentDescription="@string/label">
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/operatingTime_TextField"
+                    app:layout_constraintStart_toStartOf="@+id/operatingTime_TextField"
+                    app:layout_constraintTop_toBottomOf="@+id/operatingTime_TextField">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/operatingDayStart_EdittextField"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        android:layout_height="match_parent">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:id="@+id/createShopOperatingDays_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Operating Days"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/operatingDayEnd_TextField"
-                    style="@style/dropDownBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:hint="End Day"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@+id/operatingDayStart_TextField"
-                    app:layout_constraintTop_toTopOf="@+id/operatingDayStart_TextField"
-                    app:startIconContentDescription="@string/label">
+                        <CheckBox
+                            android:id="@+id/sundayCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:text="Sunday"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/createShopOperatingDays_txt" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/operatingDayEnd_EdittextField"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        <CheckBox
+                            android:id="@+id/mondayCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Monday"
+                            app:layout_constraintStart_toStartOf="@+id/sundayCheckBox"
+                            app:layout_constraintTop_toBottomOf="@+id/sundayCheckBox" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <CheckBox
+                            android:id="@+id/tuesdayCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tuesday"
+                            app:layout_constraintStart_toStartOf="@+id/mondayCheckBox"
+                            app:layout_constraintTop_toBottomOf="@+id/mondayCheckBox" />
+
+                        <CheckBox
+                            android:id="@+id/wednesdayCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="Wednesday"
+                            app:layout_constraintBottom_toTopOf="@+id/operatingDays_txt"
+                            app:layout_constraintStart_toStartOf="@+id/tuesdayCheckBox"
+                            app:layout_constraintTop_toBottomOf="@+id/tuesdayCheckBox" />
+
+                        <CheckBox
+                            android:id="@+id/thursdayCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:text="Thursday"
+                            app:layout_constraintStart_toEndOf="@+id/wednesdayCheckBox"
+                            app:layout_constraintTop_toTopOf="@+id/sundayCheckBox" />
+
+                        <CheckBox
+                            android:id="@+id/fridayCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Friday"
+                            app:layout_constraintStart_toStartOf="@+id/thursdayCheckBox"
+                            app:layout_constraintTop_toBottomOf="@+id/thursdayCheckBox" />
+
+                        <CheckBox
+                            android:id="@+id/saturdayCheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Saturday"
+                            app:layout_constraintStart_toStartOf="@+id/fridayCheckBox"
+                            app:layout_constraintTop_toBottomOf="@+id/fridayCheckBox" />
+
+                        <TextView
+                            android:id="@+id/operatingDays_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="Must Select 1 Operating Days"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/storeEmail_TextField"
@@ -176,7 +221,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
                     android:clickable="true"
                     android:focusable="false"
@@ -184,7 +229,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/operatingDayStart_TextField"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView4"
                     app:startIconContentDescription="@string/label">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -234,6 +279,18 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/storePhone_TextField" />
+
+                <TextView
+                    android:id="@+id/createStoretext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Press Image to Upload Store Image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/storeImage" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

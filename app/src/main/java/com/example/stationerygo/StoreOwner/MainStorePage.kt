@@ -120,7 +120,7 @@ class MainStorePage : Fragment() {
                 storeID = getStoreID
 //                var user_password = dataSnapshot.child("password").getValue(String::class.java)
 
-                (activity as AppCompatActivity).supportActionBar?.title = storename
+//                (activity as AppCompatActivity).supportActionBar?.title = storename
                 progress.hide()
             }
 

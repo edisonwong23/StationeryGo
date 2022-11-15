@@ -16,6 +16,9 @@ import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentOrderListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 private lateinit var binding : FragmentOrderListBinding
 private lateinit var database: DatabaseReference
@@ -35,13 +38,24 @@ class OrderListPage : Fragment() {
         )
 
         auth = FirebaseAuth.getInstance()
-        getOrders()
+
+        binding.orderCurrentOrderBtn.setOnClickListener {
+            binding.orderCurrentOrderCard.visibility = View.VISIBLE
+            binding.orderAllRecyclerViewCard.visibility = View.GONE
+        }
+
+        binding.orderAllOrderBtn.setOnClickListener {
+            binding.orderCurrentOrderCard.visibility = View.GONE
+            binding.orderAllRecyclerViewCard.visibility = View.VISIBLE
+        }
+        getCurrentOrders()
+        getAllOrders()
 
         return binding.root
     }
 
 
-    private fun getOrders(){
+    private fun getCurrentOrders(){
         var uid = auth.currentUser?.uid.toString()
 
         database = FirebaseDatabase.getInstance().getReference("Orders")
@@ -65,10 +79,15 @@ class OrderListPage : Fragment() {
                     if(getUserOrders == true){
                         orderKey.add(it.key.toString())
 //                        Log.d("Orders", it.child("orderID").value.toString())
-                        shopID?.add(it.child("storeID").value.toString())
-                        orderID?.add(it.child("orderID").value.toString())
-                        orderDate?.add(it.child("purchaseDate").value.toString())
-                        orderStatus?.add(it.child("orderStatus").value.toString())
+                        var currentStatus = it.child("orderStatus").value.toString()
+                        if(currentStatus.equals("Pending") || currentStatus.equals("Delivering") || currentStatus.equals("Preparing"))
+                        {
+                            shopID?.add(it.child("storeID").value.toString())
+                            orderID?.add(it.child("orderID").value.toString())
+                            orderDate?.add(it.child("purchaseDate").value.toString())
+                            orderStatus?.add(it.child("orderStatus").value.toString())
+                        }
+
 //                        Log.d("Orders", "OrderID[$i]: " + orderID[i])
 //                        Log.d("Orders", "OrderID: "+ it.child("orderID").value.toString())
                         i++
@@ -80,6 +99,47 @@ class OrderListPage : Fragment() {
 //                Log.d("Orders", "OrderID: $orderID")
                 getShopNameImage(shopID,orderID,orderDate,orderStatus,orderKey)
 
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        dataRef.addValueEventListener(postListener)
+    }
+
+    private fun getAllOrders(){
+        var uid = auth.currentUser?.uid.toString()
+
+        database = FirebaseDatabase.getInstance().getReference("Orders")
+        var dataRef = database
+
+        val postListener = object : ValueEventListener{
+            var shopID : MutableList<String> = ArrayList()
+            var orderID : MutableList<String> = ArrayList()
+            var orderDate : MutableList<String> = ArrayList()
+            var orderStatus : MutableList<String> = ArrayList()
+            var orderKey : MutableList<String> = ArrayList()
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                shopID.clear()
+                orderID.clear()
+                orderDate.clear()
+                orderStatus.clear()
+                var i = 0
+                snapshot.children.forEach{
+                    var getUserOrders = it.child("userID").value?.equals(uid)
+                    if(getUserOrders == true){
+                        orderKey.add(it.key.toString())
+                            shopID?.add(it.child("storeID").value.toString())
+                            orderID?.add(it.child("orderID").value.toString())
+                            orderDate?.add(it.child("purchaseDate").value.toString())
+                            orderStatus?.add(it.child("orderStatus").value.toString())
+                        i++
+                    }
+                }
+                getAllShopNameImage(shopID,orderID,orderDate,orderStatus,orderKey)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -116,10 +176,69 @@ class OrderListPage : Fragment() {
                     i++
                 }
 
-                var recyclerView = binding.orderRecyclerView
+                var recyclerView = binding.orderCurrentRecyclerView
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
                 recyclerView.adapter = OrderListAdapter(orderList){ OrderListData, position:Int ->
+                    var bundle = bundleOf(
+                        "orderID" to orderID[position],
+                        "shopName" to shopName[position],
+                        "orderKey" to orderKey[position],
+                    )
+                    findNavController().navigate(R.id.action_homePage_to_orderDetailPage,bundle)
+                }
+
+//                Log.d("Orders",orderID)
+//                orderList.add(OrderListData(orderID,shopName,orderDate,orderStatus,shopImage))
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        database.addListenerForSingleValueEvent(postListener)
+
+    }
+
+    private fun getAllShopNameImage(shopID : MutableList<String>,
+                                 orderID : MutableList<String>,
+                                 orderDate : MutableList<String>,
+                                 orderStatus : MutableList<String>,
+                                 orderKey: MutableList<String>) {
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+        var orderList = ArrayList<OrderListData>()
+        var shopName: MutableList<String> = ArrayList()
+        var shopImage: MutableList<String> = ArrayList()
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                orderList.clear()
+                var i = 0
+                for (data in orderID){
+                    snapshot.children.forEach{
+                        var getShop = it.child("storeID").value?.equals(shopID[i])
+                        if(getShop == true){
+                            shopName.add(it.child("storeName").value.toString())
+                            shopImage.add(it.child("storeImage").value.toString())
+                        }
+                    }
+
+                    orderList.add(OrderListData(orderID[i],shopName[i],orderDate[i],orderStatus[i],shopImage[i]))
+
+                    i++
+                }
+
+                var recyclerView = binding.orderAllRecyclerView
+                recyclerView.layoutManager = LinearLayoutManager(context)
+
+                fun String.toDate(): Date {
+                    return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(this)
+                }
+
+                var sortedList = orderList.sortedBy { it.orderDate?.toDate() }
+
+                recyclerView.adapter = OrderListAdapter(sortedList){ OrderListData, position:Int ->
                     var bundle = bundleOf(
                         "orderID" to orderID[position],
                         "shopName" to shopName[position],
