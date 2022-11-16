@@ -8,9 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -19,8 +20,497 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/updateStoreDetailsButtons_Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/updateStoreDetailsDetails_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="Update Store Details"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/updateStoreDetailsAddress_btn"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/updateStoreDetailsAddress_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="Update Store Address"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/updateStoreDetailsDetails_btn"
+                            app:layout_constraintTop_toTopOf="@+id/updateStoreDetailsDetails_btn" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/updateStoreDetailsDetails_Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/updateStoreDetailsButtons_Card">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <ImageView
+                            android:id="@+id/updateStoreDetailsDetails_Img"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.497"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/updateStoreDetailsDetails_txt"
+                            tools:src="@tools:sample/avatars" />
+
+                        <TextView
+                            android:id="@+id/updateStoreDetailsDetails_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="Update Store Details"
+                            android:textSize="25dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/updateStoreDetailsDetailsImage_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Press Image to Change Photo"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/updateStoreDetailsDetails_Img" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/storeName_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="Store Name"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="20"
+                            app:endIconMode="clear_text"
+                            app:errorEnabled="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/updateStoreDetailsDetailsImage_txt"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/storeName_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textCapSentences|textAutoCorrect|text"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/storeDescription_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="Store Description"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="150"
+                            app:endIconMode="clear_text"
+                            app:errorEnabled="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/storeName_TextField"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/storeDescription_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textMultiLine"
+                                android:lines="4"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/operatingTime_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="24dp"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:hint="Operating Time"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/storeDescription_TextField"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/operatingTime_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:focusable="false"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardView4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintEnd_toEndOf="@+id/operatingTime_TextField"
+                            app:layout_constraintStart_toStartOf="@+id/operatingTime_TextField"
+                            app:layout_constraintTop_toBottomOf="@+id/operatingTime_TextField">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/createShopOperatingDays_txt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="Operating Days"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <CheckBox
+                                    android:id="@+id/sundayCheckBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:text="Sunday"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/createShopOperatingDays_txt" />
+
+                                <CheckBox
+                                    android:id="@+id/mondayCheckBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Monday"
+                                    app:layout_constraintStart_toStartOf="@+id/sundayCheckBox"
+                                    app:layout_constraintTop_toBottomOf="@+id/sundayCheckBox" />
+
+                                <CheckBox
+                                    android:id="@+id/tuesdayCheckBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tuesday"
+                                    app:layout_constraintStart_toStartOf="@+id/mondayCheckBox"
+                                    app:layout_constraintTop_toBottomOf="@+id/mondayCheckBox" />
+
+                                <CheckBox
+                                    android:id="@+id/wednesdayCheckBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:text="Wednesday"
+                                    app:layout_constraintBottom_toTopOf="@+id/operatingDays_txt"
+                                    app:layout_constraintStart_toStartOf="@+id/tuesdayCheckBox"
+                                    app:layout_constraintTop_toBottomOf="@+id/tuesdayCheckBox" />
+
+                                <CheckBox
+                                    android:id="@+id/thursdayCheckBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="32dp"
+                                    android:text="Thursday"
+                                    app:layout_constraintStart_toEndOf="@+id/wednesdayCheckBox"
+                                    app:layout_constraintTop_toTopOf="@+id/sundayCheckBox" />
+
+                                <CheckBox
+                                    android:id="@+id/fridayCheckBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Friday"
+                                    app:layout_constraintStart_toStartOf="@+id/thursdayCheckBox"
+                                    app:layout_constraintTop_toBottomOf="@+id/thursdayCheckBox" />
+
+                                <CheckBox
+                                    android:id="@+id/saturdayCheckBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Saturday"
+                                    app:layout_constraintStart_toStartOf="@+id/fridayCheckBox"
+                                    app:layout_constraintTop_toBottomOf="@+id/fridayCheckBox" />
+
+                                <TextView
+                                    android:id="@+id/operatingDays_txt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:text="Must Select 1 Operating Days"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/storeEmail_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:hint="Store Email Address"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/cardView4"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/storeEmail_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textCapSentences|textAutoCorrect|text"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/storePhone_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="24dp"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:hint="Store Phone Contact"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/storeEmail_TextField"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/storePhone_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textCapSentences|textAutoCorrect|text"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/updateStoreDetailsToFireBase_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="Update Store Details"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/storePhone_TextField">
+
+                        </Button>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/updateStoreDetailsAddress_Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/updateStoreDetailsDetails_Card">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Update Store Address"
+                            android:textSize="25dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/address_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="Address"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="150"
+                            app:endIconMode="clear_text"
+                            app:errorEnabled="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView2"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/address_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textMultiLine"
+                                android:lines="4"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/state_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="State"
+                            app:errorEnabled="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/address_TextField"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/state_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textCapSentences|textAutoCorrect|text"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/postalCode_TextField"
+                            style="@style/inputBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="Postal Code"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="5"
+                            app:endIconMode="clear_text"
+                            app:errorEnabled="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/state_TextField"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/postalCode_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textCapSentences|textAutoCorrect|text"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/autoFillAddress_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="32dp"
+                            android:text="Auto Fill Address"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/createStore_btn"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="spread"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/postalCode_TextField" />
+
+                        <Button
+                            android:id="@+id/createStore_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginEnd="32dp"
+                            android:text="Update Store Address"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/autoFillAddress_btn"
+                            app:layout_constraintTop_toTopOf="@+id/autoFillAddress_btn" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

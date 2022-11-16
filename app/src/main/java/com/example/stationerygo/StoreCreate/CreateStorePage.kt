@@ -140,6 +140,14 @@ class CreateStorePage : Fragment() {
             binding.storeDescriptionTextField.isErrorEnabled = false
         }
 
+        var checkStartingTime = SimpleDateFormat("HH:mm").parse(startingTime)
+        var checkEndingTime = SimpleDateFormat("HH:mm").parse(endingTime)
+
+//        var moreThenAHour = Math.abs(checkEndingTime.time - checkStartingTime.time)
+        var moreThenAHour = checkEndingTime.time - checkStartingTime.time
+        var checkHour = moreThenAHour / (1000*60*60) % 24
+//        Log.d("Update", checkHour.toString())
+
         if(startingTime.isEmpty() || endingTime.isEmpty()){
             binding.operatingTimeTextField.error = "Invalid Operating Time"
             errorChecker = true
@@ -148,7 +156,11 @@ class CreateStorePage : Fragment() {
             binding.operatingTimeTextField.error = "Please Choose a Valid Operating Time"
             errorChecker = true
         }
-        else{
+        else if(checkHour < 1){
+            binding.operatingTimeTextField.error = "Operating Time Must be 1 hour apart!"
+            errorChecker = true
+
+        }        else{
             binding.operatingTimeTextField.isErrorEnabled = false
         }
 

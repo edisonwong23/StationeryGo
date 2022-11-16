@@ -48,6 +48,10 @@ class MainStorePage : Fragment() {
 //            Log.d("Stores","User UID: " +uid)
         }
 
+        binding.manageStoreCard.setOnClickListener{
+            findNavController().navigate(R.id.action_mainStorePage_to_storeManagentPage)
+        }
+
         binding.orderCard.setOnClickListener{
             var bundle = bundleOf(
                 "storeID" to storeID
@@ -113,7 +117,7 @@ class MainStorePage : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var users = dataSnapshot.getValue(CreateStoreData::class.java)
-                Log.d("Store","Current Owner:" + users.toString())
+//                Log.d("Store","Current Owner:" + users.toString())
                 var storename = dataSnapshot.child("storeName").getValue(String::class.java)
                 var getStoreID = dataSnapshot.child("storeID").value.toString()
                 storeName = storename.toString()

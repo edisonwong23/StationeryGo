@@ -223,7 +223,7 @@ class CreateStoreAddressPage : Fragment() {
         val postal = binding.postalCodeTextField.editText?.text.toString()
         val city = binding.cityTextField.editText?.text.toString()
 
-        val user = CreateStoreData(storeID,currentUser,storeName,description,timeStart,timeEnd,operatingDay,email,phone,address,state,postal,city,imagePathFromFirebase)
+        val user = CreateStoreData(storeID,storeName,description,timeStart,timeEnd,operatingDay,email,phone,address,state,postal,imagePathFromFirebase)
 
         database.child(uid).setValue(user)
             .addOnCompleteListener {

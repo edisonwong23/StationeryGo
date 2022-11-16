@@ -87,6 +87,9 @@
         <action
             android:id="@+id/action_mainStorePage_to_shopOrderPage"
             app:destination="@id/shopOrderPage" />
+        <action
+            android:id="@+id/action_mainStorePage_to_storeManagentPage"
+            app:destination="@id/storeManagentPage" />
     </fragment>
     <fragment
         android:id="@+id/productLists"
@@ -185,4 +188,9 @@
         android:name="com.example.stationerygo.StorePage.StoreDetailPage.storeDetailsDetailsPage"
         android:label="Store Details"
         tools:layout="@layout/fragment_store_details_details_page" />
+    <fragment
+        android:id="@+id/storeManagentPage"
+        android:name="com.example.stationerygo.StoreOwner.StoreManage.StoreManagentPage"
+        android:label="Manage Store Details"
+        tools:layout="@layout/fragment_store_managent_page" />
 </navigation>
