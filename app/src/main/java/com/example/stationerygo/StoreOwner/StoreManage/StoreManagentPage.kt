@@ -466,7 +466,8 @@ class StoreManagentPage : Fragment() {
 //                Toast.makeText(context,"Store Has Been Updated!!", Toast.LENGTH_SHORT).show()
             }
             else{
-                uploadToFirebase(dataToFirebase)
+                uploadToFirebase(dataToFirebase,storeName,description, startingTime,
+                    endingTime,operatingDays,email,phone)
             }
         }
     }
@@ -498,7 +499,13 @@ class StoreManagentPage : Fragment() {
         }
     }
 
-    private  fun  uploadToFirebase (data: Intent?){
+    private  fun  uploadToFirebase (data: Intent?,storeName:String,
+                                    description:String,
+                                    startTime:String,
+                                    endTime:String,
+                                    operatingDay:String,
+                                    email:String,
+                                    phone:String){
         val progress = ProgressDialog(activity)
         progress.setTitle("Uploading Image")
         progress.show()
@@ -510,7 +517,8 @@ class StoreManagentPage : Fragment() {
                     OnSuccessListener<UploadTask.TaskSnapshot>{
                             taskSnapshot -> taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                         imagePathFromFirebase = it.toString()
-
+                        updateStoreDetailsDetailsOldImage(imagePathFromFirebase!!,storeName,
+                        description,startTime,endTime,operatingDay,email,phone)
                         progress.hide()
                     }
                     })
