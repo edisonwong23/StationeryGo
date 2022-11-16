@@ -148,7 +148,13 @@
         android:id="@+id/paymentPage"
         android:name="com.example.stationerygo.Cart.Payment.PaymentPage"
         android:label="Payment Page"
-        tools:layout="@layout/fragment_payment_page" />
+        tools:layout="@layout/fragment_payment_page" >
+        <action
+            android:id="@+id/action_paymentPage_to_storeDetailPage"
+            app:destination="@id/storeDetailPage"
+            app:popUpTo="@id/storeDetailPage"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/orderDetailPage"
         android:name="com.example.stationerygo.OrderList.OrderDetailPage.OrderDetailPage"

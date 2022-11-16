@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -91,6 +92,12 @@ class StoreManagentPage : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         auth = FirebaseAuth.getInstance()
+
+        val stationeryBind = binding.stateEdittextField
+        var stationery = resources.getStringArray(R.array.States)
+        stationery = stationery.sortedArray()
+        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,stationery)
+        stationeryBind.setAdapter(adapter)
 
         checkStoreName()
         loadStoreDetailsDetails()
@@ -293,7 +300,7 @@ class StoreManagentPage : Fragment() {
                 binding.storePhoneEdittextField.setText(phone)
 
                 binding.addressEdittextField.setText(address)
-                binding.stateEdittextField.setText(state)
+                binding.stateEdittextField.setText(state,false)
                 binding.postalCodeEdittextField.setText(postal)
             }
 

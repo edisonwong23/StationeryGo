@@ -22,6 +22,7 @@ private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 private var totalPaymentAmount: String = ""
 private var itemInCart = false
+private var deliveryFee = "0.00"
 
 class Cart_Page : Fragment() {
 
@@ -36,6 +37,22 @@ class Cart_Page : Fragment() {
         )
         auth = FirebaseAuth.getInstance()
         loadRecyclerCart()
+
+        binding.pickupBtn.setOnClickListener {
+            binding.pickupBtn.setBackgroundResource(R.drawable.not_transparent_button)
+            binding.deliveryBtn.setBackgroundResource(R.drawable.transparent_button)
+            deliveryFee = "0.00"
+            binding.deliveryFeeAmountTxt.text = deliveryFee
+            loadRecyclerCart()
+        }
+
+        binding.deliveryBtn.setOnClickListener {
+            binding.pickupBtn.setBackgroundResource(R.drawable.transparent_button)
+            binding.deliveryBtn.setBackgroundResource(R.drawable.not_transparent_button)
+            deliveryFee = "5.00"
+            binding.deliveryFeeAmountTxt.text = deliveryFee
+            loadRecyclerCart()
+        }
 
         binding.proceedPaymentBtn.setOnClickListener{
 
@@ -83,13 +100,12 @@ class Cart_Page : Fragment() {
                   var subTotal = productPriceTotal
                   binding.subTotalAmountTxt.text = "%.2f".format(subTotal)
 
-                 var deliveryFee = "5.00"
                  binding.deliveryFeeAmountTxt.text = deliveryFee
 
                  var tax = productPriceTotal * 0.06
                  binding.taxAmountTxt.text = "%.2f".format(tax)
 
-                 var totalAmount = subTotal+ deliveryFee.toDouble() + tax.toDouble()
+                 var totalAmount = subTotal+ deliveryFee.toDouble() + tax
                  binding.totalAmountAmountTxt.text = "%.2f".format(totalAmount)
                  totalPaymentAmount = "%.2f".format(totalAmount)
 //                Log.d("Cart",cartArray.toString())

@@ -37,6 +37,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/paymentType_Spinner">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/paymentDetails_ConstraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -46,6 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Card Details"
+                        android:textSize="25dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -58,8 +60,6 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:hint="Card Number"
-                        app:counterEnabled="true"
-                        app:counterMaxLength="20"
                         app:endIconMode="clear_text"
                         app:errorEnabled="true"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -84,8 +84,6 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:hint="Expire Year"
-                        app:counterEnabled="true"
-                        app:counterMaxLength="20"
                         app:endIconMode="clear_text"
                         app:errorEnabled="true"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -107,14 +105,11 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/expireMonth_TextField"
-                        style="@style/inputBox"
+                        style="@style/dropDownBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:hint="Expire Month"
-                        app:counterEnabled="true"
-                        app:counterMaxLength="20"
-                        app:endIconMode="clear_text"
                         app:errorEnabled="true"
                         app:layout_constraintEnd_toStartOf="@+id/expireYear_TextField"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -122,12 +117,11 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/expireYear_TextField">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <AutoCompleteTextView
                             android:id="@+id/expireMonth_EdittextField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:inputType="textCapSentences|textAutoCorrect|text"
+                            android:inputType="none"
                             tools:ignore="TouchTargetSizeCheck" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -142,8 +136,6 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:hint="CVC"
-                        app:counterEnabled="true"
-                        app:counterMaxLength="20"
                         app:endIconMode="clear_text"
                         app:errorEnabled="true"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -156,11 +148,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
-                            android:inputType="textCapSentences|textAutoCorrect|text"
+                            android:inputType="number"
                             tools:ignore="TouchTargetSizeCheck" />
 
                     </com.google.android.material.textfield.TextInputLayout>
-
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -188,6 +179,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:text="Payment Info"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -199,6 +192,7 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="16dp"
                         android:text="Bought From:"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/paymentInfo" />
 
@@ -208,6 +202,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
                         android:text="Store Name"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintStart_toEndOf="@+id/boughtFrom"
                         app:layout_constraintTop_toTopOf="@+id/boughtFrom" />
 
@@ -218,6 +213,7 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="8dp"
                         android:text="Order Type"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/boughtFrom" />
 
@@ -227,6 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Deliver/Pick Up"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintEnd_toEndOf="@+id/storeName_txt"
                         app:layout_constraintTop_toBottomOf="@+id/storeName_txt" />
 
@@ -237,6 +234,7 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="8dp"
                         android:text="Total (RM):"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/orderType" />
 
@@ -246,6 +244,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="0.00"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         app:layout_constraintEnd_toEndOf="@+id/orderType_txt"
                         app:layout_constraintTop_toBottomOf="@+id/orderType_txt" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

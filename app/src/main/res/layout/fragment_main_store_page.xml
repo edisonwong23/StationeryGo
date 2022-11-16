@@ -22,20 +22,21 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/manageProduct_img"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/default_image"
                     app:layout_constraintBottom_toTopOf="@+id/manageProduct_txt"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread" />
+                    app:layout_constraintVertical_chainStyle="spread"
+                    app:srcCompat="@drawable/inventory"
+                    android:contentDescription="TODO" />
 
                 <TextView
                     android:id="@+id/manageProduct_txt"
@@ -72,13 +73,13 @@
                     android:id="@+id/manageStore_img"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/default_image"
                     app:layout_constraintBottom_toTopOf="@+id/manageStore_txt"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread" />
+                    app:layout_constraintVertical_chainStyle="spread"
+                    app:srcCompat="@drawable/storefront" />
 
                 <TextView
                     android:id="@+id/manageStore_txt"
@@ -110,20 +111,20 @@
             app:layout_constraintTop_toBottomOf="@+id/manageStore_Card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/orderProduct_img"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/default_image"
                     app:layout_constraintBottom_toTopOf="@+id/orderProduct_txt"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread" />
+                    app:layout_constraintVertical_chainStyle="spread"
+                    app:srcCompat="@drawable/list_alt" />
 
                 <TextView
                     android:id="@+id/orderProduct_txt"

@@ -3,7 +3,6 @@ package com.example.stationerygo.Cart.Payment
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,23 +10,26 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
+import androidx.core.view.forEach
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.Cart.Cart_Data
 import com.example.stationerygo.R
-import com.example.stationerygo.databinding.FragmentCartPageBinding
 import com.example.stationerygo.databinding.FragmentPaymentPageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.coroutines.async
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+import java.util.regex.Pattern
 
 private lateinit var binding : FragmentPaymentPageBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 private var selectedPaymentType: String = ""
 private var cartData = ArrayList<Cart_Data>()
+private var minusProductID : MutableList<String> = ArrayList<String>()
+private var minusProductQty :MutableList<String> = ArrayList<String>()
 
 class PaymentPage : Fragment() {
 
@@ -43,6 +45,12 @@ class PaymentPage : Fragment() {
             false
         )
 
+        val stationeryBind = binding.expireMonthEdittextField
+        var stationery = resources.getStringArray(R.array.Month)
+        stationery = stationery.sortedArray()
+        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,stationery)
+        stationeryBind.setAdapter(adapter)
+
         auth = FirebaseAuth.getInstance()
 
         loadData()
@@ -52,7 +60,7 @@ class PaymentPage : Fragment() {
         loadCartData()
 
         binding.confirmOrderBtn.setOnClickListener{
-            confirmOrder()
+            validatePayment()
         }
 
         return binding.root
@@ -75,6 +83,7 @@ class PaymentPage : Fragment() {
         var uid = auth.currentUser?.uid.toString()
         var storeID = arguments?.getString("storeID").toString()
         var cartArray = ArrayList<Cart_Data>()
+        var cartMinusArray = ArrayList<Cart_Data>()
 
         database = FirebaseDatabase.getInstance().getReference("Cart")
         var dataRef = database.child(uid).child(storeID)
@@ -82,13 +91,20 @@ class PaymentPage : Fragment() {
         val postListenr = object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 cartArray.clear()
+                minusProductID.clear()
+                minusProductQty.clear()
+                cartData.clear()
                 snapshot.children.forEach{
                     var productID = it.child("itemID").value.toString()
                     var productImage = it.child("itemImage").value.toString()
                     var productName = it.child("itemName").value.toString()
                     var productQty = it.child("itemQty").value.toString()
                     var productPrice = it.child("itemPrice").value.toString()
+                    var currentAmount = it.child("itemCurrentAmount").value.toString()
+                    var newCurrentQty = currentAmount.toInt() - productQty.toInt()
 
+                    minusProductID.add(productID)
+                    minusProductQty.add(newCurrentQty.toString())
                     cartArray.add(Cart_Data(productID,productImage,productName,productQty,productPrice))
                 }
                 cartData = cartArray
@@ -124,6 +140,31 @@ class PaymentPage : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 var paymentType = payment[p2]
                 selectedPaymentType = paymentType
+
+                if(paymentType == "Cash"){
+                    binding.paymentDetailsCard.setCardBackgroundColor(resources.getColor(androidx.cardview.R.color.cardview_shadow_start_color))
+                    var layout = binding.paymentDetailsConstraintLayout
+                    var i = 0
+                    var layoutCount = layout.childCount
+//                    Log.d("Payment", layoutCount.toString())
+                    for(data in 1..layoutCount){
+                        var child = layout.getChildAt(i)
+                        child.setEnabled(false)
+                        i++
+                    }
+                }
+                else{
+                    binding.paymentDetailsCard.setCardBackgroundColor(resources.getColor(androidx.cardview.R.color.cardview_light_background))
+                    var layout = binding.paymentDetailsConstraintLayout
+                    var i = 0
+                    var layoutCount = layout.childCount
+                    Log.d("Payment", layoutCount.toString())
+                    for(data in 1..layoutCount){
+                        var child = layout.getChildAt(i)
+                        child.setEnabled(true)
+                        i++
+                    }
+                }
 //                Log.d("Payment","Selected Payment is $selectedPaymentType")
             }
 
@@ -131,6 +172,60 @@ class PaymentPage : Fragment() {
                 TODO("Not yet implemented")
             }
         }
+    }
+
+    private fun validatePayment(){
+
+        val ptVisa = "^4[0-9]{6,}$"
+        var pattern_VISA = Pattern.compile(ptVisa)
+
+        val ptMasterCard = "^5[1-5][0-9]{5,}$"
+        var pattern_MASTER = Pattern.compile(ptMasterCard)
+
+        var cardNumber = binding.cardNumberTextField.editText?.text.toString()
+        var errorChecker = false
+
+        if(cardNumber.isEmpty()){
+            binding.cardNumberTextField.error = "Invalid Card Number"
+            errorChecker = true
+        }
+        else{
+            binding.cardNumberTextField.isErrorEnabled = false
+        }
+
+        if(selectedPaymentType == "Visa")
+        {
+            if(!pattern_VISA.matcher(cardNumber).matches())
+            {
+                binding.cardNumberTextField.error = "Invalid VISA Number"
+                errorChecker = true
+            }
+            else{
+                binding.cardNumberTextField.isErrorEnabled = false
+            }
+        }
+        else if(selectedPaymentType == "MasterCard")
+        {
+            if(!pattern_MASTER.matcher(cardNumber).matches())
+            {
+                binding.cardNumberTextField.error = "Invalid Master Card Number"
+                errorChecker = true
+            }
+            else{
+                binding.cardNumberTextField.isErrorEnabled = false
+            }
+        }
+
+        if(selectedPaymentType == "Cash"){
+            confirmOrder()
+        }
+        else if(errorChecker == false){
+            confirmOrder()
+        }
+        else{
+            Toast.makeText(context,"Please Check Above Input Boxes!",Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun confirmOrder(){
@@ -160,10 +255,47 @@ class PaymentPage : Fragment() {
             currentStatus))
             .addOnCompleteListener{
             Toast.makeText(context,"Purchase Complete",Toast.LENGTH_SHORT).show()
+                decreaseStock()
         }.addOnFailureListener {
             Toast.makeText(context,"Fail To Purchase",Toast.LENGTH_SHORT).show()
             Log.d("Payment",it.toString())
         }
     }
+
+    private fun decreaseStock(){
+        var storeID = arguments?.getString("storeID").toString()
+        database = FirebaseDatabase.getInstance().getReference("Products")
+        var storeRef = database.child(storeID)
+
+        var i = 0
+//        Log.d("Payment", minusProductID.toString())
+        for (data in minusProductID){
+            storeRef.child(minusProductID[i]).child("productQty").setValue(minusProductQty[i]).addOnCompleteListener{
+                if(it.isSuccessful){
+//                    Log.d("Payment", minusProductID[i])
+                }
+                else
+                    Toast.makeText(context,"Fail To Purchase",Toast.LENGTH_SHORT).show()
+            }
+            i++
+        }
+        clearCart()
+    }
+
+    private fun clearCart(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+
+        database.child(uid).removeValue().addOnCompleteListener{
+            if(it.isSuccessful){
+                Toast.makeText(context,"Payment Done",Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_paymentPage_to_storeDetailPage)
+            }
+            else{
+                Toast.makeText(context,"Fail To Purchase",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
 }

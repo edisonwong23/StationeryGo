@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
@@ -56,6 +57,11 @@ class CreateStoreAddressPage : Fragment() {
             false
         )
 
+        val stationeryBind = binding.stateEdittextField
+        var stationery = resources.getStringArray(R.array.States)
+        stationery = stationery.sortedArray()
+        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,stationery)
+        stationeryBind.setAdapter(adapter)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -135,7 +141,6 @@ class CreateStoreAddressPage : Fragment() {
 
                                 binding.addressEdittextField.setText("$address")
                                 binding.stateEdittextField.setText("$state")
-                                binding.cityEdittextField.setText("$city")
                                 binding.postalCodeEdittextField.setText("$postalCode")
                                 progress.hide()
                             }
@@ -153,7 +158,7 @@ class CreateStoreAddressPage : Fragment() {
         }
 
         binding.createStoreBtn.setOnClickListener{
-            insertToFileStorage()
+            addressValidation()
         }
 
         return binding.root
@@ -221,7 +226,6 @@ class CreateStoreAddressPage : Fragment() {
         val address = binding.addressTextField.editText?.text.toString()
         val state = binding.stateTextField.editText?.text.toString()
         val postal = binding.postalCodeTextField.editText?.text.toString()
-        val city = binding.cityTextField.editText?.text.toString()
 
         val user = CreateStoreData(storeID,storeName,description,timeStart,timeEnd,operatingDay,email,phone,address,state,postal,imagePathFromFirebase)
 
@@ -235,6 +239,44 @@ class CreateStoreAddressPage : Fragment() {
             Log.d("Store", "Failure happen" +it.toString())
             Toast.makeText(getContext(), it.toString(), Toast.LENGTH_SHORT).show()
                 progress.hide()
+        }
+    }
+
+    private fun addressValidation(){
+        var address = binding.addressTextField.editText?.text.toString()
+        var state = binding.stateTextField.editText?.text.toString()
+        var postal = binding.postalCodeTextField.editText?.text.toString()
+        var errorChecker = false
+
+        if(address.isEmpty()){
+            binding.addressTextField.error = "Required*"
+            errorChecker = true
+        }
+        else if(address.count() > 150){
+            binding.addressTextField.error = "Cannot be more then 150"
+            errorChecker = true
+        }
+        else{
+            binding.addressTextField.isErrorEnabled = false
+        }
+
+        if(postal.isEmpty()){
+            binding.postalCodeTextField.error = "Required*"
+            errorChecker = true
+        }
+        else if(postal.count() > 5){
+            binding.postalCodeTextField.error = "Cannot be more then 5"
+            errorChecker = true
+        }
+        else{
+            binding.postalCodeTextField.isErrorEnabled = false
+        }
+
+        if(errorChecker){
+            Toast.makeText(context,"Check Input Boxes",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            insertToFileStorage()
         }
     }
 
