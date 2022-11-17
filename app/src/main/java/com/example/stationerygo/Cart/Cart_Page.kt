@@ -23,6 +23,7 @@ private lateinit var auth: FirebaseAuth
 private var totalPaymentAmount: String = ""
 private var itemInCart = false
 private var deliveryFee = "0.00"
+private var userCurrentAddress = ""
 
 class Cart_Page : Fragment() {
 
@@ -38,11 +39,14 @@ class Cart_Page : Fragment() {
         auth = FirebaseAuth.getInstance()
         loadRecyclerCart()
 
+        getUserAddress()
+
         binding.pickupBtn.setOnClickListener {
             binding.pickupBtn.setBackgroundResource(R.drawable.not_transparent_button)
             binding.deliveryBtn.setBackgroundResource(R.drawable.transparent_button)
             deliveryFee = "0.00"
             binding.deliveryFeeAmountTxt.text = deliveryFee
+            binding.addressEditCard.visibility = View.GONE
             loadRecyclerCart()
         }
 
@@ -51,6 +55,7 @@ class Cart_Page : Fragment() {
             binding.deliveryBtn.setBackgroundResource(R.drawable.not_transparent_button)
             deliveryFee = "5.00"
             binding.deliveryFeeAmountTxt.text = deliveryFee
+            binding.addressEditCard.visibility = View.VISIBLE
             loadRecyclerCart()
         }
 
@@ -65,6 +70,28 @@ class Cart_Page : Fragment() {
         return binding.root
     }
 
+
+    private fun getUserAddress(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Users")
+        val userRef = database.child(uid)
+
+        val postListner = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var userAddress = snapshot.child("address").value.toString()
+
+                binding.cartCurrentAddressTxt.text = userAddress
+                userCurrentAddress = userAddress
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        userRef.addListenerForSingleValueEvent(postListner)
+    }
 
     private fun loadRecyclerCart(){
         var uid = auth.currentUser?.uid.toString()
@@ -134,6 +161,7 @@ class Cart_Page : Fragment() {
             "StoreName" to storeName,
             "orderType" to "Delivery",
             "storeID" to storeID,
+            "userCurrentAddress" to userCurrentAddress,
         )
         findNavController().navigate(R.id.action_cart_Page_to_paymentPage,bundle)
     }

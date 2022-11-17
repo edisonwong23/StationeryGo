@@ -12,4 +12,5 @@ data class PaymentData(
     val purchaseDate: String ?= null,
     val itemOrdered: ArrayList<Cart_Data>,
     val orderStatus: String ?= null,
+    val address: String ?= null,
 )

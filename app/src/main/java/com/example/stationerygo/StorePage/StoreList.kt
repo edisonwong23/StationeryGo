@@ -15,6 +15,9 @@ import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentStoreListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 private lateinit var binding: FragmentStoreListBinding
 private lateinit var database: DatabaseReference
@@ -51,10 +54,24 @@ class StoreList : Fragment() {
                     var position = i++
                     var storeImage = it.child("storeImage").getValue().toString()
                     var storeName = it.child("storeName").getValue().toString()
-                    var city = it.child("city").getValue().toString()
+                    var city = it.child("state").getValue().toString()
                     var startTime = it.child("startTime").getValue().toString()
                     var endTime = it.child("endTime").getValue().toString()
-                    storeArrayList.add(StoreListData(position,storeImage,storeName,city,startTime,endTime))
+
+                    val sdf = SimpleDateFormat("HH:mm")
+                    val currentDate = sdf.format(Date())
+                    val checkCurrentTime = SimpleDateFormat("HH:mm").parse(currentDate)
+                    val checkOpeningTime = SimpleDateFormat("HH:mm").parse(startTime)
+                    val checkEndingTime = SimpleDateFormat("HH:mm").parse(endTime)
+                    var storeStatus = ""
+
+                    if(checkCurrentTime.after(checkOpeningTime) && checkCurrentTime.before(checkEndingTime)){
+                        storeStatus = "Open"
+                    }
+                    else
+                        storeStatus = "Close"
+
+                    storeArrayList.add(StoreListData(position,storeImage,storeName,city,startTime,endTime,storeStatus))
                 }
 
                 val recyclerView = binding.recyclerviewStores

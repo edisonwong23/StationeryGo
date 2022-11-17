@@ -141,12 +141,23 @@ class ShopOrderDetails : Fragment() {
                 var totalAmount = snapshot.child("totalAmount").value.toString()
                 var orderType = snapshot.child("orderType").value.toString()
                 var orderStatus = snapshot.child("orderStatus").value.toString()
+                var address = snapshot.child("address").value.toString()
 
                 binding.shopOrderDetailsPaymentTypeTxt.text = paymentType
                 binding.shopOrderDetailsOrderTypeTxt.text = orderType
-                binding.shopOrderDetailsTotalAmountTxt.text = totalAmount
+                binding.shopOrderDetailsTotalAmountTxt.text = "RM "+totalAmount
                 binding.shopOrderDetailsPaymentDateTxt.text = purchaseDate
                 binding.shopOrderDetailsStatusTxt.text = orderStatus
+
+                if(orderType == "Delivery"){
+                    binding.shopOrderDetailsAddressUserAddressTxt.text = address
+                    binding.shopOrderDetailsAddressCard.visibility = View.VISIBLE
+                }
+                else{
+                    binding.shopOrderDetailsAddressCard.visibility = View.GONE
+                }
+
+
                var currentOrderStatus = orderStatus
                 var currentOrderType = orderType
 

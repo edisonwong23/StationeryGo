@@ -35,8 +35,8 @@ class OrderListAdapter (private val mList: List<OrderListData>,
 
         // sets the text to the textview from our itemHolder class
         holder.shopName.text = ItemsViewModel.orderShop
-        holder.orderDate.text = "Order Date: " + ItemsViewModel.orderDate
-        holder.orderStatus.text = "Order Status: "+ ItemsViewModel.orderStatus
+        holder.orderDate.text = ItemsViewModel.orderDate
+        holder.orderStatus.text = ItemsViewModel.orderStatus
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 
@@ -52,8 +52,8 @@ class OrderListAdapter (private val mList: List<OrderListData>,
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val orderImage: ImageView = itemView.findViewById(R.id.orderShopImage)
         val shopName: TextView = itemView.findViewById(R.id.orderShopName)
-        val orderDate: TextView = itemView.findViewById(R.id.orderOrderDate)
-        val orderStatus: TextView = itemView.findViewById(R.id.orderOrderStatus)
+        val orderDate: TextView = itemView.findViewById(R.id.orderOrderDate_txttxt)
+        val orderStatus: TextView = itemView.findViewById(R.id.orderOrderStatus_txttxt)
     }
 
 }

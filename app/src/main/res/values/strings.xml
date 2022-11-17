@@ -33,6 +33,21 @@
         <item>Etc</item>
     </string-array>
 
+    <string-array name="Stationery2">
+        <item>None</item>
+        <item>Notebooks</item>
+        <item>Pens</item>
+        <item>Pencils</item>
+        <item>Crayons</item>
+        <item>Erasers</item>
+        <item>Highlighters</item>
+        <item>Markers</item>
+        <item>Folders </item>
+        <item>binders </item>
+        <item>Books</item>
+        <item>Etc</item>
+    </string-array>
+
     <string-array name="States">
         <item>Johor</item>
         <item>Kedah</item>

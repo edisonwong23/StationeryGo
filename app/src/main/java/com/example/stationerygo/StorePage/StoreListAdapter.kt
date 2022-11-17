@@ -1,5 +1,6 @@
 package com.example.stationerygo.StorePage
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,9 +37,17 @@ class StoreListAdapter(private val mList: List<StoreListData>,
 
         // sets the text to the textview from our itemHolder class
         holder.title.text = ItemsViewModel.storeName
-        holder.city.text = "Status: Open"
-        holder.startTime.text = "Time: " + ItemsViewModel.startTime + " - " + ItemsViewModel.endTime
-        holder.endTime.text = "Distance: "
+
+        if(ItemsViewModel.status == "Open"){
+            holder.city.setTextColor(Color.parseColor("#689f38"))
+        }
+        else{
+            holder.city.setTextColor(Color.parseColor("#d50000"))
+        }
+
+        holder.city.text = ItemsViewModel.status
+        holder.startTime.text = ItemsViewModel.startTime + " - " + ItemsViewModel.endTime
+        holder.endTime.text = ItemsViewModel.city
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 

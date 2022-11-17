@@ -238,6 +238,8 @@ class PaymentPage : Fragment() {
         val sdf = SimpleDateFormat("dd/M/yyyy")
         val currentDate = sdf.format(Date())
         val currentStatus = "Pending"
+        val userCurrentAddress = arguments?.getString("userCurrentAddress").toString()
+
 //        Log.d("Payment",currentDate.toString())
 
 
@@ -252,7 +254,8 @@ class PaymentPage : Fragment() {
             totalAmount,
             currentDate,
             cartData,
-            currentStatus))
+            currentStatus,
+            userCurrentAddress))
             .addOnCompleteListener{
             Toast.makeText(context,"Purchase Complete",Toast.LENGTH_SHORT).show()
                 decreaseStock()
@@ -289,7 +292,7 @@ class PaymentPage : Fragment() {
         database.child(uid).removeValue().addOnCompleteListener{
             if(it.isSuccessful){
                 Toast.makeText(context,"Payment Done",Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_paymentPage_to_storeDetailPage)
+                findNavController().navigate(R.id.action_paymentPage_to_homePage)
             }
             else{
                 Toast.makeText(context,"Fail To Purchase",Toast.LENGTH_SHORT).show()

@@ -127,6 +127,8 @@ class OrderDetailPage : Fragment() {
                 var orderDate = ""
                 var orderPaymentType = ""
                 var orderPaymentAmount = ""
+                var orderAddress = ""
+                var orderType = ""
 
                 snapshot.children.forEach{
                     var orderTrue = it.child("orderID").value?.equals(orderID)
@@ -136,13 +138,25 @@ class OrderDetailPage : Fragment() {
                         orderDate = it.child("purchaseDate").value.toString()
                         orderPaymentType = it.child("paymentType").value.toString()
                         orderPaymentAmount = it.child("totalAmount").value.toString()
+                        orderAddress = it.child("address").value.toString()
+                        orderType = it.child("orderType").value.toString()
                     }
                 }
                 binding.orderDetailsShopNameTxt.text = shopName
                 binding.orderDetailsStatusTxt.text = orderStatus
                 binding.orderDetailsPurchaseDateTxt.text = orderDate
                 binding.orderDetailsPaymentTypeTxt.text = orderPaymentType
-                binding.orderDetailsPaymentAmountTxt.text = orderPaymentAmount
+                binding.orderDetailsPaymentAmountTxt.text = "RM "+orderPaymentAmount
+                binding.orderDetailsOrderTypeTxt.text = orderType
+
+                if(orderType == "Delivery"){
+                    binding.orderDetailsAddressCard.visibility = View.VISIBLE
+                    binding.orderDetailsAddressTxt.text = orderAddress
+                }
+                else{
+                    binding.orderDetailsAddressCard.visibility = View.GONE
+                }
+
 
                 if(orderStatus != "Pending"){
                     binding.orderDetailsCancelOrderBtn.visibility = View.GONE

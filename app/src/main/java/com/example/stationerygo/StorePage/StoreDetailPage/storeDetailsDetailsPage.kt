@@ -49,15 +49,17 @@ class storeDetailsDetailsPage : Fragment() {
                     var email = it.child("email").value.toString()
                     var phone = it.child("phone").value.toString()
                     var address = it.child("address").value.toString()
-                    var city = it.child("city").value.toString()
+                    var city = it.child("state").value.toString()
                     var postal = it.child("postal").value.toString()
+
+                    days = days.replace(",", " , ")
 
                     binding.storeDetailDetailShopNameTxt.text = storeName
                     binding.storeDetailsDetailsDescTxt.text = desc
                     binding.storeDetailsDetailsOperatingTimeTxt.text = startTime + " - " + endTime
                     binding.storeDetailsDetailsOperatingDayTxt.text = days
-                    binding.storeDetailsDetailsContactEmailTxt.text = "Email: " + email
-                    binding.storeDetailsDetailsContactPhoneTxt.text = "Phone " + phone
+                    binding.storeDetailsDetailsContactEmailTxttxt.text = email
+                    binding.storeDetailsDetailsContactPhoneTxttxt.text = phone
                     binding.storeDetailsDetailsAddressTxttxt.text = address
                     binding.storeDetailsDetailsAddressCityTxttxt.text = city
                     binding.storeDetailsDetailsAddressPostalTxttxt.text = postal

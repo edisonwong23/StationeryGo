@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Order Price"
+            android:text="Price: "
             app:layout_constraintStart_toStartOf="@+id/orderShopName"
             app:layout_constraintTop_toBottomOf="@+id/orderShopName" />
 
@@ -49,9 +49,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Item Quantity"
+            android:text="Quantity: "
             app:layout_constraintStart_toStartOf="@+id/orderOrderDate"
             app:layout_constraintTop_toBottomOf="@+id/orderOrderDate" />
+
+        <TextView
+            android:id="@+id/orderOrderDate_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintStart_toEndOf="@+id/orderOrderDate"
+            app:layout_constraintTop_toTopOf="@+id/orderOrderDate" />
+
+        <TextView
+            android:id="@+id/orderOrderStatus_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintStart_toStartOf="@+id/orderOrderDate_txt"
+            app:layout_constraintTop_toTopOf="@+id/orderOrderStatus" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

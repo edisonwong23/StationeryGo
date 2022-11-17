@@ -7,4 +7,5 @@ data class StoreListData(
     val city: String ?= null,
     val startTime: String ?= null,
     val endTime: String ?= null,
+    val status: String ?= null,
 )

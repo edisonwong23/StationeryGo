@@ -35,8 +35,8 @@ class OrderDetailsAdapter (private val mList: List<OrderDetailsClass>,
 
         // sets the text to the textview from our itemHolder class
         holder.itemName.text = ItemsViewModel.itemName
-        holder.itemPrice.text = "Item Price(RM): " + ItemsViewModel.itemPrice
-        holder.itemQty.text = "Quantity: "+ ItemsViewModel.itemQty
+        holder.itemPrice.text = "RM " + ItemsViewModel.itemPrice
+        holder.itemQty.text = ItemsViewModel.itemQty
 
 
     }
@@ -51,7 +51,7 @@ class OrderDetailsAdapter (private val mList: List<OrderDetailsClass>,
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val itemImage: ImageView = itemView.findViewById(R.id.orderShopImage)
         val itemName: TextView = itemView.findViewById(R.id.orderShopName)
-        val itemPrice: TextView = itemView.findViewById(R.id.orderOrderDate)
-        val itemQty: TextView = itemView.findViewById(R.id.orderOrderStatus)
+        val itemPrice: TextView = itemView.findViewById(R.id.orderOrderDate_txt)
+        val itemQty: TextView = itemView.findViewById(R.id.orderOrderStatus_txt)
     }
 }

@@ -12,10 +12,13 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -52,6 +55,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="32dp"
                             android:text="ShopName"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintStart_toEndOf="@+id/orderDetailsShopName"
                             app:layout_constraintTop_toTopOf="@+id/orderDetailsShopName" />
 
@@ -69,6 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Status"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintStart_toStartOf="@+id/orderDetailsShopName_txt"
                             app:layout_constraintTop_toTopOf="@+id/orderDetailsStatus" />
 
@@ -77,9 +82,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
                             android:text="Purchase Date:"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="@+id/orderDetailsStatus"
                             app:layout_constraintTop_toBottomOf="@+id/orderDetailsStatus" />
 
@@ -88,8 +91,30 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Date"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintStart_toStartOf="@+id/orderDetailsStatus_txt"
                             app:layout_constraintTop_toTopOf="@+id/orderDetialsPurchaseDate" />
+
+                        <TextView
+                            android:id="@+id/orderDetailsOrderType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="Order Type:"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/orderDetialsPurchaseDate"
+                            app:layout_constraintTop_toBottomOf="@+id/orderDetialsPurchaseDate" />
+
+                        <TextView
+                            android:id="@+id/orderDetailsOrderType_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="TextView"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            app:layout_constraintStart_toStartOf="@+id/orderDetailsPurchaseDate_txt"
+                            app:layout_constraintTop_toBottomOf="@+id/orderDetailsPurchaseDate_txt" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -99,8 +124,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/orderDetailsPayment_Card"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderDetialsDetails_Card"
@@ -113,11 +136,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/orderDetailsCancelOrder_btn"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -130,6 +153,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Payment Details"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -150,6 +174,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:text="Type"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintStart_toEndOf="@+id/orderDetailsPaymentType"
                             app:layout_constraintTop_toTopOf="@+id/orderDetailsPaymentType" />
 
@@ -159,7 +184,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:text="Amount(RM)"
+                            android:text="Paid: "
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="@+id/orderDetailsPaymentType"
                             app:layout_constraintTop_toBottomOf="@+id/orderDetailsPaymentType" />
@@ -170,10 +195,60 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="0.00"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintStart_toStartOf="@+id/orderDetailsPaymentType_txt"
                             app:layout_constraintTop_toBottomOf="@+id/orderDetailsPaymentType_txt" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/orderDetailsAddress_Card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderDetailsPayment_Card">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/orderDetailsAddressTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="Delivery Address"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/orderDetailsAddress_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="Current Address Here"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/orderDetailsAddressTitle" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
                 <Button
@@ -181,13 +256,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="Cancel Order"
                     app:backgroundTint="@color/design_default_color_error"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderDetailsAddress_Card" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

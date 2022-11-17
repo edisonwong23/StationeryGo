@@ -41,10 +41,11 @@
            <androidx.cardview.widget.CardView
                android:id="@+id/addressEdit_Card"
                android:layout_width="match_parent"
-               android:layout_height="150dp"
+               android:layout_height="wrap_content"
                android:layout_marginStart="16dp"
                android:layout_marginTop="16dp"
                android:layout_marginEnd="16dp"
+               android:visibility="gone"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toBottomOf="@+id/pickup_btn">
@@ -58,28 +59,27 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginTop="8dp"
-                       android:text="Address"
+                       android:text="Delivery Address"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                        app:layout_constraintEnd_toEndOf="parent"
                        app:layout_constraintStart_toStartOf="parent"
                        app:layout_constraintTop_toTopOf="parent" />
-
-                   <Button
-                       android:id="@+id/cartEditAddress_btn"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="Edit"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent" />
 
                    <TextView
                        android:id="@+id/cartCurrentAddress_txt"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginTop="8dp"
+                       android:layout_marginBottom="8dp"
+                       android:gravity="center"
+                       android:padding="10dp"
                        android:text="Current Address"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                       app:layout_constraintBottom_toBottomOf="parent"
                        app:layout_constraintEnd_toEndOf="parent"
                        app:layout_constraintStart_toStartOf="parent"
                        app:layout_constraintTop_toBottomOf="@+id/cartAddress_txt" />
+
                </androidx.constraintlayout.widget.ConstraintLayout>
            </androidx.cardview.widget.CardView>
 
@@ -197,6 +197,7 @@
                        android:layout_marginTop="32dp"
                        android:layout_marginEnd="32dp"
                        android:text="0.00"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                        app:layout_constraintEnd_toEndOf="parent"
                        app:layout_constraintTop_toBottomOf="@+id/taxAmount_txt" />
 

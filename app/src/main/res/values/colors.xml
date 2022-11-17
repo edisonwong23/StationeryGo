@@ -9,4 +9,7 @@
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="errorTextColor">#800020</color>
+    <color name="statusOpen">#76ff03</color>
+    <color name="statusClose">#d50000</color>
+
 </resources>

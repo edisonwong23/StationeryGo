@@ -35,9 +35,10 @@ class ShopOrderAdapter(private val mList: List<ShopOrderData>,
 
         // sets the text to the textview from our itemHolder class
         holder.itemName.text = ItemsViewModel.userName
-        holder.itemPrice.text = "Order Status: " + ItemsViewModel.orderStatus
-        holder.itemQty.text = "Order Date: "+ ItemsViewModel.orderDate
-
+        holder.itemPrice.text = "Date:"
+        holder.itemQty.text = "Status:"
+        holder.orderDate.text =  ItemsViewModel.orderDate
+        holder.orderStatus.text = ItemsViewModel.orderStatus
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 
@@ -55,5 +56,7 @@ class ShopOrderAdapter(private val mList: List<ShopOrderData>,
         val itemName: TextView = itemView.findViewById(R.id.orderShopName)
         val itemPrice: TextView = itemView.findViewById(R.id.orderOrderDate)
         val itemQty: TextView = itemView.findViewById(R.id.orderOrderStatus)
+        val orderDate: TextView = itemView.findViewById(R.id.orderOrderDate_txt)
+        val orderStatus: TextView = itemView.findViewById(R.id.orderOrderStatus_txt)
     }
 }

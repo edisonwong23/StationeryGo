@@ -115,8 +115,8 @@
     <fragment
         android:id="@+id/storeDetailPage"
         android:name="com.example.stationerygo.StorePage.StoreDetailPage.StoreDetailPage"
-        android:label="fragment_store_detail_page"
-        tools:layout="@layout/fragment_store_detail_page" >
+        android:label="Store Page"
+        tools:layout="@layout/fragment_store_detail_page">
         <action
             android:id="@+id/action_storeDetailPage_to_itemDetailPage"
             app:destination="@id/itemDetailPage" />
@@ -150,9 +150,9 @@
         android:label="Payment Page"
         tools:layout="@layout/fragment_payment_page" >
         <action
-            android:id="@+id/action_paymentPage_to_storeDetailPage"
-            app:destination="@id/storeDetailPage"
-            app:popUpTo="@id/storeDetailPage"
+            android:id="@+id/action_paymentPage_to_homePage"
+            app:destination="@id/homePage"
+            app:popUpTo="@id/homePage"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

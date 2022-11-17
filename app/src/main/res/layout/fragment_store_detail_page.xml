@@ -50,10 +50,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                >
 
 
                 <ImageView
@@ -82,18 +82,47 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/storeimage_img" />
 
+                <Spinner
+                    android:id="@+id/productType_Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="Stationery Type"
+                    app:layout_constraintEnd_toStartOf="@+id/clearProductTypeSearch_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/storeDetails_btn" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/storeDetailsRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeDetails_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/productType_Spinner"
                     tools:listitem="@layout/card_list_store_products" />
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/clearProductTypeSearch_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Reset"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/productType_Spinner" />
+
+                <TextView
+                    android:id="@+id/noProductFoundText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:text="No Stationery Here!"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/productType_Spinner" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
 
