@@ -140,7 +140,7 @@ class CreateStoreAddressPage : Fragment() {
 //                                Log.d("Store", "Postal Code: $postalCode")
 
                                 binding.addressEdittextField.setText("$address")
-                                binding.stateEdittextField.setText("$state")
+                                binding.stateEdittextField.setText("$state",false)
                                 binding.postalCodeEdittextField.setText("$postalCode")
                                 progress.hide()
                             }

@@ -47,6 +47,8 @@
                             app:counterEnabled="true"
                             app:counterMaxLength="20"
                             app:endIconMode="clear_text"
+                            app:helperTextEnabled="true"
+                            app:helperText="Cannot Contain Special Symbol (?,.,^,$...) and Space"
                             app:errorEnabled="true"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -182,6 +184,70 @@
                                 tools:ignore="TouchTargetSizeCheck" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/userAddress_textfield"
+                            style="@style/inputBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="Input Current Address"
+                            app:endIconMode="clear_text"
+                            app:errorEnabled="true"
+                            app:helperTextEnabled="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/phoneNumber_textfield"
+                            app:startIconContentDescription="@string/label">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/userAddress_EditTextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="textMultiLine"
+                                android:lines="4"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/state_TextField"
+                            style="@style/dropDownBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            android:hint="State"
+                            app:errorEnabled="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/autofilledAddress_btn"
+                            app:startIconContentDescription="@string/label">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/state_EdittextField"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                tools:ignore="TouchTargetSizeCheck" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/autofilledAddress_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Auto Fill Current Location"
+                            app:layout_constraintEnd_toEndOf="@+id/userAddress_textfield"
+                            app:layout_constraintStart_toStartOf="@+id/userAddress_textfield"
+                            app:layout_constraintTop_toBottomOf="@+id/userAddress_textfield" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

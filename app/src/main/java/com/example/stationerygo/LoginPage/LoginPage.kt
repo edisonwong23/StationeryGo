@@ -1,6 +1,9 @@
 package com.example.stationerygo.LoginPage
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,9 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentLoginPageBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -20,6 +26,7 @@ import com.google.firebase.ktx.Firebase
 private lateinit var binding: FragmentLoginPageBinding
 //private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
+private lateinit var fusedLocationClient: FusedLocationProviderClient
 
 class LoginPage : Fragment() {
 
@@ -33,6 +40,8 @@ class LoginPage : Fragment() {
             container,
             false
         )
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        checkRequestForLocationPermission()
 
         val user = Firebase.auth.currentUser
         if(user != null){
@@ -42,12 +51,50 @@ class LoginPage : Fragment() {
         binding.signUPTextview.setOnClickListener {
             findNavController().navigate(R.id.action_loginPage_to_registerPage)
         }
+
         binding.loginBtn.setOnClickListener { validChecker() }
+
+
 
         return binding.root
     }
 
-    fun validChecker() {
+    private fun checkRequestForLocationPermission(){
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            AlertDialog.Builder(context)
+                .setTitle("Location Permission Needed")
+                .setMessage("This app needs the Location permission, please accept to use location functionality")
+                .setPositiveButton(
+                    "OK"
+                ) { _, _ ->
+                    //Prompt the user once explanation has been shown
+                    requestLocationPermission()
+                }
+                .create()
+                .show()
+
+        }
+    }
+
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ),
+            MY_PERMISSIONS_REQUEST_LOCATION
+        )
+    }
+
+    private fun validChecker() {
         var username = binding.usernameTextfield.editText?.text.toString()
         var password = binding.passwordTextview.editText?.text.toString()
         var errorChecker = false
@@ -58,7 +105,6 @@ class LoginPage : Fragment() {
         }
         else{
             binding.usernameTextfield.isErrorEnabled = false
-            errorChecker = false
         }
 
         if(password.isEmpty()){
@@ -67,7 +113,6 @@ class LoginPage : Fragment() {
         }
         else{
             binding.passwordTextview.isErrorEnabled = false
-            errorChecker = false
         }
 
         if(!errorChecker)
@@ -77,7 +122,7 @@ class LoginPage : Fragment() {
 
     }
 
-    fun loginAuthUser(){
+    private fun loginAuthUser(){
         var email = binding.usernameTextfield.editText?.text.toString()
         var password = binding.passwordTextview.editText?.text.toString()
         auth = Firebase.auth
@@ -99,34 +144,9 @@ class LoginPage : Fragment() {
         }
     }
 
-//    fun loginUser(){
-//
-//        var username = binding.usernameTextfield.editText?.text.toString()
-//        var password = binding.passwordTextview.editText?.text.toString()
-//
-//        database = FirebaseDatabase.getInstance().getReference("Users")
-//        val checkUser = database.child(username)
-//
-//        val postListener = object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                var users = dataSnapshot.getValue(DataUserLogin::class.java)
-////                var user_username = dataSnapshot.child("username").getValue(String::class.java)
-////                var user_password = dataSnapshot.child("password").getValue(String::class.java)
-//
-//                if(username == users?.username && password == users?.password){
-////                    Toast.makeText(getContext(),"Login Successful", Toast.LENGTH_SHORT).show()
-//                }
-//                else
-//                    Toast.makeText(getContext(),"User does not exist", Toast.LENGTH_SHORT).show()
-//
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        checkUser.addValueEventListener(postListener)
-//
-//    }
+    companion object {
+        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+//        private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
+    }
 
 }
