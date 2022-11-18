@@ -6,5 +6,8 @@ data class DataUserRegister(
     val phone:String?=null,
     val userImage: String ?= null,
     val address: String ?= null,
-    val state: String ?= null,
+    val livingType: String ?= null,
+    val livingNo: String ?= null,
+    val lat: String ?= null,
+    val lon: String ?= null,
 )

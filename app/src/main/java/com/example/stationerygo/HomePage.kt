@@ -21,10 +21,14 @@ import com.example.stationerygo.StorePage.StoreList
 import com.example.stationerygo.databinding.FragmentHomePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 
 private lateinit var binding: FragmentHomePageBinding
 private lateinit var bottomNav : BottomNavigationView
 private lateinit var auth : FirebaseAuth
+private lateinit var database : DatabaseReference
 
 class HomePage : Fragment() {
 
@@ -38,6 +42,8 @@ class HomePage : Fragment() {
             container,
             false
         )
+
+        auth = Firebase.auth
 
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -101,8 +107,31 @@ class HomePage : Fragment() {
 
 
 
+        checkUserAddress()
 
         return binding.root
+    }
+
+    private fun checkUserAddress(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Users")
+        val checkUser = database.child(uid)
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.child("address").value.toString() == "None")
+                {
+                    findNavController().navigate(R.id.action_homePage_to_registerAddressPage)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        checkUser.addValueEventListener(postListener)
     }
 
     private fun requestLocationPermission() {

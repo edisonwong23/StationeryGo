@@ -35,6 +35,12 @@ class StoreList : Fragment() {
         )
         recyclerview()
 
+        binding.goToSearchBtn.setOnClickListener {
+//            findNavController().navigate(R.id.action_homePage_to_mapViewTesting)
+            findNavController().navigate(R.id.action_homePage_to_registerAddressPage)
+//              findNavController().navigate(R.id.action_homePage_to_userAddressPage)
+        }
+
 
         return binding.root
     }

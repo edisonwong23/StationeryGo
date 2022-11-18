@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.google.android.gms.maps.SupportMapFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
             )
             .build()
         NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)
+
+
 
     }
 
