@@ -119,7 +119,7 @@ class HomePage : Fragment() {
 
         val postListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.child("address").value.toString() == "None")
+                if(snapshot.child("address").value.toString() == "None" || !snapshot.child("address").exists())
                 {
                     findNavController().navigate(R.id.action_homePage_to_registerAddressPage)
                 }

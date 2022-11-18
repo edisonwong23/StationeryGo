@@ -41,8 +41,7 @@ import com.google.android.libraries.places.api.model.RectangularBounds
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.coroutines.async
 import java.lang.Exception
 import java.util.*
@@ -53,7 +52,7 @@ private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 private var currentLat: Double ?= null
 private var currentLon: Double ?= null
-private var address: String ?= null
+private var currentaddress: String ?= null
 
 class RegisterAddressPage : Fragment() {
 
@@ -73,6 +72,8 @@ class RegisterAddressPage : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.userAddressEdittextField.isFocusable = false
+
+        loadAddressFromDatabase()
 
         val stationeryBind = binding.stateEdittextField
         var stationery = resources.getStringArray(R.array.LivingType)
@@ -106,6 +107,52 @@ class RegisterAddressPage : Fragment() {
         return binding.root
     }
 
+    private fun loadAddressFromDatabase(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Users")
+        var addressRef = database.child(uid)
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.child("address").exists()){
+                    var getAddress = snapshot.child("address").value.toString()
+                    var getLat = snapshot.child("lat").value.toString()
+                    var getLon = snapshot.child("lon").value.toString()
+                    var getType = snapshot.child("livingType").value.toString()
+                    var getNo = snapshot.child("livingNo").value.toString()
+
+                    binding.userAddressEdittextField.setText(getAddress)
+                    binding.stateEdittextField.setText(getType,false)
+                    binding.phoneNumberEditTextField.setText(getNo)
+
+                    mapView!!.getMapAsync{
+                        map = it
+                        it.uiSettings.isMyLocationButtonEnabled = false
+
+                        try {
+                            MapsInitializer.initialize(requireActivity())
+                        }catch (e: GooglePlayServicesNotAvailableException){
+                            Log.d("Maps", "Error: " + e.toString())
+                        }
+
+                        it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat.toDouble(),getLon.toDouble()),12.0f))
+
+                        it.addMarker(
+                            MarkerOptions().position(LatLng(getLat.toDouble(),getLon.toDouble()))
+                        )
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        addressRef.addListenerForSingleValueEvent(postListener)
+    }
+
     private fun locationSearch(){
         val autoCompleteSearch: AutocompleteSupportFragment = childFragmentManager?.findFragmentById(R.id.usergoogleMapSearchBar) as AutocompleteSupportFragment
 
@@ -130,19 +177,20 @@ class RegisterAddressPage : Fragment() {
             }
 
             override fun onPlaceSelected(place: Place) {
-                var address = place.address.toString()
+
                 var LatLng = place.latLng.toString()
 
                 currentLat = place.latLng.latitude
                 currentLon = place.latLng.longitude
-                address = place.address.toString()
+                currentaddress = place.address.toString()
 
                 var placeLat = place.latLng.latitude
                 var placeLon = place.latLng.longitude
                 var currentAddress = place.address.toString()
+
                 binding.userAddressEdittextField.setText(currentAddress)
 
-                Log.d("Maps", "Current Location: $address \n LatLnh: $LatLng")
+                Log.d("Maps", "Current Location: $currentAddress \n LatLnh: $LatLng")
 
                 mapView!!.getMapAsync{
                     map = it
@@ -187,11 +235,11 @@ class RegisterAddressPage : Fragment() {
     }
 
     private fun updateAddress(){
-        var checkAddress = binding.userAddressTextField?.editText.toString()
-        var checkLivingNo = binding.phoneNumberTextfield?.editText.toString()
-        var checkLivingType = binding.stateTextField?.editText.toString()
-        var newLivingNo = ""
-        var newLivingType = ""
+        var checkAddress = binding.userAddressTextField.editText?.text.toString()
+        var checkLivingNo = binding.phoneNumberTextfield.editText?.text.toString()
+        var checkLivingType = binding.stateTextField.editText?.text.toString()
+        var newLivingNo = "None"
+        var newLivingType = "None"
 
         var errorChecker = false
 
@@ -203,12 +251,12 @@ class RegisterAddressPage : Fragment() {
             binding.userAddressTextField.isErrorEnabled = false
         }
 
-        if(checkLivingNo.isEmpty()){
-            newLivingNo = "None"
+        if(!checkLivingNo.isEmpty()){
+            newLivingNo = checkLivingNo
         }
 
-        if(checkLivingType.isEmpty()){
-            newLivingType = "None"
+        if(!checkLivingType.isEmpty()){
+            newLivingType = checkLivingType
         }
 
         if(errorChecker){
@@ -219,9 +267,9 @@ class RegisterAddressPage : Fragment() {
             database = FirebaseDatabase.getInstance().getReference("Users")
             val addressRef = database.child(uid)
 
-            addressRef.child("address").setValue(address).addOnCompleteListener{
-                addressRef.child("lat").setValue(currentLat).addOnCompleteListener{
-                    addressRef.child("lon").setValue(currentLon).addOnCompleteListener{
+            addressRef.child("address").setValue(currentaddress).addOnCompleteListener{
+                addressRef.child("lat").setValue(currentLat.toString()).addOnCompleteListener{
+                    addressRef.child("lon").setValue(currentLon.toString()).addOnCompleteListener{
                         addressRef.child("livingNo").setValue(newLivingNo).addOnCompleteListener{
                             addressRef.child("livingType").setValue(newLivingType).addOnCompleteListener{
                                 findNavController().navigateUp()

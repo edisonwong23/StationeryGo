@@ -33,8 +33,8 @@ private lateinit var auth: FirebaseAuth
 private val pickImage = 100
 private var imageUri: Uri? = null
 lateinit var imageView: ImageView
-private var startingTime = ""
-private var endingTime = ""
+private var startingTime = "0:00"
+private var endingTime = "0:00"
 private var checkStartingTime : Date? = null
 private var checkEndingTime : Date? = null
 private var allStoreNames: MutableList<String> = ArrayList<String>()
@@ -140,6 +140,13 @@ class CreateStorePage : Fragment() {
             binding.storeDescriptionTextField.isErrorEnabled = false
         }
 
+
+
+        if(startingTime.isEmpty() || endingTime.isEmpty()){
+            binding.operatingTimeTextField.error = "Invalid Operating Time"
+            errorChecker = true
+        }
+
         var checkStartingTime = SimpleDateFormat("HH:mm").parse(startingTime)
         var checkEndingTime = SimpleDateFormat("HH:mm").parse(endingTime)
 
@@ -148,11 +155,7 @@ class CreateStorePage : Fragment() {
         var checkHour = moreThenAHour / (1000*60*60) % 24
 //        Log.d("Update", checkHour.toString())
 
-        if(startingTime.isEmpty() || endingTime.isEmpty()){
-            binding.operatingTimeTextField.error = "Invalid Operating Time"
-            errorChecker = true
-        }
-        else if(endingTime < startingTime){
+        if(endingTime < startingTime){
             binding.operatingTimeTextField.error = "Please Choose a Valid Operating Time"
             errorChecker = true
         }
@@ -160,7 +163,8 @@ class CreateStorePage : Fragment() {
             binding.operatingTimeTextField.error = "Operating Time Must be 1 hour apart!"
             errorChecker = true
 
-        }        else{
+        }
+        else{
             binding.operatingTimeTextField.isErrorEnabled = false
         }
 

@@ -10,7 +10,7 @@ data class CreateStoreData(
     val email:String ?= null,
     val phone:String ?= null,
     val address:String ?= null,
-    val state:String ?= null,
-    val postal:String ?= null,
+    val lat:String ?= null,
+    val lon:String ?= null,
     val storeImage: String ?= null,
 )

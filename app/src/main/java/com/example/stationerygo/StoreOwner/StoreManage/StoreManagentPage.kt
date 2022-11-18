@@ -120,91 +120,6 @@ class StoreManagentPage : Fragment() {
             addressValidation()
         }
 
-        binding.autoFillAddressBtn.setOnClickListener {
-            Log.d("Store","Location Button Pressed")
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                AlertDialog.Builder(context)
-                    .setTitle("Location Permission Needed")
-                    .setMessage("This app needs the Location permission, please accept to use location functionality")
-                    .setPositiveButton(
-                        "OK"
-                    ) { _, _ ->
-                        //Prompt the user once explanation has been shown
-                        requestLocationPermission()
-                    }
-                    .create()
-                    .show()
-
-            }
-            fusedLocationClient.getCurrentLocation(
-                LocationRequest.PRIORITY_HIGH_ACCURACY,
-                object : CancellationToken() {
-                    override fun onCanceledRequested(p0: OnTokenCanceledListener) =
-                        CancellationTokenSource().token
-
-                    override fun isCancellationRequested() = false
-                }
-            )
-                .addOnSuccessListener { location: Location? ->
-                    Log.d("Store","Location Starting")
-                    val progress = ProgressDialog(activity)
-                    progress.setTitle("Getting Current Location")
-                    val lat = location?.latitude
-                    val lon = location?.longitude
-                    Log.d("Store","Lat: $lat")
-                    Log.d("Store","Lon: $lon")
-                    progress.show()
-                    if (location == null)
-                    {
-                        Toast.makeText(context, "Cannot get location.", Toast.LENGTH_SHORT).show()
-                        Log.d("Store", "No Location Found")
-                        progress.hide()
-                    }
-                    else {
-                        try {
-                            lifecycleScope.async{
-                                var geocoder : Geocoder
-                                var addresses: MutableList<Address>
-                                geocoder = Geocoder(requireContext(), Locale.getDefault())
-                                val lat = location.latitude
-                                val lon = location.longitude
-                                addresses = geocoder.getFromLocation(lat,lon,1) as MutableList<Address>
-
-                                var city = addresses.get(0).locality
-                                var state = addresses.get(0).adminArea
-                                var postalCode = addresses.get(0).postalCode
-                                var address = addresses.get(0).getAddressLine(0)
-//
-//                                Log.d("Store", "Address: $address")
-//                                Log.d("Store", "City: $city")
-//                                Log.d("Store", "State: $state")
-//                                Log.d("Store", "Postal Code: $postalCode")
-
-                               binding.addressEdittextField.setText("$address")
-                                binding.stateEdittextField.setText("$state")
-                                binding.postalCodeEdittextField.setText("$postalCode")
-                                progress.hide()
-                            }
-                        }
-                        catch (Ex: Exception){
-                            progress.hide()
-                            Toast.makeText(context,"Encounter error getting address",Toast.LENGTH_SHORT).show()
-                            Log.d("Store","$Ex")
-                        }
-                    }
-                }
-                .addOnFailureListener{
-                    Log.d("Store",it.toString())
-                }
-        }
-
         imageView = binding.updateStoreDetailsDetailsImg
         binding.updateStoreDetailsDetailsImg.setOnClickListener{
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -649,18 +564,5 @@ class StoreManagentPage : Fragment() {
         }
     }
 
-    private fun requestLocationPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            ),
-            MY_PERMISSIONS_REQUEST_LOCATION
-        )
-    }
 
-    companion object {
-        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
-//        private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
-    }
 }

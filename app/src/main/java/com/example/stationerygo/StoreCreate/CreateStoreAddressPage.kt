@@ -1,12 +1,7 @@
 package com.example.stationerygo.StoreCreate
 
-import android.Manifest
-import android.app.AlertDialog
+
 import android.app.ProgressDialog
-import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,13 +17,26 @@ import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.LoginPage.imagePathFromFirebase
 import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentCreateStoreAddressPageBinding
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
+
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.OnTokenCanceledListener
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.RectangularBounds
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -44,8 +52,14 @@ private lateinit var binding : FragmentCreateStoreAddressPageBinding
 private lateinit var fusedLocationClient: FusedLocationProviderClient
 private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
+private var currentLat : Double ?= null
+private var currentLon : Double ?= null
+private var currentShopAddress : String ?= null
 
 class CreateStoreAddressPage : Fragment() {
+
+    var mapView: MapView? = null
+    var map: GoogleMap? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,105 +71,28 @@ class CreateStoreAddressPage : Fragment() {
             false
         )
 
-        val stationeryBind = binding.stateEdittextField
-        var stationery = resources.getStringArray(R.array.States)
-        stationery = stationery.sortedArray()
-        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,stationery)
-        stationeryBind.setAdapter(adapter)
+       binding.shopAddressEdittextField.isFocusable = false
+
+        mapView = binding.shopGoogleMapView
+        mapView!!.onCreate(savedInstanceState)
+
+        mapView!!.getMapAsync{
+            map = it
+            it.uiSettings.isMyLocationButtonEnabled = false
+
+            try {
+                MapsInitializer.initialize(requireActivity())
+            }catch (e: GooglePlayServicesNotAvailableException){
+                Log.d("Maps", "Error: " + e.toString())
+            }
+
+            it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(3.140853,101.693207),12.0f))
+        }
+
+        locationSearch()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        binding.autoFillAddressBtn.setOnClickListener {
-            Log.d("Store","Location Button Pressed")
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                AlertDialog.Builder(context)
-                    .setTitle("Location Permission Needed")
-                    .setMessage("This app needs the Location permission, please accept to use location functionality")
-                    .setPositiveButton(
-                        "OK"
-                    ) { _, _ ->
-                        //Prompt the user once explanation has been shown
-                        requestLocationPermission()
-                    }
-                    .create()
-                    .show()
-
-            }
-            fusedLocationClient.getCurrentLocation(
-                LocationRequest.PRIORITY_HIGH_ACCURACY,
-                object : CancellationToken() {
-                    override fun onCanceledRequested(p0: OnTokenCanceledListener) =
-                        CancellationTokenSource().token
-
-                    override fun isCancellationRequested() = false
-                }
-            )
-                .addOnSuccessListener { location: Location? ->
-                    Log.d("Store","Location Starting")
-                    val progress = ProgressDialog(activity)
-                    progress.setTitle("Getting Current Location")
-                    val lat = location?.latitude
-                    val lon = location?.longitude
-                    Log.d("Store","Lat: $lat")
-                    Log.d("Store","Lon: $lon")
-                    progress.show()
-                    if (location == null)
-                    {
-                        Toast.makeText(context, "Cannot get location.", Toast.LENGTH_SHORT).show()
-                        Log.d("Store", "No Location Found")
-                        progress.hide()
-                    }
-                    else {
-                        try {
-                            lifecycleScope.async{
-                                var geocoder : Geocoder
-                                var addresses: MutableList<Address>
-                                geocoder = Geocoder(requireContext(), Locale.getDefault())
-                                val lat = location.latitude
-                                val lon = location.longitude
-                                addresses = geocoder.getFromLocation(lat,lon,1) as MutableList<Address>
-
-                                var city = addresses.get(0).locality
-                                var state = addresses.get(0).adminArea
-                                var postalCode = addresses.get(0).postalCode
-                                var address = addresses.get(0).getAddressLine(0)
-//
-//                                Log.d("Store", "Address: $address")
-//                                Log.d("Store", "City: $city")
-//                                Log.d("Store", "State: $state")
-//                                Log.d("Store", "Postal Code: $postalCode")
-
-                                binding.addressEdittextField.setText("$address")
-                                binding.stateEdittextField.setText("$state",false)
-                                binding.postalCodeEdittextField.setText("$postalCode")
-                                progress.hide()
-                            }
-                        }
-                        catch (Ex: Exception){
-                            progress.hide()
-                            Toast.makeText(context,"Encounter error getting address",Toast.LENGTH_SHORT).show()
-                            Log.d("Store","$Ex")
-                        }
-                    }
-                }
-                .addOnFailureListener{
-                    Log.d("Store",it.toString())
-                }
-        }
 
         binding.createStoreBtn.setOnClickListener{
             addressValidation()
@@ -164,15 +101,7 @@ class CreateStoreAddressPage : Fragment() {
         return binding.root
     }
 
-    private fun requestLocationPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            ),
-            MY_PERMISSIONS_REQUEST_LOCATION
-        )
-    }
+
 
     private fun insertToFileStorage(){
         val data = arguments?.getString("storeImage")?.toUri()
@@ -223,11 +152,20 @@ class CreateStoreAddressPage : Fragment() {
 //        val operatingDay = "None"
         val email = arguments?.getString("email").toString()
         val phone = arguments?.getString("phone").toString()
-        val address = binding.addressTextField.editText?.text.toString()
-        val state = binding.stateTextField.editText?.text.toString()
-        val postal = binding.postalCodeTextField.editText?.text.toString()
 
-        val user = CreateStoreData(storeID,storeName,description,timeStart,timeEnd,operatingDay,email,phone,address,state,postal,imagePathFromFirebase)
+        val user = CreateStoreData(
+            storeID,
+            storeName,
+            description,
+            timeStart,
+            timeEnd,
+            operatingDay,
+            email,
+            phone,
+            currentShopAddress,
+            currentLat.toString(),
+            currentLon.toString()
+            ,imagePathFromFirebase)
 
         database.child(uid).setValue(user)
             .addOnCompleteListener {
@@ -243,34 +181,8 @@ class CreateStoreAddressPage : Fragment() {
     }
 
     private fun addressValidation(){
-        var address = binding.addressTextField.editText?.text.toString()
-        var state = binding.stateTextField.editText?.text.toString()
-        var postal = binding.postalCodeTextField.editText?.text.toString()
+        var address = binding.shopAddressTextField.editText?.text.toString()
         var errorChecker = false
-
-        if(address.isEmpty()){
-            binding.addressTextField.error = "Required*"
-            errorChecker = true
-        }
-        else if(address.count() > 150){
-            binding.addressTextField.error = "Cannot be more then 150"
-            errorChecker = true
-        }
-        else{
-            binding.addressTextField.isErrorEnabled = false
-        }
-
-        if(postal.isEmpty()){
-            binding.postalCodeTextField.error = "Required*"
-            errorChecker = true
-        }
-        else if(postal.count() > 5){
-            binding.postalCodeTextField.error = "Cannot be more then 5"
-            errorChecker = true
-        }
-        else{
-            binding.postalCodeTextField.isErrorEnabled = false
-        }
 
         if(errorChecker){
             Toast.makeText(context,"Check Input Boxes",Toast.LENGTH_SHORT).show()
@@ -279,10 +191,84 @@ class CreateStoreAddressPage : Fragment() {
             insertToFileStorage()
         }
     }
+    private fun locationSearch(){
+        val autoCompleteSearch: AutocompleteSupportFragment = childFragmentManager?.findFragmentById(R.id.shopGoogleMapSearchBar) as AutocompleteSupportFragment
 
-    companion object {
-        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
-//        private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
+        if (!Places.isInitialized()) {
+            Places.initialize(context, "AIzaSyCVQbIWF78O7Mt3K7_Os1aqIurOxzSFpVM" )
+        }
+        val placesClient = Places.createClient(context)
+
+        autoCompleteSearch.setLocationBias(
+            RectangularBounds.newInstance(
+                LatLng(3.140853,101.693207),LatLng(3.140853,101.693207)
+            ))
+        autoCompleteSearch.setCountries("MY")
+
+        val token : AutocompleteSessionToken = AutocompleteSessionToken.newInstance()
+
+        autoCompleteSearch.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.ADDRESS))
+
+        autoCompleteSearch.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onError(status: Status) {
+                Log.d("Maps", status.toString())
+            }
+
+            override fun onPlaceSelected(place: Place) {
+
+                var LatLng = place.latLng.toString()
+                var placeLat = place.latLng.latitude
+                var placeLon = place.latLng.longitude
+                var currentAddress = place.address.toString()
+
+                currentLat = placeLat
+                currentLon = placeLon
+                currentShopAddress = currentAddress
+
+               binding.shopAddressEdittextField.setText(currentAddress)
+
+                Log.d("Maps", "Current Location: $currentAddress \n LatLnh: $LatLng")
+
+                mapView!!.getMapAsync{
+                    map = it
+                    it.uiSettings.isMyLocationButtonEnabled = false
+
+                    try {
+                        MapsInitializer.initialize(requireActivity())
+                    }catch (e: GooglePlayServicesNotAvailableException){
+                        Log.d("Maps",e.toString())
+                    }
+
+                    it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(placeLat,placeLon),16.0f))
+
+                    it.addMarker(
+                        MarkerOptions().position(LatLng(placeLat,placeLon))
+                    )
+                }
+            }
+
+        })
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView?.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView?.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView?.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView?.onLowMemory()
     }
 
 }

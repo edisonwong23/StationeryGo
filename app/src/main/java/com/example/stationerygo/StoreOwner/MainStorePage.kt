@@ -48,6 +48,10 @@ class MainStorePage : Fragment() {
 //            Log.d("Stores","User UID: " +uid)
         }
 
+        binding.extraCard.setOnClickListener{
+            findNavController().navigate(R.id.action_mainStorePage_to_storeAddressUpdate)
+        }
+
         binding.manageStoreCard.setOnClickListener{
             findNavController().navigate(R.id.action_mainStorePage_to_storeManagentPage)
         }

@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".StoreCreate.CreateStoreAddressPage">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".StoreOwner.StoreAddress.StoreAddressUpdate">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <fragment
-            android:id="@+id/shopGoogleMapSearchBar"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:id="@+id/shopSearchGoogleMapUpdate"
             android:layout_width="0dp"
             android:layout_height="50dp"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.gms.maps.MapView
-            android:id="@+id/shopGoogleMapView"
+            android:id="@+id/shopGoogleMapViewUpdate"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/cardView9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shopGoogleMapSearchBar" />
+            app:layout_constraintTop_toBottomOf="@+id/shopSearchGoogleMapUpdate" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView9"
@@ -78,7 +79,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
