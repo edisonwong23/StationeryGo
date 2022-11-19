@@ -36,7 +36,7 @@ class StoreProductAdapter(private val mList: List<StoreProductData>,
         // sets the text to the textview from our itemHolder class
         holder.title.text = ItemsViewModel.productName
         holder.price.text = "RM " + ItemsViewModel.productPrice
-        holder.qty.text = "Stock: " +ItemsViewModel.productQty
+        holder.qty.text = ItemsViewModel.productQty
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 

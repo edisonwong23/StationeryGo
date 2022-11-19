@@ -1,6 +1,8 @@
 package com.example.stationerygo.StoreOwner
 
 import android.app.ProgressDialog
+import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.*
 
 private lateinit var binding : FragmentMainStorePageBinding
 private lateinit var database: DatabaseReference
@@ -94,7 +98,86 @@ class MainStorePage : Fragment() {
                     progress.hide()
                 }
                 else{
+                    var storeName = dataSnapshot.child("storeName").value.toString()
+                    var openTime = dataSnapshot.child("startTime").value.toString()
+                    var endTime = dataSnapshot.child("endTime").value.toString()
+                    var openDays = dataSnapshot.child("operatingDay").value.toString()
+
+                    var fixOpenDays = openDays.replace(","," , ")
+
+
+
+                    binding.mainStoreStoreNameTxt.text = storeName
+                    binding.mainStoreOpenTImeTxt.text = openTime + " - " + endTime
+                    binding.mainStoreOpenDaysTxt.text = fixOpenDays
 //                    findNavController().navigate(R.id.action_homePage_to_mainStorePage)
+
+                    val sdf = SimpleDateFormat("HH:mm")
+                    val currentDate = sdf.format(Date())
+                    val checkCurrentTime = SimpleDateFormat("HH:mm").parse(currentDate)
+                    val checkOpeningTime = SimpleDateFormat("HH:mm").parse(openTime)
+                    val checkEndingTime = SimpleDateFormat("HH:mm").parse(endTime)
+                    var storeStatus = ""
+
+                    val dateFormat = SimpleDateFormat("dd-MM=yyyy")
+                    val currentDay = dateFormat.format(Date())
+                    val checkCurretDay = SimpleDateFormat("dd-MM=yyyy").parse(currentDay)
+
+                    val cal = Calendar.getInstance()
+                    cal.time = checkCurretDay
+
+                    var shopOpenDay = false
+                    if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+                        if(openDays.contains("Sunday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY){
+                        if(openDays.contains("Monday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY){
+                        if(openDays.contains("Tuesday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY){
+                        if(openDays.contains("Wednesday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY){
+                        if(openDays.contains("Thursday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY){
+                        if(openDays.contains("Friday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
+                        if(openDays.contains("Saturday"))
+                            shopOpenDay = true
+                    }
+                    else{
+                        Log.d("Shop","Currently Close")
+                    }
+
+                    if(shopOpenDay == true){
+                        if(checkCurrentTime.after(checkOpeningTime) && checkCurrentTime.before(checkEndingTime)){
+                            storeStatus = "Open"
+                        }
+                        else
+                            storeStatus = "Close"
+                    }
+                    else
+                        storeStatus = "Close"
+
+                    binding.mainStoreStatusTxt.text = storeStatus
+
+                    if(storeStatus == "Open"){
+                        binding.mainStoreStatusTxt.setTextColor(Color.parseColor("#689f38"))
+                    }
+                    else{
+                        binding.mainStoreStatusTxt.setTextColor(Color.parseColor("#d50000"))
+                    }
+
                     progress.hide()
                 }
 

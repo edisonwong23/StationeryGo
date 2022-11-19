@@ -101,18 +101,26 @@ class ItemDetailPage : Fragment() {
                 var itemImage = snapshot.child("productImage").getValue().toString()
                 var itemQty = snapshot.child("productQty").getValue().toString()
                 var itemPrice = snapshot.child("productPrice").getValue().toString()
+                var desc = snapshot.child("productDescription").value.toString()
                 productImage = itemImage
                 productName = itemName
                 productQty = itemQty
                 productPrice = itemPrice
 
+                binding.itemPrixeTxx.text = "RM " + productPrice + " / Unit"
+                binding.itemDescTxt.text = desc
+
                 binding.itemNameTxt.text = itemName
                 Picasso.get()
                     .load(itemImage)
                     .into(binding.imageView2)
-                binding.itemQTYTxt.text = itemQty
+
+                binding.itemQTYTxt.text = "In Stock [" + itemQty + "]"
+
                 binding.itemPriceTxt.text = "RM " + itemPrice
-                Log.d("Items",itemName)
+
+//                Log.d("Items",itemName)
+
                 checkIfExistInCart()
             }
 

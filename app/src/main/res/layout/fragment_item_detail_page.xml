@@ -19,15 +19,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/itemName_txt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
         <TextView
             android:id="@+id/itemName_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
             android:text="Item Name"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <TextView
+            android:id="@+id/itemPrixe_txx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Price"
+            android:textColor="#689f38"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="@+id/itemName_txt"
+            app:layout_constraintTop_toBottomOf="@+id/itemName_txt" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            app:layout_constraintBottom_toTopOf="@+id/itemDesc_txt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemQTY_txt" />
 
         <TextView
             android:id="@+id/itemQTY_txt"
@@ -35,9 +65,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Stock: "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemName_txt" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="@+id/itemPrixe_txx"
+            app:layout_constraintTop_toBottomOf="@+id/itemPrixe_txx" />
 
         <Button
             android:id="@+id/addToCart_btn"
@@ -78,6 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toStartOf="@+id/itemAddQuantity_btn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/itemMinusQuantity_btn"
@@ -87,9 +118,11 @@
             android:id="@+id/itemDesc_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
             android:text="Description"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemQTY_txt" />
 
@@ -99,8 +132,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:text="0.00"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintBottom_toTopOf="@+id/itemCurrentQuantity_txt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
