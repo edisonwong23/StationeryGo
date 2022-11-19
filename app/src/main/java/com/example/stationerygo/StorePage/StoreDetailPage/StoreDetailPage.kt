@@ -189,6 +189,7 @@ class StoreDetailPage : Fragment() {
                     binding.productTypeSpinner.visibility = View.INVISIBLE
                     binding.clearProductTypeSearchBtn.visibility = View.INVISIBLE
                     binding.imageView4.visibility = View.VISIBLE
+                    binding.navigateToCartFAB.visibility = View.GONE
                 }
                 else if(dataName == ""){
                     progress.hide()

@@ -23,8 +23,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView5"
+            style="@style/CardOutLine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -61,10 +62,11 @@
                     app:layout_constraintStart_toStartOf="@+id/storeDetailsDetailsDesc"
                     app:layout_constraintTop_toBottomOf="@+id/storeDetailsDetailsDesc" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView6"
+            style="@style/CardOutLine"
             android:layout_width="0dp"
             android:layout_height="125dp"
             android:layout_marginStart="8dp"
@@ -101,10 +103,11 @@
                     app:layout_constraintStart_toStartOf="@+id/storeDetailsDetailsOperatingTime"
                     app:layout_constraintTop_toBottomOf="@+id/storeDetailsDetailsOperatingTime" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView7"
+            style="@style/CardOutLine"
             android:layout_width="0dp"
             android:layout_height="125dp"
             android:layout_marginEnd="8dp"
@@ -143,10 +146,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/storeDetailsDetailsOperatingDay" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView8"
+            style="@style/CardOutLine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -210,11 +214,12 @@
                     app:layout_constraintStart_toStartOf="@+id/storeDetailsDetailsContactEmail_txttxt"
                     app:layout_constraintTop_toTopOf="@+id/storeDetailsDetailsContactPhone_txt" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/CardOutLine"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -254,7 +259,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/storeDetailsDetailsAddress" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
