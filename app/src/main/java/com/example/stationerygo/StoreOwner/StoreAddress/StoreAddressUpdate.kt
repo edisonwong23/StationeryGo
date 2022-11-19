@@ -1,11 +1,15 @@
 package com.example.stationerygo.StoreOwner.StoreAddress
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentRegisterAddressPageBinding
 import com.example.stationerygo.databinding.FragmentStoreAddressUpdateBinding
@@ -31,9 +35,9 @@ import java.util.*
 private lateinit var binding: FragmentStoreAddressUpdateBinding
 private lateinit var auth: FirebaseAuth
 private lateinit var database : DatabaseReference
-private var currentLat: Double ?= null
-private var currentLon: Double ?= null
-private var currentaddress: String ?= null
+private var updateLat: Double ?= null
+private var updateLon: Double ?= null
+private var updateaddress: String ?= null
 
 class StoreAddressUpdate : Fragment() {
 
@@ -73,7 +77,36 @@ class StoreAddressUpdate : Fragment() {
             it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(3.140853,101.693207),12.0f))
         }
 
+        binding.createStoreBtn.setOnClickListener {
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+            alartDialog.apply {
+                setTitle("Update Store Location?")
+                setMessage("Confirm New Store Location?")
+                setPositiveButton("Confirm"){ _: DialogInterface?, _: Int ->
+                    updateStoreLocation()
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
+
+        }
+
         return binding.root
+    }
+
+    private fun updateStoreLocation(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+        val updateRef = database.child(uid)
+
+        updateRef.child("address").setValue(updateaddress).addOnCompleteListener{
+            updateRef.child("lat").setValue(updateLat.toString()).addOnCompleteListener{
+                updateRef.child("lon").setValue(updateLon.toString()).addOnCompleteListener {
+                    Toast.makeText(context,"Location Updated!",Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
+            }
+        }
     }
 
     private fun getShopAddress(){
@@ -85,7 +118,11 @@ class StoreAddressUpdate : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var address = snapshot.child("address").value.toString()
                 var lat = snapshot.child("lat").value.toString()
-                var lan = snapshot.child("lon").value.toString()
+                var lon = snapshot.child("lon").value.toString()
+
+                updateLat = lat.toDouble()
+                updateLon = lon.toDouble()
+                updateaddress = address
 
                 binding.shopAddressEdittextField.setText(address)
 
@@ -99,10 +136,10 @@ class StoreAddressUpdate : Fragment() {
                         Log.d("Maps",e.toString())
                     }
 
-                    it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lat.toDouble(),lan.toDouble()),16.0f))
+                    it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lat.toDouble(),lon.toDouble()),16.0f))
 
                     it.addMarker(
-                        MarkerOptions().position(LatLng(lat.toDouble(),lan.toDouble()))
+                        MarkerOptions().position(LatLng(lat.toDouble(),lon.toDouble()))
                     )
                 }
 
@@ -148,6 +185,10 @@ class StoreAddressUpdate : Fragment() {
                 var placeLat = place.latLng.latitude
                 var placeLon = place.latLng.longitude
                 var currentAddress = place.address.toString()
+
+                updateLat = placeLat
+                updateLon = placeLon
+                updateaddress = currentAddress
 
                 binding.shopAddressEdittextField.setText(currentAddress)
 

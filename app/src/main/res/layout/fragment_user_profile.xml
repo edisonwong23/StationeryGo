@@ -41,7 +41,7 @@
                    android:text="Update Profile"
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintTop_toBottomOf="@+id/shop_btn" />
+                   app:layout_constraintTop_toBottomOf="@+id/userChangeLocation_btn" />
 
                <Button
                    android:id="@+id/shop_btn"
@@ -56,6 +56,16 @@
                    app:layout_constraintHorizontal_bias="0.0"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/displayUserName" />
+
+               <Button
+                   android:id="@+id/userChangeLocation_btn"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="8dp"
+                   android:text="Update Location"
+                   app:layout_constraintEnd_toEndOf="@+id/shop_btn"
+                   app:layout_constraintStart_toStartOf="@+id/shop_btn"
+                   app:layout_constraintTop_toBottomOf="@+id/shop_btn" />
 
                <Button
                    android:id="@+id/changePassword_btn"
@@ -104,6 +114,7 @@
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/changePassword_btn" />
+
            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

@@ -89,12 +89,23 @@ class ProductLists : Fragment() {
                     productData.add(ProductListData(storeID,productKey,productImage,productName,productQty,productPrice))
                 }
 
-                val recyclerView = binding.recyclerviewProducts
-                recyclerView.layoutManager = LinearLayoutManager(context)
+                if(productData.count() >= 1){
+                    binding.imageView6.visibility = View.GONE
+                    binding.recyclerviewProducts.visibility = View.VISIBLE
 
-                recyclerView.adapter = ProductListAdapter(productData){ ProductListData,position:Int ->
+                    val recyclerView = binding.recyclerviewProducts
+                    recyclerView.layoutManager = LinearLayoutManager(context)
 
+                    recyclerView.adapter = ProductListAdapter(productData){ ProductListData,position:Int ->
+
+                    }
                 }
+                else{
+                    binding.imageView6.visibility = View.VISIBLE
+                    binding.recyclerviewProducts.visibility = View.GONE
+                }
+
+
 
             }
 

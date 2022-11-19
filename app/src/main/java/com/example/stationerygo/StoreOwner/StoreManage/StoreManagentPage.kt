@@ -73,8 +73,8 @@ private var dataToFirebase: Intent? = null
 private var oldImagePath: String ?= null
 private var imagePathFromFirebase: String ?= null
 private var oldaddress: String ?= null
-private var oldState: String ?= null
-private var oldpostal: String ?= null
+private var oldLat: String ?= null
+private var oldLon: String ?= null
 private var storeID: String ?= null
 
 class StoreManagentPage : Fragment() {
@@ -159,8 +159,8 @@ class StoreManagentPage : Fragment() {
                 var email = snapshot.child("email").value.toString()
                 var phone = snapshot.child("phone").value.toString()
                 var address = snapshot.child("address").value.toString()
-                var state = snapshot.child("state").value.toString()
-                var postal = snapshot.child("postal").value.toString()
+                var lat = snapshot.child("lat").value.toString()
+                var lon = snapshot.child("lon").value.toString()
                 var currentStoreID = snapshot.child("storeID").value.toString()
 
                 oldStoreName = storeName
@@ -170,8 +170,8 @@ class StoreManagentPage : Fragment() {
                 oldEmail = email
                 oldPhone = phone
                 oldaddress = address
-                oldState = state
-                oldpostal = postal
+                oldLat = lat
+                oldLon = lon
                 storeID = currentStoreID
 
                 Log.d("Update", "This are Operating Days: $operatingDay")
@@ -214,9 +214,9 @@ class StoreManagentPage : Fragment() {
                 binding.storeEmailEdittextField.setText(email)
                 binding.storePhoneEdittextField.setText(phone)
 
-                binding.addressEdittextField.setText(address)
-                binding.stateEdittextField.setText(state,false)
-                binding.postalCodeEdittextField.setText(postal)
+//                binding.addressEdittextField.setText(address)
+//                binding.stateEdittextField.setText(state,false)
+//                binding.postalCodeEdittextField.setText(postal)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -408,7 +408,7 @@ class StoreManagentPage : Fragment() {
 
         var updateStoreDetailsDetails = CreateStoreData(
         storeID,storeName,description, startTime,endTime,operatingDay,email,phone, oldaddress,
-            oldState, oldpostal,storeImage
+            oldLat, oldLon,storeImage
         )
 
         dataRef.setValue(updateStoreDetailsDetails).addOnCompleteListener{

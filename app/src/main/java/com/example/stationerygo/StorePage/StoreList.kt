@@ -1,6 +1,8 @@
 package com.example.stationerygo.StorePage
 
 import android.app.ProgressDialog
+import android.icu.util.LocaleData
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,11 +18,13 @@ import com.example.stationerygo.databinding.FragmentStoreListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
 private lateinit var binding: FragmentStoreListBinding
 private lateinit var database: DatabaseReference
+private lateinit var auth: FirebaseAuth
 
 class StoreList : Fragment() {
 
@@ -33,7 +37,12 @@ class StoreList : Fragment() {
             container,
             false
         )
-        recyclerview()
+
+        auth = FirebaseAuth.getInstance()
+
+        getUserLatLon()
+
+
 
         binding.goToSearchBtn.setOnClickListener {
 //            findNavController().navigate(R.id.action_homePage_to_mapViewTesting)
@@ -45,7 +54,29 @@ class StoreList : Fragment() {
         return binding.root
     }
 
-    private fun recyclerview(){
+    private fun getUserLatLon(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Users")
+        var getUserRef = database.child(uid)
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var lat = snapshot.child("lat").value.toString()
+                var lon = snapshot.child("lon").value.toString()
+
+                recyclerview(lat.toDouble(),lon.toDouble())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        getUserRef.addListenerForSingleValueEvent(postListener)
+    }
+
+    private fun recyclerview(userLat:Double, userLon:Double){
         val progress = ProgressDialog(activity)
         progress.setTitle("Loading Stores, Please wait")
         progress.show()
@@ -60,9 +91,11 @@ class StoreList : Fragment() {
                     var position = i++
                     var storeImage = it.child("storeImage").getValue().toString()
                     var storeName = it.child("storeName").getValue().toString()
-                    var city = it.child("state").getValue().toString()
                     var startTime = it.child("startTime").getValue().toString()
                     var endTime = it.child("endTime").getValue().toString()
+                    var operatingDays = it.child("operatingDay").getValue().toString()
+                    var storeLat = it.child("lat").getValue().toString().toDouble()
+                    var storeLon = it.child("lon").getValue().toString().toDouble()
 
                     val sdf = SimpleDateFormat("HH:mm")
                     val currentDate = sdf.format(Date())
@@ -70,14 +103,74 @@ class StoreList : Fragment() {
                     val checkOpeningTime = SimpleDateFormat("HH:mm").parse(startTime)
                     val checkEndingTime = SimpleDateFormat("HH:mm").parse(endTime)
                     var storeStatus = ""
+                    var distance : Float ?= null
+                    val result = FloatArray(5)
 
-                    if(checkCurrentTime.after(checkOpeningTime) && checkCurrentTime.before(checkEndingTime)){
-                        storeStatus = "Open"
+//                    Log.d("Location",storeLat.toString() +  " + " + storeLon.toString())
+
+                    Location.distanceBetween(userLat,userLon,storeLat,storeLon,result)
+                    Log.d("Location",result[0].toString())
+                    distance = result[0] / 1000
+
+                    val dateFormat = SimpleDateFormat("dd-MM=yyyy")
+                    val currentDay = dateFormat.format(Date())
+                    val checkCurretDay = SimpleDateFormat("dd-MM=yyyy").parse(currentDay)
+
+                    val cal = Calendar.getInstance()
+                    cal.time = checkCurretDay
+
+                    var shopOpenDay = false
+                    if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+                        if(operatingDays.contains("Sunday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY){
+                        if(operatingDays.contains("Monday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY){
+                        if(operatingDays.contains("Tuesday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY){
+                        if(operatingDays.contains("Wednesday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY){
+                        if(operatingDays.contains("Thursday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY){
+                        if(operatingDays.contains("Friday"))
+                            shopOpenDay = true
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
+                        if(operatingDays.contains("Saturday"))
+                            shopOpenDay = true
+                    }
+                    else{
+                        Log.d("Shop","Currently Close")
+                    }
+
+                    if(shopOpenDay == true){
+                        if(checkCurrentTime.after(checkOpeningTime) && checkCurrentTime.before(checkEndingTime)){
+                            storeStatus = "Open"
+                        }
+                        else
+                            storeStatus = "Close"
                     }
                     else
                         storeStatus = "Close"
 
-                    storeArrayList.add(StoreListData(position,storeImage,storeName,city,startTime,endTime,storeStatus))
+
+                    storeArrayList.add(StoreListData(
+                        position,
+                        storeImage,
+                        storeName,
+                        "%.0f KM".format(distance),
+                        startTime,
+                        endTime,
+                        storeStatus))
                 }
 
                 val recyclerView = binding.recyclerviewStores
@@ -85,7 +178,8 @@ class StoreList : Fragment() {
 
                 recyclerView.adapter = StoreListAdapter(storeArrayList){ StoreListData,position ->
                             var bundle = bundleOf(
-                                "storename" to storeArrayList[position].storeName
+                                "storename" to storeArrayList[position].storeName,
+                                "storeStatus" to storeArrayList[position].status,
                             )
                             findNavController().navigate(R.id.action_homePage_to_storeDetailPage,bundle)
                 }

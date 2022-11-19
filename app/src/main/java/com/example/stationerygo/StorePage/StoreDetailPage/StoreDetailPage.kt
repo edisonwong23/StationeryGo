@@ -47,7 +47,10 @@ class StoreDetailPage : Fragment() {
             false
         )
         auth = Firebase.auth
-        getStoreDetails()
+
+            getStoreDetails()
+
+
 
         binding.storeDetailsBtn.setOnClickListener {
             var storeName = arguments?.getString("storename").toString()
@@ -165,6 +168,7 @@ class StoreDetailPage : Fragment() {
         val progress = ProgressDialog(activity)
         progress.setTitle("Loading Store")
         progress.show()
+        var storeStatus = arguments?.getString("storeStatus").toString()
         var storeName = arguments?.getString("storename").toString()
         database = FirebaseDatabase.getInstance().getReference("Stores")
         var postRef = database.orderByChild("storeName").equalTo(storeName)
@@ -180,7 +184,13 @@ class StoreDetailPage : Fragment() {
                         .load(dataImg)
                         .into(binding.storeimageImg)
                 }
-                if(dataName == ""){
+                if(storeStatus == "Close"){
+                    progress.hide()
+                    binding.productTypeSpinner.visibility = View.INVISIBLE
+                    binding.clearProductTypeSearchBtn.visibility = View.INVISIBLE
+                    binding.imageView4.visibility = View.VISIBLE
+                }
+                else if(dataName == ""){
                     progress.hide()
                     Toast.makeText(context,"No Item Listed!",Toast.LENGTH_SHORT).show()
                 }

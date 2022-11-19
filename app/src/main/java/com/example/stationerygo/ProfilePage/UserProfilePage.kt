@@ -49,6 +49,10 @@ class UserProfilePage : Fragment() {
                 .into(binding.profileImageImg)
         }
 
+        binding.userChangeLocationBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_homePage_to_registerAddressPage)
+        }
+
         binding.shopBtn.setOnClickListener{
 //                checkUserOwnShop()
 //            findNavController().navigate(R.id.action_homePage_to_createStorePage)

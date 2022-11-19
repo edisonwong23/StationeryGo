@@ -61,8 +61,8 @@ class storeDetailsDetailsPage : Fragment() {
                     binding.storeDetailsDetailsContactEmailTxttxt.text = email
                     binding.storeDetailsDetailsContactPhoneTxttxt.text = phone
                     binding.storeDetailsDetailsAddressTxttxt.text = address
-                    binding.storeDetailsDetailsAddressCityTxttxt.text = city
-                    binding.storeDetailsDetailsAddressPostalTxttxt.text = postal
+//                    binding.storeDetailsDetailsAddressCityTxttxt.text = city
+//                    binding.storeDetailsDetailsAddressPostalTxttxt.text = postal
                 }
             }
 

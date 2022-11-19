@@ -53,14 +53,8 @@
             android:id="@+id/action_homePage_to_userProfilePassword"
             app:destination="@id/userProfilePassword" />
         <action
-            android:id="@+id/action_homePage_to_mapViewTesting"
-            app:destination="@id/mapViewTesting" />
-        <action
             android:id="@+id/action_homePage_to_registerAddressPage"
             app:destination="@id/registerAddressPage" />
-        <action
-            android:id="@+id/action_homePage_to_userAddressPage"
-            app:destination="@id/userAddressPage" />
     </fragment>
     <fragment
         android:id="@+id/createStorePage"
@@ -212,20 +206,10 @@
         android:label="Manage Store Details"
         tools:layout="@layout/fragment_store_managent_page" />
     <fragment
-        android:id="@+id/mapViewTesting"
-        android:name="com.example.stationerygo.StorePage.SearchShop.MapViewTesting"
-        android:label="fragment_map_view_testing"
-        tools:layout="@layout/fragment_map_view_testing" />
-    <fragment
         android:id="@+id/registerAddressPage"
         android:name="com.example.stationerygo.LoginPage.RegisterAddressPage"
         android:label="User Address Page"
         tools:layout="@layout/fragment_register_address_page" />
-    <fragment
-        android:id="@+id/userAddressPage"
-        android:name="com.example.stationerygo.LoginPage.UserAddressPage"
-        android:label="fragment_user_address_page"
-        tools:layout="@layout/fragment_user_address_page" />
     <fragment
         android:id="@+id/storeAddressUpdate"
         android:name="com.example.stationerygo.StoreOwner.StoreAddress.StoreAddressUpdate"

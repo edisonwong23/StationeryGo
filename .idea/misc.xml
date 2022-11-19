@@ -7,6 +7,7 @@
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable-v24/home.xml" value="0.1" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable-v24/inventory.xml" value="0.1" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable-v24/list_alt.xml" value="0.1" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable-v24/map.xml" value="0.1" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable-v24/orderListImage.xml" value="0.1" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable-v24/person.xml" value="0.1" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/drawable-v24/storefront.xml" value="0.1" />
@@ -25,7 +26,7 @@
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_order_details.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_product_owner.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_store.xml" value="0.5" />
-        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_store_products.xml" value="0.75" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/card_list_store_products.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_cart__page.xml" value="0.4474187380497132" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_create_products.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_create_store_address_page.xml" value="0.33" />
@@ -35,12 +36,12 @@
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_home_page.xml" value="0.1469098277608916" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_item_detail_page.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_login_page.xml" value="0.33" />
-        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_main_store_page.xml" value="0.33" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_main_store_page.xml" value="0.5" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_map_view_testing.xml" value="0.25" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_order_detail_page.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_order_list.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_payment_page.xml" value="0.5" />
-        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_product_lists.xml" value="0.17755825734549138" />
+        <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_product_lists.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_register_address_page.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_register_page.xml" value="0.33" />
         <entry key="..\:/Users/Edison/AndroidStudioProjects/StationeryGo/app/src/main/res/layout/fragment_shop_order_details.xml" value="0.5" />

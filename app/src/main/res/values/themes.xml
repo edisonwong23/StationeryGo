@@ -32,5 +32,14 @@
         <item name="android:colorAccent">@color/primaryTextColor</item>
     </style>
 
+    <style name="CardOutLine" parent="Widget.Material3.CardView.Outlined">
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="cardForegroundColor">@android:color/transparent</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="checkedIconTint">#FFFFFF</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+
 
 </resources>

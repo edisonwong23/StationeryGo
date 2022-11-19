@@ -42,11 +42,13 @@ class OrderListPage : Fragment() {
         binding.orderCurrentOrderBtn.setOnClickListener {
             binding.orderCurrentOrderCard.visibility = View.VISIBLE
             binding.orderAllRecyclerViewCard.visibility = View.GONE
+            getCurrentOrders()
         }
 
         binding.orderAllOrderBtn.setOnClickListener {
             binding.orderCurrentOrderCard.visibility = View.GONE
             binding.orderAllRecyclerViewCard.visibility = View.VISIBLE
+            getAllOrders()
         }
         getCurrentOrders()
         getAllOrders()
@@ -91,10 +93,19 @@ class OrderListPage : Fragment() {
 //                        Log.d("Orders", "OrderID[$i]: " + orderID[i])
 //                        Log.d("Orders", "OrderID: "+ it.child("orderID").value.toString())
                         i++
+
                     }
 
-
-
+                }
+                if(orderID.count() >= 1){
+                    binding.orderCurrentOrderCard.visibility = View.VISIBLE
+                    binding.imageView5.visibility = View.INVISIBLE
+                    binding.textView6.visibility = View.INVISIBLE
+                }
+                else{
+                    binding.orderCurrentOrderCard.visibility = View.INVISIBLE
+                    binding.imageView5.visibility = View.VISIBLE
+                    binding.textView6.visibility = View.VISIBLE
                 }
 //                Log.d("Orders", "OrderID: $orderID")
                 getShopNameImage(shopID,orderID,orderDate,orderStatus,orderKey)
@@ -138,6 +149,17 @@ class OrderListPage : Fragment() {
                             orderStatus?.add(it.child("orderStatus").value.toString())
                         i++
                     }
+                }
+
+                if(orderID.count() >= 1){
+                    binding.orderAllRecyclerViewCard.visibility = View.VISIBLE
+                    binding.imageView5.visibility = View.INVISIBLE
+                    binding.textView6.visibility = View.INVISIBLE
+                }
+                else{
+                    binding.orderAllRecyclerViewCard.visibility = View.INVISIBLE
+                    binding.imageView5.visibility = View.VISIBLE
+                    binding.textView6.visibility = View.VISIBLE
                 }
                 getAllShopNameImage(shopID,orderID,orderDate,orderStatus,orderKey)
             }
