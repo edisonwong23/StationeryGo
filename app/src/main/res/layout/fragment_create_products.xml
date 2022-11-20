@@ -77,7 +77,7 @@
                     android:layout_marginEnd="24dp"
                     android:hint="Product Description"
                     app:counterEnabled="true"
-                    app:counterMaxLength="20"
+                    app:counterMaxLength="50"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:inputType="textCapSentences|textAutoCorrect|text"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>

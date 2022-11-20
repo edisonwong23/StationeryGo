@@ -148,8 +148,8 @@ class RegisterPage : Fragment() {
         var address = "None"
         var livingType = "None"
         var livingNo = "None"
-        var lat = "None"
-        var lon = "None"
+        var lat = "0.00"
+        var lon = "0.00"
 
         database = FirebaseDatabase.getInstance().getReference("Users")
         var userImg = imagePathFromFirebase

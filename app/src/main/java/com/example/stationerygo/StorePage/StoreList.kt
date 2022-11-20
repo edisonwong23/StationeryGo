@@ -229,19 +229,21 @@ class StoreList : Fragment() {
                         position,
                         storeImage,
                         storeName,
-                        "%.0f KM".format(distance),
+                        "%.2f KM".format(distance),
                         startTime,
                         endTime,
                         storeStatus))
                 }
 
+                 var sortedStoreList = storeArrayList.sortedWith(compareBy{it.city})
+
                 val recyclerView = binding.recyclerviewStores
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
-                recyclerView.adapter = StoreListAdapter(storeArrayList){ StoreListData,position ->
+                recyclerView.adapter = StoreListAdapter(sortedStoreList){ StoreListData,position ->
                             var bundle = bundleOf(
-                                "storename" to storeArrayList[position].storeName,
-                                "storeStatus" to storeArrayList[position].status,
+                                "storename" to sortedStoreList[position].storeName,
+                                "storeStatus" to sortedStoreList[position].status,
                             )
                             findNavController().navigate(R.id.action_homePage_to_storeDetailPage,bundle)
                 }
