@@ -214,6 +214,19 @@
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent" />
 
+           <Button
+               android:id="@+id/clearCartCart_btn"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="8dp"
+               android:layout_marginTop="8dp"
+               android:layout_marginBottom="8dp"
+               android:text="Clear Cart"
+               app:backgroundTint="@color/errorTextColor"
+               app:layout_constraintBottom_toTopOf="@+id/cardView"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/cart_recyclerview" />
+
        </androidx.constraintlayout.widget.ConstraintLayout>
 
    </ScrollView>

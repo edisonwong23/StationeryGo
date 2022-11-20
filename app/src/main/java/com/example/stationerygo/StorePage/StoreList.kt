@@ -25,6 +25,8 @@ import kotlin.collections.ArrayList
 private lateinit var binding: FragmentStoreListBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
+private  var storeID = ""
+private var totalItem : String ?= null
 
 class StoreList : Fragment() {
 
@@ -50,8 +52,67 @@ class StoreList : Fragment() {
 //              findNavController().navigate(R.id.action_homePage_to_userAddressPage)
         }
 
+        binding.navigateToCartFAB.setOnClickListener{
+            var bundle = bundleOf(
+                "StoreID" to storeID,
+            )
+//            Log.d("Payment","ID: $dataID - Name: $dataName")
+            findNavController().navigate(R.id.action_homePage_to_cart_Page,bundle)
+        }
+
 
         return binding.root
+    }
+
+    private fun checkCartExist(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+        var cartRef = database.child(uid)
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    snapshot.children.forEach {
+                        storeID = it.key.toString()
+                        var total =  it.child(storeID).childrenCount
+                    }
+                    checkItemCount()
+                    Log.d("main", storeID)
+                    binding.navigateToCartFrame.visibility = View.VISIBLE
+
+                }
+                else
+                    binding.navigateToCartFrame.visibility = View.GONE
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        }
+        cartRef.addListenerForSingleValueEvent(postListener)
+    }
+
+    private fun checkItemCount(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Cart")
+        var cartRef = database.child(uid).child(storeID)
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var itemTotal = snapshot.childrenCount
+                binding.totalInCartTxt.text = itemTotal.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        }
+        cartRef.addListenerForSingleValueEvent(postListener)
     }
 
     private fun getUserLatLon(){
@@ -65,6 +126,7 @@ class StoreList : Fragment() {
                 var lon = snapshot.child("lon").value.toString()
 
                 recyclerview(lat.toDouble(),lon.toDouble())
+                checkCartExist()
             }
 
             override fun onCancelled(error: DatabaseError) {

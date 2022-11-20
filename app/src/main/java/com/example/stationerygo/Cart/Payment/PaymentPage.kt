@@ -30,6 +30,8 @@ private var selectedPaymentType: String = ""
 private var cartData = ArrayList<Cart_Data>()
 private var minusProductID : MutableList<String> = ArrayList<String>()
 private var minusProductQty :MutableList<String> = ArrayList<String>()
+private var userLat = ""
+private var userLon = ""
 
 class PaymentPage : Fragment() {
 
@@ -45,6 +47,7 @@ class PaymentPage : Fragment() {
             false
         )
 
+
         val stationeryBind = binding.expireMonthEdittextField
         var stationery = resources.getStringArray(R.array.Month)
         stationery = stationery.sortedArray()
@@ -53,6 +56,7 @@ class PaymentPage : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
+        getUserLatLon()
         loadData()
 
         spinnerAdapter()
@@ -64,6 +68,29 @@ class PaymentPage : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun getUserLatLon(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Users")
+
+        var readRef = database.child(uid)
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var lat = snapshot.child("lat").value.toString()
+                var lon = snapshot.child("lon").value.toString()
+
+                userLat = lat
+                userLon = lon
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        readRef.addListenerForSingleValueEvent(postListener)
     }
 
     private fun loadData(){
@@ -242,6 +269,10 @@ class PaymentPage : Fragment() {
 
 //        Log.d("Payment",currentDate.toString())
 
+        if(userCurrentAddress == "None"){
+            userLat = "None"
+            userLon = "None"
+        }
 
         database = FirebaseDatabase.getInstance().getReference("Orders")
         var orderID = UUID.randomUUID().toString()
@@ -255,7 +286,9 @@ class PaymentPage : Fragment() {
             currentDate,
             cartData,
             currentStatus,
-            userCurrentAddress))
+            userCurrentAddress,
+            userLat,
+            userLon))
             .addOnCompleteListener{
             Toast.makeText(context,"Purchase Complete",Toast.LENGTH_SHORT).show()
                 decreaseStock()

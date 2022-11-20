@@ -105,8 +105,6 @@ class HomePage : Fragment() {
 
         }
 
-
-
         checkUserAddress()
 
         return binding.root

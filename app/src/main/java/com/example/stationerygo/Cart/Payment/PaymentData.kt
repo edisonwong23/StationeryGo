@@ -13,4 +13,6 @@ data class PaymentData(
     val itemOrdered: ArrayList<Cart_Data>,
     val orderStatus: String ?= null,
     val address: String ?= null,
+    val lat: String ?= null,
+    val lon: String ?= null,
 )

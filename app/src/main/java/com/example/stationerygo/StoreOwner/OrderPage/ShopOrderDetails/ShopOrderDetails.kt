@@ -1,5 +1,6 @@
 package com.example.stationerygo.StoreOwner.OrderPage.ShopOrderDetails
 
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,11 +20,13 @@ import com.example.stationerygo.R
 import com.example.stationerygo.StoreOwner.OrderPage.ShopOrderAdapter
 import com.example.stationerygo.databinding.FragmentShopOrderDetailsBinding
 import com.example.stationerygo.databinding.FragmentShopOrderPageBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 
 private lateinit var binding: FragmentShopOrderDetailsBinding
 private lateinit var database: DatabaseReference
+private lateinit var auth : FirebaseAuth
 
 class ShopOrderDetails : Fragment() {
 
@@ -37,6 +40,8 @@ class ShopOrderDetails : Fragment() {
             container,
             false
         )
+
+        auth = FirebaseAuth.getInstance()
 
         loadUserDate()
 
@@ -117,7 +122,7 @@ class ShopOrderDetails : Fragment() {
                 binding.shopOrderDetailsPhoneTxt.text = phone
                 binding.shopOrderDetailsEmailTxt.text = email
 
-                loadPaymentDetails()
+                loadStoreLocation()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -129,7 +134,28 @@ class ShopOrderDetails : Fragment() {
         dataRef.addListenerForSingleValueEvent(postListener)
     }
 
-    private fun loadPaymentDetails(){
+    private fun loadStoreLocation(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+        var locateRef = database.child(uid)
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var storeLat = snapshot.child("lat").value.toString().toDouble()
+                var storeLon = snapshot.child("lon").value.toString().toDouble()
+
+                loadPaymentDetails(storeLat,storeLon)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        locateRef.addListenerForSingleValueEvent(postListener)
+    }
+
+    private fun loadPaymentDetails(storeLat:Double,storeLon:Double){
         var orderKey = arguments?.getString("orderKey").toString()
         database = FirebaseDatabase.getInstance().getReference("Orders")
         val dataRef = database.child(orderKey)
@@ -142,6 +168,15 @@ class ShopOrderDetails : Fragment() {
                 var orderType = snapshot.child("orderType").value.toString()
                 var orderStatus = snapshot.child("orderStatus").value.toString()
                 var address = snapshot.child("address").value.toString()
+                var userLat = snapshot.child("lat").value.toString().toDouble()
+                var userLon = snapshot.child("lon").value.toString().toDouble()
+
+                var distance : Float ?= null
+                val result = FloatArray(5)
+
+                Location.distanceBetween(userLat,userLon,storeLat,storeLon,result)
+//                Log.d("Location",result[0].toString())
+                distance = result[0] / 1000
 
                 binding.shopOrderDetailsPaymentTypeTxt.text = paymentType
                 binding.shopOrderDetailsOrderTypeTxt.text = orderType
@@ -151,6 +186,7 @@ class ShopOrderDetails : Fragment() {
 
                 if(orderType == "Delivery"){
                     binding.shopOrderDetailsAddressUserAddressTxt.text = address
+                    binding.shopOrderDetailsAddressUserDistanceTxt.text = "( " + "%.0f KM".format(distance) + " )"
                     binding.shopOrderDetailsAddressCard.visibility = View.VISIBLE
                 }
                 else{

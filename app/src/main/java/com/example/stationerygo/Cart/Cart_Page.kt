@@ -1,5 +1,7 @@
 package com.example.stationerygo.Cart
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,7 +25,9 @@ private lateinit var auth: FirebaseAuth
 private var totalPaymentAmount: String = ""
 private var itemInCart = false
 private var deliveryFee = "0.00"
-private var userCurrentAddress = ""
+private var userCurrentAddress = "None"
+private var isDelivery = false
+private var storeName = ""
 
 class Cart_Page : Fragment() {
 
@@ -37,8 +41,8 @@ class Cart_Page : Fragment() {
             false
         )
         auth = FirebaseAuth.getInstance()
+        getShopName()
         loadRecyclerCart()
-
         getUserAddress()
 
         binding.pickupBtn.setOnClickListener {
@@ -47,6 +51,7 @@ class Cart_Page : Fragment() {
             deliveryFee = "0.00"
             binding.deliveryFeeAmountTxt.text = deliveryFee
             binding.addressEditCard.visibility = View.GONE
+            isDelivery = false
             loadRecyclerCart()
         }
 
@@ -56,7 +61,21 @@ class Cart_Page : Fragment() {
             deliveryFee = "5.00"
             binding.deliveryFeeAmountTxt.text = deliveryFee
             binding.addressEditCard.visibility = View.VISIBLE
+            isDelivery = true
             loadRecyclerCart()
+        }
+
+        binding.clearCartCartBtn.setOnClickListener {
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+            alartDialog.apply {
+                setTitle("Clear Cart?")
+                setMessage("Are you sure you want to clear cart?")
+                setPositiveButton("Clear Cart"){ _: DialogInterface?, _: Int ->
+                    clearCart()
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
         }
 
         binding.proceedPaymentBtn.setOnClickListener{
@@ -68,6 +87,48 @@ class Cart_Page : Fragment() {
                Toast.makeText(context,"Cart Is Empty,Please Add Item to Cart!",Toast.LENGTH_SHORT).show()
         }
         return binding.root
+    }
+
+    private fun getShopName(){
+            var getStoreID = arguments?.getString("StoreID").toString()
+
+            database = FirebaseDatabase.getInstance().getReference("Stores")
+
+        val postListener = object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    if(it.child("storeID").value!!.equals(getStoreID)){
+                        Log.d("Cart","Here ")
+                        storeName = it.child("storeName").value.toString()
+                    }
+                    else{
+                        Log.d("Cart","Rejected ")
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.addListenerForSingleValueEvent(postListener)
+    }
+
+    private fun clearCart(){
+            var uid = auth.currentUser?.uid.toString()
+            database = FirebaseDatabase.getInstance().getReference("Cart")
+            var clearCartRef = database.child(uid)
+
+            clearCartRef.removeValue().addOnCompleteListener {
+                if(it.isSuccessful){
+                    Toast.makeText(context,"Cart Has Been Cleared",Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
+                else
+                    Toast.makeText(context,"Error Clearing Cart",Toast.LENGTH_SHORT).show()
+            }
     }
 
 
@@ -154,7 +215,13 @@ class Cart_Page : Fragment() {
     }
 
     private fun proceedToPayment(){
-        var storeName = arguments?.getString("StoreName").toString()
+
+        if(isDelivery == false){
+            userCurrentAddress = "None"
+        }
+
+        Log.d("Cart", storeName)
+
         var storeID = arguments?.getString("StoreID").toString()
         var bundle = bundleOf(
             "totalAmount" to totalPaymentAmount,

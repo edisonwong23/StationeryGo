@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_homePage_to_registerAddressPage"
             app:destination="@id/registerAddressPage" />
+        <action
+            android:id="@+id/action_homePage_to_cart_Page"
+            app:destination="@id/cart_Page" />
     </fragment>
     <fragment
         android:id="@+id/createStorePage"
