@@ -2,6 +2,7 @@ package com.example.stationerygo.LoginPage
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -100,7 +101,17 @@ class RegisterAddressPage : Fragment() {
         locationSearch()
 
         binding.userAddressUpdateBtn.setOnClickListener {
-            updateAddress()
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+            alartDialog.apply {
+                setTitle("Confirm Update Address?")
+                setMessage("Are you sure you want to update address?")
+                setPositiveButton("Update"){ _: DialogInterface?, _: Int ->
+                    updateAddress()
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
+
         }
         // Inflate the layout for this fragment
 
@@ -124,6 +135,10 @@ class RegisterAddressPage : Fragment() {
                     binding.userAddressEdittextField.setText(getAddress)
                     binding.stateEdittextField.setText(getType,false)
                     binding.phoneNumberEditTextField.setText(getNo)
+
+                    currentLat = getLat.toDouble()
+                    currentLon = getLon.toDouble()
+                    currentaddress = getAddress
 
                     mapView!!.getMapAsync{
                         map = it
@@ -267,11 +282,12 @@ class RegisterAddressPage : Fragment() {
             database = FirebaseDatabase.getInstance().getReference("Users")
             val addressRef = database.child(uid)
 
-            addressRef.child("address").setValue(currentaddress).addOnCompleteListener{
+            addressRef.child("address").setValue(checkAddress).addOnCompleteListener{
                 addressRef.child("lat").setValue(currentLat.toString()).addOnCompleteListener{
                     addressRef.child("lon").setValue(currentLon.toString()).addOnCompleteListener{
                         addressRef.child("livingNo").setValue(newLivingNo).addOnCompleteListener{
                             addressRef.child("livingType").setValue(newLivingType).addOnCompleteListener{
+                                Toast.makeText(context,"Address Updated!",Toast.LENGTH_SHORT).show()
                                 findNavController().navigateUp()
                             }
                         }

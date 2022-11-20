@@ -119,6 +119,13 @@ class ItemDetailPage : Fragment() {
 
                 binding.itemPriceTxt.text = "RM " + itemPrice
 
+                if(itemQty == "0"){
+                    binding.cardOfPaymentsCard.visibility = View.GONE
+                }
+                else{
+                    binding.cardOfPaymentsCard.visibility = View.VISIBLE
+                }
+
 //                Log.d("Items",itemName)
 
                 checkIfExistInCart()

@@ -1,5 +1,6 @@
 package com.example.stationerygo.StoreOwner.OrderPage
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,8 +38,12 @@ class ShopOrderAdapter(private val mList: List<ShopOrderData>,
         holder.itemName.text = ItemsViewModel.userName
         holder.orderDate.text =  ItemsViewModel.orderDate
         holder.orderStatus.text = ItemsViewModel.orderStatus
-
+        holder.orderType.text = ItemsViewModel.orderType
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
+
+        if(ItemsViewModel.orderStatus == "Completed"){
+            holder.orderStatus.setTextColor(Color.parseColor("#689f38"))
+        }
 
     }
 
@@ -54,5 +59,6 @@ class ShopOrderAdapter(private val mList: List<ShopOrderData>,
         val itemName: TextView = itemView.findViewById(R.id.orderShopName)
         val orderDate: TextView = itemView.findViewById(R.id.orderOrderDate_txt)
         val orderStatus: TextView = itemView.findViewById(R.id.orderOrderStatus_txt)
+        var orderType: TextView = itemView.findViewById(R.id.orderOrderType_txt)
     }
 }

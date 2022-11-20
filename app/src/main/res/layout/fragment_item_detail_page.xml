@@ -20,6 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/materialDivider2"
             android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_marginTop="8dp"
@@ -69,51 +70,6 @@
             app:layout_constraintStart_toStartOf="@+id/itemPrixe_txx"
             app:layout_constraintTop_toBottomOf="@+id/itemPrixe_txx" />
 
-        <Button
-            android:id="@+id/addToCart_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Add To Cart"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/itemMinusQuantity_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Minus"
-            app:layout_constraintBottom_toTopOf="@+id/addToCart_btn"
-            app:layout_constraintEnd_toStartOf="@+id/itemCurrentQuantity_txt"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/itemAddQuantity_btn" />
-
-        <Button
-            android:id="@+id/itemAddQuantity_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Add"
-            app:layout_constraintBottom_toTopOf="@+id/addToCart_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/itemCurrentQuantity_txt" />
-
-        <TextView
-            android:id="@+id/itemCurrentQuantity_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintEnd_toStartOf="@+id/itemAddQuantity_btn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/itemMinusQuantity_btn"
-            app:layout_constraintTop_toTopOf="@+id/itemMinusQuantity_btn" />
-
         <TextView
             android:id="@+id/itemDesc_txt"
             android:layout_width="wrap_content"
@@ -126,16 +82,72 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/itemQTY_txt" />
 
-        <TextView
-            android:id="@+id/itemPrice_txt"
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardOfPayments_Card"
+            style="@style/CardOutLine"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="0.00"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintBottom_toTopOf="@+id/itemCurrentQuantity_txt"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/itemMinusQuantity_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Minus"
+                    app:layout_constraintBottom_toTopOf="@+id/itemPrice_txt"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/itemCurrentQuantity_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    app:layout_constraintBottom_toBottomOf="@+id/itemAddQuantity_btn"
+                    app:layout_constraintEnd_toStartOf="@+id/itemAddQuantity_btn"
+                    app:layout_constraintStart_toEndOf="@+id/itemMinusQuantity_btn"
+                    app:layout_constraintTop_toTopOf="@+id/itemAddQuantity_btn" />
+
+                <TextView
+                    android:id="@+id/itemPrice_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="0.00"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    app:layout_constraintBottom_toTopOf="@+id/addToCart_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/itemAddQuantity_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:text="Add"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/itemMinusQuantity_btn" />
+
+                <Button
+                    android:id="@+id/addToCart_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Add To Cart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

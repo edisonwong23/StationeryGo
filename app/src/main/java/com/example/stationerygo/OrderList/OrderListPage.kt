@@ -82,7 +82,7 @@ class OrderListPage : Fragment() {
                         orderKey.add(it.key.toString())
 //                        Log.d("Orders", it.child("orderID").value.toString())
                         var currentStatus = it.child("orderStatus").value.toString()
-                        if(currentStatus.equals("Pending") || currentStatus.equals("Delivering") || currentStatus.equals("Preparing"))
+                        if(!currentStatus.equals("Completed"))
                         {
                             shopID?.add(it.child("storeID").value.toString())
                             orderID?.add(it.child("orderID").value.toString())
@@ -142,22 +142,25 @@ class OrderListPage : Fragment() {
                 snapshot.children.forEach{
                     var getUserOrders = it.child("userID").value?.equals(uid)
                     if(getUserOrders == true){
-                        orderKey.add(it.key.toString())
+                        var currentOrderStatus = it.child("orderStatus").value.toString()
+                        if(currentOrderStatus.equals("Completed")){
+                            orderKey.add(it.key.toString())
                             shopID?.add(it.child("storeID").value.toString())
                             orderID?.add(it.child("orderID").value.toString())
                             orderDate?.add(it.child("purchaseDate").value.toString())
                             orderStatus?.add(it.child("orderStatus").value.toString())
+                        }
                         i++
                     }
                 }
 
                 if(orderID.count() >= 1){
-                    binding.orderAllRecyclerViewCard.visibility = View.VISIBLE
+//                    binding.orderAllRecyclerViewCard.visibility = View.GONE
                     binding.imageView5.visibility = View.INVISIBLE
                     binding.textView6.visibility = View.INVISIBLE
                 }
                 else{
-                    binding.orderAllRecyclerViewCard.visibility = View.INVISIBLE
+                    binding.orderAllRecyclerViewCard.visibility = View.GONE
                     binding.imageView5.visibility = View.VISIBLE
                     binding.textView6.visibility = View.VISIBLE
                 }
@@ -255,10 +258,10 @@ class OrderListPage : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
                 fun String.toDate(): Date {
-                    return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(this)
+                    return SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault()).parse(this)
                 }
 
-                var sortedList = orderList.sortedBy { it.orderDate?.toDate() }
+                var sortedList = orderList.sortedByDescending { it.orderDate?.toDate() }
 
                 recyclerView.adapter = OrderListAdapter(sortedList){ OrderListData, position:Int ->
                     var bundle = bundleOf(

@@ -25,6 +25,7 @@ private lateinit var auth: FirebaseAuth
 private var totalPaymentAmount: String = ""
 private var itemInCart = false
 private var deliveryFee = "0.00"
+private var orderType = "Pick Up"
 private var userCurrentAddress = "None"
 private var isDelivery = false
 private var storeName = ""
@@ -49,6 +50,7 @@ class Cart_Page : Fragment() {
             binding.pickupBtn.setBackgroundResource(R.drawable.not_transparent_button)
             binding.deliveryBtn.setBackgroundResource(R.drawable.transparent_button)
             deliveryFee = "0.00"
+            orderType = "Pick Up"
             binding.deliveryFeeAmountTxt.text = deliveryFee
             binding.addressEditCard.visibility = View.GONE
             isDelivery = false
@@ -59,6 +61,7 @@ class Cart_Page : Fragment() {
             binding.pickupBtn.setBackgroundResource(R.drawable.transparent_button)
             binding.deliveryBtn.setBackgroundResource(R.drawable.not_transparent_button)
             deliveryFee = "5.00"
+            orderType = "Delivery"
             binding.deliveryFeeAmountTxt.text = deliveryFee
             binding.addressEditCard.visibility = View.VISIBLE
             isDelivery = true
@@ -226,7 +229,7 @@ class Cart_Page : Fragment() {
         var bundle = bundleOf(
             "totalAmount" to totalPaymentAmount,
             "StoreName" to storeName,
-            "orderType" to "Delivery",
+            "orderType" to orderType,
             "storeID" to storeID,
             "userCurrentAddress" to userCurrentAddress,
         )

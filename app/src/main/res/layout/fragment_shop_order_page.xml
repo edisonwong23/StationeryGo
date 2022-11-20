@@ -59,7 +59,7 @@
                            android:id="@+id/shopOrderAllOrder_btn"
                            android:layout_width="0dp"
                            android:layout_height="wrap_content"
-                           android:text="All Order"
+                           android:text="Completed Order"
                            app:layout_constraintEnd_toEndOf="parent"
                            app:layout_constraintHorizontal_bias="0.5"
                            app:layout_constraintStart_toEndOf="@+id/shopOrderCurrentOrder_btn"
@@ -71,9 +71,7 @@
                    android:id="@+id/shopOrderRecyclerList_Card"
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"
-                   android:layout_marginStart="8dp"
                    android:layout_marginTop="8dp"
-                   android:layout_marginEnd="8dp"
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/shopOwnerActionView_Card">
@@ -98,12 +96,11 @@
                </androidx.cardview.widget.CardView>
 
                <androidx.cardview.widget.CardView
-                   android:id="@+id/shopOrderOrderAction_Card"
+                   android:id="@+id/shopAllOrderOrderAction_Card"
                    android:layout_width="0dp"
-                   android:layout_height="215dp"
-                   android:layout_marginStart="8dp"
+                   android:layout_height="wrap_content"
                    android:layout_marginTop="8dp"
-                   android:layout_marginEnd="8dp"
+                   android:visibility="gone"
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/shopOrderRecyclerList_Card">
@@ -111,6 +108,18 @@
                    <androidx.constraintlayout.widget.ConstraintLayout
                        android:layout_width="match_parent"
                        android:layout_height="match_parent">
+
+                       <androidx.recyclerview.widget.RecyclerView
+                           android:id="@+id/shopAllOrderRecyclerList"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="8dp"
+                           android:layout_marginBottom="8dp"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintTop_toTopOf="parent"
+                           tools:listitem="@layout/card_list_order" />
 
                    </androidx.constraintlayout.widget.ConstraintLayout>
                </androidx.cardview.widget.CardView>

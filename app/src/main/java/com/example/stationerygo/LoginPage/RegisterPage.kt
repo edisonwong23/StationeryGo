@@ -110,7 +110,7 @@ class RegisterPage : Fragment() {
                             taskSnapshot -> taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                         imagePathFromFirebase = it.toString()
                         createAuthUser(email,password,displayNameUser)
-                        progress.hide()
+                        progress.dismiss()
                     }
                     })
             }
@@ -133,7 +133,7 @@ class RegisterPage : Fragment() {
         user!!.updateProfile(profileUpdate)
             .addOnCompleteListener{
             task-> if(task.isSuccessful){
-                progress.hide()
+                progress.dismiss()
                 findNavController().navigate(R.id.action_registerPage_to_homePage)
             }
                 else
@@ -289,12 +289,12 @@ class RegisterPage : Fragment() {
         auth = Firebase.auth
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(){task->
             if(task.isSuccessful){
-                    progress.hide()
+                progress.dismiss()
                     uploadImageToFirebase(dataToFirebase ,email,password,displayNameUser)
                     Log.d("Users",imagePathFromFirebase)
                 }
             else{
-            progress.hide()
+                progress.dismiss()
             binding.emailTextfield.error = "Email Already Exist!"
         }
             }

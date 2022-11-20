@@ -247,13 +247,13 @@ class StoreList : Fragment() {
                             )
                             findNavController().navigate(R.id.action_homePage_to_storeDetailPage,bundle)
                 }
-                progress.hide()
+                progress.dismiss()
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.d("FrontPage",error.toString())
                 Toast.makeText(context,error.toString(),Toast.LENGTH_SHORT).show()
-                progress.hide()
+                progress.dismiss()
             }
         }
         database.addValueEventListener(postListener)

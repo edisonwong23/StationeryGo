@@ -1,5 +1,6 @@
 package com.example.stationerygo.StorePage.StoreDetailPage
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,15 @@ class StoreProductAdapter(private val mList: List<StoreProductData>,
         // sets the text to the textview from our itemHolder class
         holder.title.text = ItemsViewModel.productName
         holder.price.text = "RM " + ItemsViewModel.productPrice
-        holder.qty.text = ItemsViewModel.productQty
+
+
+        if(ItemsViewModel.productQty == "0"){
+            holder.qty.text = "Sold"
+            holder.qty.setTextColor(Color.parseColor("#d50000"))
+        }
+        else{
+            holder.qty.text = ItemsViewModel.productQty
+        }
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 

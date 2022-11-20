@@ -98,6 +98,9 @@
                    android:id="@+id/displayUserName"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
+                   android:layout_marginTop="8dp"
+                   android:text="Username"
+                   android:textAppearance="@style/TextAppearance.AppCompat.Large"
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/profileImage_img" />

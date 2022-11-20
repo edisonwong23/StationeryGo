@@ -95,7 +95,7 @@ class MainStorePage : Fragment() {
 //                Log.d("User","Current Owner:" + users.toString())
                 if(users == null){
                     findNavController().navigate(R.id.action_mainStorePage_to_createStorePage)
-                    progress.hide()
+                    progress.dismiss()
                 }
                 else{
                     var storeName = dataSnapshot.child("storeName").value.toString()
@@ -178,7 +178,7 @@ class MainStorePage : Fragment() {
                         binding.mainStoreStatusTxt.setTextColor(Color.parseColor("#d50000"))
                     }
 
-                    progress.hide()
+                    progress.dismiss()
                 }
 
             }
@@ -186,7 +186,7 @@ class MainStorePage : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {
                 Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show()
                 Log.d("User","Fail to Get User")
-                progress.hide()
+                progress.dismiss()
             }
         }
         checkUser.addValueEventListener(postListener)
@@ -212,7 +212,8 @@ class MainStorePage : Fragment() {
 //                var user_password = dataSnapshot.child("password").getValue(String::class.java)
 
 //                (activity as AppCompatActivity).supportActionBar?.title = storename
-                progress.hide()
+//                progress.hide()
+                progress.dismiss()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

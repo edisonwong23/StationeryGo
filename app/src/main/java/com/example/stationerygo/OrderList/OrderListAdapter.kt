@@ -1,5 +1,6 @@
 package com.example.stationerygo.OrderList
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,10 @@ class OrderListAdapter (private val mList: List<OrderListData>,
         holder.shopName.text = ItemsViewModel.orderShop
         holder.orderDate.text = ItemsViewModel.orderDate
         holder.orderStatus.text = ItemsViewModel.orderStatus
+
+        if(ItemsViewModel.orderStatus == "Completed"){
+            holder.orderStatus.setTextColor(Color.parseColor("#689f38"))
+        }
 
         holder?.itemView?.setOnClickListener { clickListener(ItemsViewModel, position) }
 

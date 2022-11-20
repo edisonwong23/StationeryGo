@@ -15,6 +15,9 @@ import com.example.stationerygo.StorePage.StoreListAdapter
 import com.example.stationerygo.databinding.FragmentMainStorePageBinding
 import com.example.stationerygo.databinding.FragmentShopOrderPageBinding
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 private lateinit var binding: FragmentShopOrderPageBinding
 private lateinit var database: DatabaseReference
@@ -34,6 +37,17 @@ class ShopOrderPage : Fragment() {
             container,
             false
         )
+
+        binding.shopOrderAllOrderBtn.setOnClickListener {
+            binding.shopAllOrderOrderActionCard.visibility = View.VISIBLE
+            binding.shopOrderRecyclerListCard.visibility = View.GONE
+        }
+
+        binding.shopOrderCurrentOrderBtn.setOnClickListener {
+            binding.shopAllOrderOrderActionCard.visibility = View.GONE
+            binding.shopOrderRecyclerListCard.visibility = View.VISIBLE
+        }
+
         loadRecyclerOrder()
         // Inflate the layout for this fragment
         return binding.root
@@ -43,14 +57,13 @@ class ShopOrderPage : Fragment() {
         var storeID = arguments?.getString("storeID").toString()
 //        Log.d("Orders",storeID)
         database = FirebaseDatabase.getInstance().getReference("Orders")
-        val dataRef = database
 
         var userID : MutableList<String> = ArrayList()
         var orderStatus : MutableList<String> = ArrayList()
         var orderDate : MutableList<String> = ArrayList()
         var orderID : MutableList<String> = ArrayList()
         var orderKey : MutableList<String> = ArrayList()
-
+        var orderType : MutableList<String> = ArrayList()
         val postListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 userID.clear()
@@ -58,15 +71,23 @@ class ShopOrderPage : Fragment() {
                 orderDate.clear()
                 orderID.clear()
                 orderKey.clear()
+                orderType.clear()
+                var i = 0
                 snapshot.children.forEach {
 //                    Log.d("Orders",it.value.toString())
                     if(it.child("storeID").value!!.equals(storeID)){
-                         userID.add(it.child("userID").value.toString())
-                         orderStatus.add(it.child("orderStatus").value.toString())
-                         orderDate.add(it.child("purchaseDate").value.toString())
-                         orderID.add(it.child("orderID").value.toString())
-                        orderKey.add(it.key.toString())
-                         loadUserInfo(userID,orderStatus,orderDate,orderID,orderKey)
+
+
+                            userID.add(it.child("userID").value.toString())
+                            orderStatus.add(it.child("orderStatus").value.toString())
+                            orderDate.add(it.child("purchaseDate").value.toString())
+                            orderID.add(it.child("orderID").value.toString())
+                            orderType.add(it.child("orderType").value.toString())
+                            orderKey.add(it.key.toString())
+                            loadUserInfo(userID,orderStatus,orderDate,orderID,orderKey,orderType)
+
+                        i++
+
 //                        Log.d("Orders",orderID.toString())
                     }
                 }
@@ -78,7 +99,7 @@ class ShopOrderPage : Fragment() {
 
         }
 
-        dataRef.addValueEventListener(postListener)
+        database.addValueEventListener(postListener)
     }
 
 
@@ -86,7 +107,9 @@ class ShopOrderPage : Fragment() {
                              orderStatus:MutableList<String>,
                              orderDate:MutableList<String>,
                              orderID:MutableList<String>,
-                             orderKey:MutableList<String>){
+                             orderKey:MutableList<String>,
+                             orderType:MutableList<String>){
+
         database = FirebaseDatabase.getInstance().getReference("Users")
 
         val dataRef = database
@@ -94,27 +117,58 @@ class ShopOrderPage : Fragment() {
         var userDisplayName : MutableList<String> = ArrayList()
         var userImg : MutableList<String> = ArrayList()
         var displayOrderList = ArrayList<ShopOrderData>()
+        var displayCompletedList = ArrayList<ShopOrderData>()
+
         var i = 0
+
         val postListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 displayOrderList.clear()
+                displayCompletedList.clear()
                 for(data in orderID){
 //                      Log.d("Orders","UserID: " + userID[i])
 //                    Log.d("Orders","UserID " + snapshot.child(userID[i]).value.toString())
                      userDisplayName.add(snapshot.child(userID[i]).child("displayUsername").value.toString())
                      userImg.add(snapshot.child(userID[i]).child("userImage").value.toString())
-                     displayOrderList.add(ShopOrderData(orderID[i],orderDate[i],orderStatus[i],userImg[i],userDisplayName[i]))
+
+                    if(orderStatus[i] == "Completed"){
+//                        Log.d("Orders","$i " + orderStatus[i])
+                        displayCompletedList.add(ShopOrderData(orderKey[i],orderID[i],orderDate[i],orderStatus[i],userImg[i],userDisplayName[i],userID[i],orderType[i]))
+                    }
+                    else{
+//                        Log.d("Orders","$i " + orderStatus[i])
+                        displayOrderList.add(ShopOrderData(orderKey[i],orderID[i],orderDate[i],orderStatus[i],userImg[i],userDisplayName[i],userID[i],orderType[i]))
+                    }
+
+
                      i++
                 }
 
+                fun String.toDate(): Date {
+                    return SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault()).parse(this)
+                }
+
+                var displayOrderListSorted = displayOrderList.sortedByDescending { it.orderDate?.toDate() }
+                var displayCompletedListSorted = displayCompletedList.sortedByDescending { it.orderDate?.toDate() }
 
                 var recyclerView = binding.shopOrderRecyclerList
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
-                recyclerView.adapter = ShopOrderAdapter(displayOrderList){ StoreListData, position ->
+                recyclerView.adapter = ShopOrderAdapter(displayOrderListSorted){ StoreListData, position ->
                     var bundle = bundleOf(
-                        "orderKey" to orderKey[position],
-                        "userID" to userID[position]
+                        "orderKey" to displayOrderListSorted[position].orderKey,
+                        "userID" to displayOrderListSorted[position].userID
+                    )
+                    findNavController().navigate(R.id.action_shopOrderPage_to_shopOrderDetails,bundle)
+                }
+
+                var recyclerViewCompleted = binding.shopAllOrderRecyclerList
+                recyclerViewCompleted.layoutManager = LinearLayoutManager(context)
+
+                recyclerViewCompleted.adapter = ShopOrderAdapter(displayCompletedListSorted){ StoreListData, position ->
+                    var bundle = bundleOf(
+                        "orderKey" to displayCompletedListSorted[position].orderKey,
+                        "userID" to displayCompletedListSorted[position].userID
                     )
                     findNavController().navigate(R.id.action_shopOrderPage_to_shopOrderDetails,bundle)
                 }
@@ -128,4 +182,5 @@ class ShopOrderPage : Fragment() {
 
         dataRef.addValueEventListener(postListener)
     }
+
 }

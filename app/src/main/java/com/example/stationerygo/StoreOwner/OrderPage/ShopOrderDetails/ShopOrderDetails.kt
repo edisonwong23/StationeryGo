@@ -65,6 +65,10 @@ class ShopOrderDetails : Fragment() {
             deliverOrder()
         }
 
+        binding.readyForPickUpBtn.setOnClickListener {
+            readyForPickUp()
+        }
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -74,7 +78,7 @@ class ShopOrderDetails : Fragment() {
         if(currentOrderStatus == "Preparing" && currentOrderType == "Pick Up"){
             binding.shopOrderDetailsCancelOrderBtn.visibility = View.GONE
             binding.shopOrderDetailsAccepOrderBtn.visibility = View.GONE
-            binding.shopOrderDetailsCompleteOrderBtn.visibility = View.VISIBLE
+            binding.readyForPickUpBtn.visibility = View.VISIBLE
         }
         else if(currentOrderStatus == "Cancel"){
             binding.shopOrderDetailsCancelOrderBtn.visibility = View.GONE
@@ -97,6 +101,12 @@ class ShopOrderDetails : Fragment() {
             binding.shopOrderDetailsAccepOrderBtn.visibility = View.GONE
             binding.ShopOrderDetailsDeliveryOrderBtn.visibility = View.GONE
             binding.shopOrderDetailsUncancelOrderBtn.visibility = View.GONE
+            binding.shopOrderDetailsCompleteOrderBtn.visibility = View.VISIBLE
+        }
+        else if(currentOrderStatus == "Pick Up Ready"){
+            binding.shopOrderDetailsCancelOrderBtn.visibility = View.GONE
+            binding.shopOrderDetailsAccepOrderBtn.visibility = View.GONE
+            binding.readyForPickUpBtn.visibility = View.GONE
             binding.shopOrderDetailsCompleteOrderBtn.visibility = View.VISIBLE
         }
     }
@@ -168,8 +178,21 @@ class ShopOrderDetails : Fragment() {
                 var orderType = snapshot.child("orderType").value.toString()
                 var orderStatus = snapshot.child("orderStatus").value.toString()
                 var address = snapshot.child("address").value.toString()
-                var userLat = snapshot.child("lat").value.toString().toDouble()
-                var userLon = snapshot.child("lon").value.toString().toDouble()
+                var lat = snapshot.child("lat").value.toString()
+                var lon = snapshot.child("lon").value.toString()
+
+                var userLat = 0.00
+                var userLon = 0.00
+                if(lat == "None" || lon == "None"){
+                    userLat = 0.00
+                    userLon = 0.00
+                    binding.shopOrderDetailsAddressCard.visibility = View.GONE
+                }
+                else{
+                    userLat = lat.toDouble()
+                    userLon = lon.toDouble()
+                }
+
 
                 var distance : Float ?= null
                 val result = FloatArray(5)
@@ -186,7 +209,7 @@ class ShopOrderDetails : Fragment() {
 
                 if(orderType == "Delivery"){
                     binding.shopOrderDetailsAddressUserAddressTxt.text = address
-                    binding.shopOrderDetailsAddressUserDistanceTxt.text = "( " + "%.0f KM".format(distance) + " )"
+                    binding.shopOrderDetailsAddressUserDistanceTxt.text = "( " + "%.2f KM".format(distance) + " )"
                     binding.shopOrderDetailsAddressCard.visibility = View.VISIBLE
                 }
                 else{
@@ -285,7 +308,7 @@ class ShopOrderDetails : Fragment() {
 
         dataRef.child("orderStatus").setValue("Completed").addOnCompleteListener{
             if(it.isSuccessful){
-                Toast.makeText(context,"Order Has Been Accepted",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Order Has Been Completed",Toast.LENGTH_SHORT).show()
             }
             else{
                 Toast.makeText(context,"Error in Database",Toast.LENGTH_SHORT).show()
@@ -302,7 +325,7 @@ class ShopOrderDetails : Fragment() {
 
         dataRef.child("orderStatus").setValue("Preparing").addOnCompleteListener{
             if(it.isSuccessful){
-                Toast.makeText(context,"Order Has Been Accepted",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Order Has Been Un-Cancel",Toast.LENGTH_SHORT).show()
             }
             else{
                 Toast.makeText(context,"Error in Database",Toast.LENGTH_SHORT).show()
@@ -319,7 +342,24 @@ class ShopOrderDetails : Fragment() {
 
         dataRef.child("orderStatus").setValue("Delivering").addOnCompleteListener{
             if(it.isSuccessful){
-                Toast.makeText(context,"Order Has Been Accepted",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Order is Delivering",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context,"Error in Database",Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener{
+            Toast.makeText(context,it.toString() ,Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun readyForPickUp(){
+        var orderKey = arguments?.getString("orderKey").toString()
+        database = FirebaseDatabase.getInstance().getReference("Orders")
+        var dataRef =  database.child(orderKey)
+
+        dataRef.child("orderStatus").setValue("Pick Up Ready").addOnCompleteListener{
+            if(it.isSuccessful){
+                Toast.makeText(context,"Order is Ready for Pick Up",Toast.LENGTH_SHORT).show()
             }
             else{
                 Toast.makeText(context,"Error in Database",Toast.LENGTH_SHORT).show()
