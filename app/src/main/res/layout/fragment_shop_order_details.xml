@@ -102,6 +102,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Phone Number"
+                            android:textColor="#3700B3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintStart_toStartOf="@+id/shopOrderDetailsUsername_txt"
                             app:layout_constraintTop_toBottomOf="@+id/shopOrderDetailsUsername_txt" />
@@ -112,6 +113,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="example01@gmail.com"
+                            android:textColor="#3700B3"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             app:layout_constraintStart_toStartOf="@+id/shopOrderDetailsPhone_txt"
                             app:layout_constraintTop_toBottomOf="@+id/shopOrderDetailsPhone_txt" />

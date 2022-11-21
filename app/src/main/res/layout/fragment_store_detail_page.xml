@@ -66,22 +66,31 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
-                <Button
-                    android:id="@+id/storeDetails_btn"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="match_parent"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/getShopRoute_btn"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:background="@drawable/transparent_button"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="30dp"
+                    android:text="Route To Store"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/storeDetails_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Store Details"
-                    app:backgroundTint="@color/secondaryTextColor"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="30dp"
                     app:icon="@drawable/arrow_forward"
                     app:iconGravity="textEnd"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeimage_img" />
+                    app:layout_constraintTop_toBottomOf="@+id/getShopRoute_btn" />
 
                 <Spinner
                     android:id="@+id/productType_Spinner"

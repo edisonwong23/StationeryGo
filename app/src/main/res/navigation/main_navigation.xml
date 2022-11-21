@@ -135,6 +135,9 @@
         <action
             android:id="@+id/action_storeDetailPage_to_storeDetailsDetailsPage"
             app:destination="@id/storeDetailsDetailsPage" />
+        <action
+            android:id="@+id/action_storeDetailPage_to_storeMapRoutingPage2"
+            app:destination="@id/storeMapRoutingPage" />
     </fragment>
     <fragment
         android:id="@+id/itemDetailPage"
@@ -218,4 +221,9 @@
         android:name="com.example.stationerygo.StoreOwner.StoreAddress.StoreAddressUpdate"
         android:label="Update Address"
         tools:layout="@layout/fragment_store_address_update" />
+    <fragment
+        android:id="@+id/storeMapRoutingPage"
+        android:name="com.example.stationerygo.StorePage.StoreDetailPage.StoreMapRoutingPage"
+        android:label="Map Route"
+        tools:layout="@layout/fragment_store_map_routing_page" />
 </navigation>

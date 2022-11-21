@@ -213,6 +213,7 @@ class MainStorePage : Fragment() {
 
 //                (activity as AppCompatActivity).supportActionBar?.title = storename
 //                progress.hide()
+                loadOrders()
                 progress.dismiss()
             }
 
@@ -224,4 +225,35 @@ class MainStorePage : Fragment() {
 
     }
 
+    private fun loadOrders(){
+        var uid = auth.currentUser?.uid.toString()
+
+        database = FirebaseDatabase.getInstance().getReference("Orders")
+        var i = 0
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    var checkOrder = it.child("storeID").value.toString()
+                    var checkStatus = it.child("orderStatus").value.toString()
+                    if(storeID == checkOrder){
+                        if(checkStatus == "Pending"){
+                            i++
+                            binding.checkOrderNumberTxt.visibility = View.VISIBLE
+                            binding.checkOrderNumberTxt.text = i.toString()
+                        }
+                    }
+                    else{
+                        binding.checkOrderNumberTxt.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        }
+        database.addValueEventListener(postListener)
+    }
 }

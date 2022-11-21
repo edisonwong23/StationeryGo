@@ -38,6 +38,8 @@ class OrderDetailsAdapter (private val mList: List<OrderDetailsClass>,
         holder.itemPrice.text = "RM " + ItemsViewModel.itemPrice
         holder.itemQty.text = ItemsViewModel.itemQty
 
+        holder.statusText.text = "Qty:"
+        holder.orderType.visibility = View.GONE
 
     }
 
@@ -53,5 +55,7 @@ class OrderDetailsAdapter (private val mList: List<OrderDetailsClass>,
         val itemName: TextView = itemView.findViewById(R.id.orderShopName)
         val itemPrice: TextView = itemView.findViewById(R.id.orderOrderDate_txt)
         val itemQty: TextView = itemView.findViewById(R.id.orderOrderStatus_txt)
+        val statusText: TextView = itemView.findViewById(R.id.orderOrderStatus)
+        val orderType: TextView = itemView.findViewById(R.id.orderOrderType_txt)
     }
 }

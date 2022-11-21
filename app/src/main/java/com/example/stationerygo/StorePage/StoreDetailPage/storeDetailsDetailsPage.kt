@@ -1,5 +1,7 @@
 package com.example.stationerygo.StorePage.StoreDetailPage
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +14,10 @@ import com.google.firebase.database.*
 
 private lateinit var binding: FragmentStoreDetailsDetailsPageBinding
 private lateinit var database: DatabaseReference
+private var intentPhone = ""
+private var intentEmail = ""
+private var shopLat = ""
+private var shopLon = ""
 
 
 class storeDetailsDetailsPage : Fragment() {
@@ -27,6 +33,24 @@ class storeDetailsDetailsPage : Fragment() {
             container,
             false
         )
+
+        binding.storeDetailsDetailsContactPhoneTxttxt.setOnClickListener{
+            val intent = Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+ intentPhone))
+            startActivity(intent)
+        }
+
+        binding.storeDetailsDetailsContactEmailTxttxt.setOnClickListener{
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.setData(Uri.parse("mailto:"+ intentEmail))
+            startActivity(intent)
+        }
+
+        binding.checkLocationMapBtn.setOnClickListener {
+            val gmmIntentUri = Uri.parse("google.streetview:cbll= $shopLat,$shopLon")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
 
         loadFromDatabase()
         // Inflate the layout for this fragment
@@ -49,8 +73,14 @@ class storeDetailsDetailsPage : Fragment() {
                     var email = it.child("email").value.toString()
                     var phone = it.child("phone").value.toString()
                     var address = it.child("address").value.toString()
-                    var city = it.child("state").value.toString()
-                    var postal = it.child("postal").value.toString()
+                    var lat = it.child("lat").value.toString()
+                    var lon = it.child("lon").value.toString()
+
+                    shopLat = lat
+                    shopLon = lon
+
+                    intentPhone = phone
+                    intentEmail = email
 
                     days = days.replace(",", " , ")
 
@@ -63,6 +93,8 @@ class storeDetailsDetailsPage : Fragment() {
                     binding.storeDetailsDetailsAddressTxttxt.text = address
 //                    binding.storeDetailsDetailsAddressCityTxttxt.text = city
 //                    binding.storeDetailsDetailsAddressPostalTxttxt.text = postal
+
+
                 }
             }
 

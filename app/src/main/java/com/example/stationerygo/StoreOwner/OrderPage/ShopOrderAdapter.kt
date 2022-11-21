@@ -44,6 +44,12 @@ class ShopOrderAdapter(private val mList: List<ShopOrderData>,
         if(ItemsViewModel.orderStatus == "Completed"){
             holder.orderStatus.setTextColor(Color.parseColor("#689f38"))
         }
+        else if(ItemsViewModel.orderStatus == "Pending"){
+            holder.orderStatus.setTextColor(Color.parseColor("#000000"))
+        }
+        else{
+            holder.orderStatus.setTextColor(Color.parseColor("#6200EE"))
+        }
 
     }
 

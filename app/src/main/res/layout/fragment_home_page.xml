@@ -8,6 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/rounded_corner"
+            android:elevation="10dp"
+            android:text="0"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/bottomNavigationView"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_Holder" />
+
         <FrameLayout
             android:id="@+id/fragment_Holder"
             android:layout_width="match_parent"
@@ -21,10 +36,10 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@menu/nav_menu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/nav_menu">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 

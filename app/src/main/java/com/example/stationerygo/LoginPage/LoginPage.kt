@@ -100,7 +100,7 @@ class LoginPage : Fragment() {
         var errorChecker = false
 
         if (username.isEmpty()) {
-            binding.usernameTextfield.error = "Empty*"
+            binding.usernameTextfield.error = "Required*"
             errorChecker = true
         }
         else{
@@ -108,7 +108,7 @@ class LoginPage : Fragment() {
         }
 
         if(password.isEmpty()){
-            binding.passwordTextview.error = "Empty"
+            binding.passwordTextview.error = "Required*"
             errorChecker = true
         }
         else{
@@ -118,7 +118,7 @@ class LoginPage : Fragment() {
         if(!errorChecker)
             loginAuthUser()
         else
-            Toast.makeText(getContext(),"Check User Login", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getContext(),"Invalid User!", Toast.LENGTH_SHORT).show()
 
     }
 

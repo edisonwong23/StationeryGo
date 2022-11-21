@@ -40,6 +40,21 @@
         <item name="elevation">1dp</item>
     </style>
 
+    <style name="ConfirmButton" parent="ThemeOverlay.Material3.Button.ElevatedButton">
+        <item name="android:textColor">#F5F5F5</item>
+        <item name="backgroundTint">#F57F17</item>
+    </style>
+
+    <style name="OtherButtons" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">#F57F17</item>
+    </style>
+
+    <style name="DeleteButtons" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">#D50000</item>
+        <item name="strokeColor">#D50000</item>
+        <item name="iconTint">#D50000</item>
+    </style>
+
 
 
 </resources>

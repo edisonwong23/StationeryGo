@@ -74,6 +74,13 @@ class StoreDetailPage : Fragment() {
             findNavController().navigate(R.id.action_storeDetailPage_to_cart_Page,bundle)
         }
 
+//        binding.getShopRouteBtn.setOnClickListener {
+//            var bundle = bundleOf(
+//                "storeID" to dataID,
+//            )
+//            findNavController().navigate(R.id.action_storeDetailPage_to_storeMapRoutingPage2,bundle)
+//        }
+
         return binding.root
     }
 

@@ -16,11 +16,10 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration
             .Builder(
                 R.id.homePage,
+                R.id.loginPage,
             )
             .build()
         NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)
-
-
 
     }
 

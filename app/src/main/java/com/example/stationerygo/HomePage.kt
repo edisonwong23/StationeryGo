@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -44,6 +45,8 @@ class HomePage : Fragment() {
         )
 
         auth = Firebase.auth
+
+        orderNotification()
 
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -145,6 +148,38 @@ class HomePage : Fragment() {
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
 //        private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
+    }
+
+    private fun orderNotification(){
+        var uid = auth.currentUser?.uid.toString()
+        database = FirebaseDatabase.getInstance().getReference("Orders")
+        var i = 0
+        val postListener = object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    var checkUserOrder = it.child("userID").value.toString()
+                    var orderStatus = it.child("orderStatus").value.toString()
+
+                    if(checkUserOrder == uid){
+                        if(orderStatus != "Completed"){
+                            i++
+                            Log.d("Order", "Here")
+                            binding.textView14.text = i.toString()
+                            binding.textView14.visibility = View.VISIBLE
+                        }
+                    }
+                    else{
+                        binding.textView14.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+        database.addValueEventListener(postListener)
     }
 
 }

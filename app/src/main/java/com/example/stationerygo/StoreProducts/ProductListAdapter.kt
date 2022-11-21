@@ -3,6 +3,7 @@ package com.example.stationerygo.StoreProducts
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,11 @@ class ProductListAdapter (private val mList: List<ProductListData>,
         holder.title.text = ItemsViewModel.productName
 
         holder.qty.text = "Quantity: " +ItemsViewModel.productQty
+
+        if(ItemsViewModel.productQty == "0"){
+            holder.qty.setTextColor(Color.parseColor("#d50000"))
+            holder.qty.text = "Out Of Stock!"
+        }
 
         holder.price.text = "Price(RM): "+ ItemsViewModel.productPrice
 

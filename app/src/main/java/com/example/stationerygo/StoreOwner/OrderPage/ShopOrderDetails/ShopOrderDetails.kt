@@ -1,6 +1,8 @@
 package com.example.stationerygo.StoreOwner.OrderPage.ShopOrderDetails
 
+import android.content.Intent
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,6 +29,8 @@ import com.squareup.picasso.Picasso
 private lateinit var binding: FragmentShopOrderDetailsBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth : FirebaseAuth
+private var intentPhone = ""
+private var intentEmail = ""
 
 class ShopOrderDetails : Fragment() {
 
@@ -44,6 +48,19 @@ class ShopOrderDetails : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         loadUserDate()
+
+        binding.shopOrderDetailsPhoneTxt.setOnClickListener{
+            val intent = Intent(
+                Intent.ACTION_DIAL,
+                Uri.parse("tel:"+ intentPhone))
+            startActivity(intent)
+        }
+
+        binding.shopOrderDetailsEmailTxt.setOnClickListener{
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.setData(Uri.parse("mailto:"+ intentEmail))
+            startActivity(intent)
+        }
 
         binding.shopOrderDetailsCompleteOrderBtn.setOnClickListener{
             completeOrder()
@@ -127,6 +144,9 @@ class ShopOrderDetails : Fragment() {
                 Picasso.get()
                     .load(userImg)
                     .into(binding.shopOrderDetailsUserImage)
+
+                intentPhone = phone
+                intentEmail = email
 
                 binding.shopOrderDetailsUsernameTxt.text = displayName
                 binding.shopOrderDetailsPhoneTxt.text = phone

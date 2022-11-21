@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Phone"
+                    android:text="Phone:"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/storeDetailsDetailsContactEmail_txt"
                     app:layout_constraintTop_toBottomOf="@+id/storeDetailsDetailsContactEmail_txt" />
@@ -202,6 +202,7 @@
                     android:layout_marginStart="24dp"
                     android:text="TextView"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#3700B3"
                     app:layout_constraintStart_toEndOf="@+id/storeDetailsDetailsContactEmail_txt"
                     app:layout_constraintTop_toTopOf="@+id/storeDetailsDetailsContactEmail_txt" />
 
@@ -210,6 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
+                    android:textColor="#3700B3"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:layout_constraintStart_toStartOf="@+id/storeDetailsDetailsContactEmail_txttxt"
                     app:layout_constraintTop_toTopOf="@+id/storeDetailsDetailsContactPhone_txt" />
@@ -217,9 +219,10 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            style="@style/CardOutLine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/CardOutLine"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -260,6 +263,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/checkLocationMap_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Street View"
+            android:paddingLeft="30dp"
+            app:icon="@drawable/pin_drop"
+            app:iconGravity="end"
+            app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

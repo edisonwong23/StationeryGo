@@ -30,20 +30,7 @@
                    app:layout_constraintTop_toTopOf="parent"
                    tools:src="@tools:sample/avatars" />
 
-               <Button
-                   android:id="@+id/editUser_btn"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="center_horizontal|center"
-                   android:layout_marginStart="32dp"
-                   android:layout_marginTop="8dp"
-                   android:layout_marginEnd="32dp"
-                   android:text="Update Profile"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintTop_toBottomOf="@+id/userChangeLocation_btn" />
-
-               <Button
+               <com.google.android.material.button.MaterialButton
                    android:id="@+id/shop_btn"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
@@ -52,22 +39,45 @@
                    android:layout_marginTop="32dp"
                    android:layout_marginEnd="32dp"
                    android:text="Shop"
+                   app:icon="@drawable/store"
+                   app:iconGravity="textStart"
+                   app:iconSize="30dp"
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintHorizontal_bias="0.0"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/displayUserName" />
 
-               <Button
+
+               <com.google.android.material.button.MaterialButton
                    android:id="@+id/userChangeLocation_btn"
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"
                    android:layout_marginTop="8dp"
                    android:text="Update Location"
+                   app:icon="@drawable/map"
+                   app:iconGravity="textStart"
+                   app:iconSize="30dp"
                    app:layout_constraintEnd_toEndOf="@+id/shop_btn"
                    app:layout_constraintStart_toStartOf="@+id/shop_btn"
                    app:layout_constraintTop_toBottomOf="@+id/shop_btn" />
 
-               <Button
+               <com.google.android.material.button.MaterialButton
+                   android:id="@+id/editUser_btn"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_horizontal|center"
+                   android:layout_marginStart="32dp"
+                   android:layout_marginTop="8dp"
+                   android:layout_marginEnd="32dp"
+                   android:text="Update Profile"
+                   app:icon="@drawable/manage_accounts"
+                   app:iconGravity="textStart"
+                   app:iconSize="30dp"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/userChangeLocation_btn" />
+
+               <com.google.android.material.button.MaterialButton
                    android:id="@+id/changePassword_btn"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
@@ -76,11 +86,14 @@
                    android:layout_marginTop="8dp"
                    android:layout_marginEnd="32dp"
                    android:text="Change Password"
+                   app:icon="@drawable/lock_reset"
+                   app:iconGravity="textStart"
+                   app:iconSize="30dp"
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/editUser_btn" />
 
-               <Button
+               <com.google.android.material.button.MaterialButton
                    android:id="@+id/logout_btn"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
@@ -89,7 +102,10 @@
                    android:layout_marginTop="8dp"
                    android:layout_marginEnd="32dp"
                    android:text="Logout"
-                   app:backgroundTint="#b23b3b"
+                   style="@style/DeleteButtons"
+                   app:icon="@drawable/logout"
+                   app:iconGravity="textStart"
+                   app:iconSize="30dp"
                    app:layout_constraintEnd_toEndOf="parent"
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/changeEmail_btn" />
@@ -105,7 +121,7 @@
                    app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintTop_toBottomOf="@+id/profileImage_img" />
 
-               <Button
+               <com.google.android.material.button.MaterialButton
                    android:id="@+id/changeEmail_btn"
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"

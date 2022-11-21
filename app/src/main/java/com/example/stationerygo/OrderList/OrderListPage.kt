@@ -223,7 +223,7 @@ class OrderListPage : Fragment() {
             }
 
         }
-        database.addListenerForSingleValueEvent(postListener)
+        database.addValueEventListener(postListener)
 
     }
 
@@ -282,7 +282,7 @@ class OrderListPage : Fragment() {
             }
 
         }
-        database.addListenerForSingleValueEvent(postListener)
+        database.addValueEventListener(postListener)
 
     }
 

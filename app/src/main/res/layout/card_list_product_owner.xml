@@ -47,20 +47,22 @@
             app:layout_constraintStart_toStartOf="@+id/orderShopName"
             app:layout_constraintTop_toBottomOf="@+id/orderShopName" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/manageProductEdit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit"
+            style="@style/ConfirmButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/manageProductDelete_btn"
+            style="@style/DeleteButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
             android:text="Delete"
-            app:backgroundTint="?attr/colorError"
             app:layout_constraintEnd_toStartOf="@+id/manageProductEdit_btn"
             app:layout_constraintTop_toTopOf="@+id/manageProductEdit_btn" />
 

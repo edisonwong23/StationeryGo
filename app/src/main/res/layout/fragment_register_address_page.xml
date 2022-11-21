@@ -149,11 +149,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-              <Button
+              <com.google.android.material.button.MaterialButton
                   android:id="@+id/userAddressUpdate_btn"
                   android:layout_width="0dp"
                   android:layout_height="wrap_content"
                   android:text="Update Address"
+                  style="@style/ConfirmButton"
                   app:layout_constraintBottom_toBottomOf="parent"
                   app:layout_constraintEnd_toEndOf="parent"
                   app:layout_constraintStart_toStartOf="parent" />
