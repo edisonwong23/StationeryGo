@@ -36,7 +36,9 @@
         tools:layout="@layout/fragment_home_page" >
         <action
             android:id="@+id/action_homePage_to_loginPage"
-            app:destination="@id/loginPage" />
+            app:destination="@id/loginPage"
+            app:popUpTo="@id/loginPage"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homePage_to_storeDetailPage"
             app:destination="@id/storeDetailPage" />
@@ -58,6 +60,9 @@
         <action
             android:id="@+id/action_homePage_to_cart_Page"
             app:destination="@id/cart_Page" />
+        <action
+            android:id="@+id/action_homePage_to_storeSearchPage"
+            app:destination="@id/storeSearchPage" />
     </fragment>
     <fragment
         android:id="@+id/createStorePage"
@@ -226,4 +231,13 @@
         android:name="com.example.stationerygo.StorePage.StoreDetailPage.StoreMapRoutingPage"
         android:label="Map Route"
         tools:layout="@layout/fragment_store_map_routing_page" />
+    <fragment
+        android:id="@+id/storeSearchPage"
+        android:name="com.example.stationerygo.StorePage.SearchShop.StoreSearchPage"
+        android:label="Search Page"
+        tools:layout="@layout/fragment_store_search_page">
+        <action
+            android:id="@+id/action_storeSearchPage_to_storeDetailPage"
+            app:destination="@id/storeDetailPage" />
+    </fragment>
 </navigation>

@@ -60,6 +60,22 @@ class StoreList : Fragment() {
             findNavController().navigate(R.id.action_homePage_to_cart_Page,bundle)
         }
 
+        binding.searchStoreButton.setOnClickListener {
+
+            var storeSearch = binding.searchStoreTextInputLayout.editText?.text.toString()
+
+            if(storeSearch.isEmpty()){
+                binding.searchStoreTextInputLayout.error = "Cannot be Empty*"
+            }
+            else{
+                var bundle = bundleOf(
+                    "storeSearch" to storeSearch,
+                )
+                findNavController().navigate(R.id.action_homePage_to_storeSearchPage,bundle)
+            }
+
+
+        }
 
         return binding.root
     }
@@ -235,7 +251,9 @@ class StoreList : Fragment() {
                         storeStatus))
                 }
 
+
                  var sortedStoreList = storeArrayList.sortedWith(compareBy{it.city})
+
 
                 val recyclerView = binding.recyclerviewStores
                 recyclerView.layoutManager = LinearLayoutManager(context)
