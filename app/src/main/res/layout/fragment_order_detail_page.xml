@@ -254,7 +254,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/orderDetailsCancelOrder_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -263,8 +263,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="Cancel Order"
-                    app:backgroundTint="@color/design_default_color_error"
-
+                    style="@style/DeleteButtons"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

@@ -38,11 +38,12 @@
             app:layout_constraintStart_toEndOf="@+id/imageProduct"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
+            style="@style/ConfirmButton"
             android:gravity="center"
             android:text="Edit Amount"
             app:iconGravity="textStart"
@@ -57,15 +58,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Price:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toStartOf="@+id/orderShopName"
             app:layout_constraintTop_toBottomOf="@+id/orderShopName" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/cardCartRemoveItem_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Remove Item"
-            app:backgroundTint="@color/errorTextColor"
+            style="@style/DeleteButtons"
             app:layout_constraintEnd_toStartOf="@+id/edit_btn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Quantity:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toStartOf="@+id/cardCartProductPrice_txt"
             app:layout_constraintTop_toBottomOf="@+id/cardCartProductPrice_txt" />
 

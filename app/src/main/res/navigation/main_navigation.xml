@@ -19,6 +19,9 @@
             app:popUpToInclusive="true"
             app:launchSingleTop="true"
             />
+        <action
+            android:id="@+id/action_loginPage_to_forgetPasswordPage"
+            app:destination="@id/forgetPasswordPage" />
     </fragment>
     <fragment
         android:id="@+id/registerPage"
@@ -240,4 +243,9 @@
             android:id="@+id/action_storeSearchPage_to_storeDetailPage"
             app:destination="@id/storeDetailPage" />
     </fragment>
+    <fragment
+        android:id="@+id/forgetPasswordPage"
+        android:name="com.example.stationerygo.LoginPage.ForgetPasswordPage"
+        android:label="Forget Password"
+        tools:layout="@layout/fragment_forget_password_page" />
 </navigation>

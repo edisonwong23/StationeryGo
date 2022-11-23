@@ -45,6 +45,9 @@ class OrderListAdapter (private val mList: List<OrderListData>,
         else if(ItemsViewModel.orderStatus == "Pending"){
             holder.orderStatus.setTextColor(Color.parseColor("#000000"))
         }
+        else if(ItemsViewModel.orderStatus == "Cancel"){
+            holder.orderStatus.setTextColor(Color.parseColor("#d50000"))
+        }
         else{
             holder.orderStatus.setTextColor(Color.parseColor("#6200EE"))
         }

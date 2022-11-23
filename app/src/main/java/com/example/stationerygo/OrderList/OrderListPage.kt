@@ -82,7 +82,7 @@ class OrderListPage : Fragment() {
                         orderKey.add(it.key.toString())
 //                        Log.d("Orders", it.child("orderID").value.toString())
                         var currentStatus = it.child("orderStatus").value.toString()
-                        if(!currentStatus.equals("Completed"))
+                        if(!currentStatus.equals("Completed") && !currentStatus.equals("Cancel"))
                         {
                             shopID?.add(it.child("storeID").value.toString())
                             orderID?.add(it.child("orderID").value.toString())
@@ -143,7 +143,7 @@ class OrderListPage : Fragment() {
                     var getUserOrders = it.child("userID").value?.equals(uid)
                     if(getUserOrders == true){
                         var currentOrderStatus = it.child("orderStatus").value.toString()
-                        if(currentOrderStatus.equals("Completed")){
+                        if(currentOrderStatus.equals("Completed") || currentOrderStatus.equals("Cancel")){
                             orderKey.add(it.key.toString())
                             shopID?.add(it.child("storeID").value.toString())
                             orderID?.add(it.child("orderID").value.toString())
@@ -197,18 +197,23 @@ class OrderListPage : Fragment() {
                         }
                     }
 
-                    orderList.add(OrderListData(orderID[i],shopName[i],orderDate[i],orderStatus[i],shopImage[i]))
+                    orderList.add(OrderListData(orderID[i],shopName[i],orderDate[i],orderStatus[i],shopImage[i],orderKey[i]))
                     i++
                 }
 
                 var recyclerView = binding.orderCurrentRecyclerView
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
-                recyclerView.adapter = OrderListAdapter(orderList){ OrderListData, position:Int ->
+                fun String.toDate(): Date {
+                    return SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).parse(this)
+                }
+                val sortedCurrentOrder = orderList.sortedByDescending { it.orderDate?.toDate() }
+
+                recyclerView.adapter = OrderListAdapter(sortedCurrentOrder){ OrderListData, position:Int ->
                     var bundle = bundleOf(
-                        "orderID" to orderID[position],
-                        "shopName" to shopName[position],
-                        "orderKey" to orderKey[position],
+                        "orderID" to sortedCurrentOrder[position].orderID,
+                        "shopName" to sortedCurrentOrder[position].orderShop,
+                        "orderKey" to sortedCurrentOrder[position].orderKey,
                     )
                     findNavController().navigate(R.id.action_homePage_to_orderDetailPage,bundle)
                 }
@@ -249,7 +254,7 @@ class OrderListPage : Fragment() {
                         }
                     }
 
-                    orderList.add(OrderListData(orderID[i],shopName[i],orderDate[i],orderStatus[i],shopImage[i]))
+                    orderList.add(OrderListData(orderID[i],shopName[i],orderDate[i],orderStatus[i],shopImage[i],orderKey[i]))
 
                     i++
                 }
@@ -258,16 +263,16 @@ class OrderListPage : Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(context)
 
                 fun String.toDate(): Date {
-                    return SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault()).parse(this)
+                    return SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).parse(this)
                 }
 
                 var sortedList = orderList.sortedByDescending { it.orderDate?.toDate() }
 
                 recyclerView.adapter = OrderListAdapter(sortedList){ OrderListData, position:Int ->
                     var bundle = bundleOf(
-                        "orderID" to orderID[position],
-                        "shopName" to shopName[position],
-                        "orderKey" to orderKey[position],
+                        "orderID" to sortedList[position].orderID,
+                        "shopName" to sortedList[position].orderShop,
+                        "orderKey" to sortedList[position].orderKey,
                     )
                     findNavController().navigate(R.id.action_homePage_to_orderDetailPage,bundle)
                 }

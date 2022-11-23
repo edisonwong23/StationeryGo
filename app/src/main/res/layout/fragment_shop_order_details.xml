@@ -373,20 +373,20 @@
                         android:layout_height="match_parent">
 
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/shopOrderDetailsCancelOrder_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="Cancel Order"
-                            app:backgroundTint="@color/errorTextColor"
+                            style="@style/DeleteButtons"
                             app:layout_constraintEnd_toStartOf="@+id/shopOrderDetailsAccepOrder_btn"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="packed"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/shopOrderDetailsAccepOrder_btn" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/shopOrderDetailsAccepOrder_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -394,52 +394,57 @@
                             android:layout_marginTop="3dp"
                             android:layout_marginEnd="8dp"
                             android:text="Accept Order"
+                            style="@style/ConfirmButton"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toEndOf="@+id/shopOrderDetailsCancelOrder_btn"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/shopOrderDetailsCompleteOrder_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:text="Complete Order"
+                            style="@style/ConfirmButton"
                             android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/shopOrderDetailsAccepOrder_btn" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/shopOrderDetailsUncancelOrder_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:text="Uncancel Order"
+                            style="@style/ConfirmButton"
                             android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/shopOrderDetailsCompleteOrder_btn" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/ShopOrderDetailsDeliveryOrder_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:text="Deliver Order"
+                            style="@style/ConfirmButton"
                             android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/shopOrderDetailsUncancelOrder_btn" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/readyForPickUp_btn"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="Ready For Pick Up"
+                            style="@style/ConfirmButton"
                             android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

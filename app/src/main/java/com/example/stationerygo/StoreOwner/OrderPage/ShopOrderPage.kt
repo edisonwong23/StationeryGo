@@ -131,7 +131,7 @@ class ShopOrderPage : Fragment() {
                      userDisplayName.add(snapshot.child(userID[i]).child("displayUsername").value.toString())
                      userImg.add(snapshot.child(userID[i]).child("userImage").value.toString())
 
-                    if(orderStatus[i] == "Completed"){
+                    if(orderStatus[i] == "Completed" || orderStatus[i] == "Cancel"){
 //                        Log.d("Orders","$i " + orderStatus[i])
                         displayCompletedList.add(ShopOrderData(orderKey[i],orderID[i],orderDate[i],orderStatus[i],userImg[i],userDisplayName[i],userID[i],orderType[i]))
                     }
@@ -145,7 +145,7 @@ class ShopOrderPage : Fragment() {
                 }
 
                 fun String.toDate(): Date {
-                    return SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault()).parse(this)
+                    return SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).parse(this)
                 }
 
                 var displayOrderListSorted = displayOrderList.sortedByDescending { it.orderDate?.toDate() }

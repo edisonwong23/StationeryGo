@@ -1,6 +1,9 @@
 package com.example.stationerygo.StoreOwner.OrderPage.ShopOrderDetails
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -63,11 +66,29 @@ class ShopOrderDetails : Fragment() {
         }
 
         binding.shopOrderDetailsCompleteOrderBtn.setOnClickListener{
-            completeOrder()
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+            alartDialog.apply {
+                setTitle("Complete Order?")
+                setMessage("Are you sure you want to complete order?")
+                setPositiveButton("Complete"){ _: DialogInterface?, _: Int ->
+                    completeOrder()
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
         }
 
         binding.shopOrderDetailsCancelOrderBtn.setOnClickListener {
-            cancelOrder()
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+            alartDialog.apply {
+                setTitle("Cancel Order?")
+                setMessage("Are you sure you want to cancel order?")
+                setPositiveButton("Confirm"){ _: DialogInterface?, _: Int ->
+                    cancelOrder()
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
         }
 
         binding.shopOrderDetailsAccepOrderBtn.setOnClickListener {
@@ -79,7 +100,17 @@ class ShopOrderDetails : Fragment() {
         }
 
         binding.ShopOrderDetailsDeliveryOrderBtn.setOnClickListener {
-            deliverOrder()
+
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+            alartDialog.apply {
+                setTitle("Complete Order?")
+                setMessage("Are you sure you want to complete order?")
+                setPositiveButton("Complete"){ _: DialogInterface?, _: Int ->
+                    deliverOrder()
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
         }
 
         binding.readyForPickUpBtn.setOnClickListener {
@@ -125,6 +156,11 @@ class ShopOrderDetails : Fragment() {
             binding.shopOrderDetailsAccepOrderBtn.visibility = View.GONE
             binding.readyForPickUpBtn.visibility = View.GONE
             binding.shopOrderDetailsCompleteOrderBtn.visibility = View.VISIBLE
+        }
+        else if(currentOrderStatus == "Pending"){
+            binding.shopOrderDetailsCancelOrderBtn.visibility = View.VISIBLE
+            binding.shopOrderDetailsAccepOrderBtn.visibility = View.VISIBLE
+            binding.shopOrderDetailsUncancelOrderBtn.visibility = View.GONE
         }
     }
 
@@ -226,6 +262,19 @@ class ShopOrderDetails : Fragment() {
                 binding.shopOrderDetailsTotalAmountTxt.text = "RM "+totalAmount
                 binding.shopOrderDetailsPaymentDateTxt.text = purchaseDate
                 binding.shopOrderDetailsStatusTxt.text = orderStatus
+
+                if(orderStatus == "Completed"){
+                    binding.shopOrderDetailsStatusTxt.setTextColor(Color.parseColor("#689f38"))
+                }
+                else if(orderStatus == "Pending"){
+                    binding.shopOrderDetailsStatusTxt.setTextColor(Color.parseColor("#000000"))
+                }
+                else if(orderStatus == "Cancel"){
+                    binding.shopOrderDetailsStatusTxt.setTextColor(Color.parseColor("#d50000"))
+                }
+                else{
+                    binding.shopOrderDetailsStatusTxt.setTextColor(Color.parseColor("#6200EE"))
+                }
 
                 if(orderType == "Delivery"){
                     binding.shopOrderDetailsAddressUserAddressTxt.text = address
@@ -343,7 +392,7 @@ class ShopOrderDetails : Fragment() {
         database = FirebaseDatabase.getInstance().getReference("Orders")
         var dataRef =  database.child(orderKey)
 
-        dataRef.child("orderStatus").setValue("Preparing").addOnCompleteListener{
+        dataRef.child("orderStatus").setValue("Pending").addOnCompleteListener{
             if(it.isSuccessful){
                 Toast.makeText(context,"Order Has Been Un-Cancel",Toast.LENGTH_SHORT).show()
             }

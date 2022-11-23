@@ -262,7 +262,7 @@ class PaymentPage : Fragment() {
         var orderType = arguments?.getString("orderType").toString()
         var storeID = arguments?.getString("storeID").toString()
         var paymentType = selectedPaymentType
-        val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         val currentDate = sdf.format(Date())
         val currentStatus = "Pending"
         val userCurrentAddress = arguments?.getString("userCurrentAddress").toString()

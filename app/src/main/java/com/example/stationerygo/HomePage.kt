@@ -161,7 +161,7 @@ class HomePage : Fragment() {
                     var orderStatus = it.child("orderStatus").value.toString()
 
                     if(checkUserOrder == uid){
-                        if(orderStatus != "Completed"){
+                        if(orderStatus != "Completed" && orderStatus != "Cancel"){
                             i++
                             Log.d("Order", "Here")
                             binding.textView14.text = i.toString()

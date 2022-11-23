@@ -2,6 +2,7 @@ package com.example.stationerygo.OrderList.OrderDetailPage
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -148,6 +149,19 @@ class OrderDetailPage : Fragment() {
                 binding.orderDetailsPaymentTypeTxt.text = orderPaymentType
                 binding.orderDetailsPaymentAmountTxt.text = "RM "+orderPaymentAmount
                 binding.orderDetailsOrderTypeTxt.text = orderType
+
+                if(orderStatus == "Completed"){
+                    binding.orderDetailsStatusTxt.setTextColor(Color.parseColor("#689f38"))
+                }
+                else if(orderStatus == "Pending"){
+                    binding.orderDetailsStatusTxt.setTextColor(Color.parseColor("#000000"))
+                }
+                else if(orderStatus == "Cancel"){
+                    binding.orderDetailsStatusTxt.setTextColor(Color.parseColor("#d50000"))
+                }
+                else{
+                    binding.orderDetailsStatusTxt.setTextColor(Color.parseColor("#6200EE"))
+                }
 
                 if(orderType == "Delivery"){
                     binding.orderDetailsAddressCard.visibility = View.VISIBLE

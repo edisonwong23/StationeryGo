@@ -45,8 +45,8 @@ class CartAdapet(private val mList: ArrayList<Cart_Data>,
 
         // sets the text to the textview from our itemHolder class
         holder.title.text = ItemsViewModel.itemName
-        holder.price.text = "Price(RM): " + ItemsViewModel.itemPrice
-        holder.itemInQty.text = "Quantity: " + ItemsViewModel.itemQty
+        holder.price.text = "RM " + ItemsViewModel.itemPrice
+        holder.itemInQty.text = "Qty: " + ItemsViewModel.itemQty
 
         holder.edit.setOnClickListener {
             var bundle = bundleOf(

@@ -54,7 +54,9 @@ class LoginPage : Fragment() {
 
         binding.loginBtn.setOnClickListener { validChecker() }
 
-
+        binding.userForgetPasswordBtn.setOnClickListener{
+            findNavController().navigate(R.id.action_loginPage_to_forgetPasswordPage)
+        }
 
         return binding.root
     }
