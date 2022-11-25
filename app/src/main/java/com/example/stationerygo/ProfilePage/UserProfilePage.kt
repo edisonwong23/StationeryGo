@@ -42,11 +42,16 @@ class UserProfilePage : Fragment() {
         auth = Firebase.auth
         val user = Firebase.auth.currentUser
         user?.let {
+
             val name = user.displayName
+            val email = user.email
+
             binding.displayUserName.text = name
             Picasso.get()
                 .load(user.photoUrl.toString())
                 .into(binding.profileImageImg)
+
+            binding.userProfileemaildisplayTxt.text = email
         }
 
         binding.userChangeLocationBtn.setOnClickListener {

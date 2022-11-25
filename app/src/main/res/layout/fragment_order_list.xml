@@ -68,23 +68,25 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/orderCurrentOrder_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Current Order"
+            style="@style/ConfirmButton"
             app:layout_constraintEnd_toStartOf="@+id/orderAllOrder_btn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/orderAllOrder_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Order History"
+            style="@style/ConfirmButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/orderCurrentOrder_btn"

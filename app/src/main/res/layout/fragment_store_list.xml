@@ -19,12 +19,13 @@
         app:layout_constraintTop_toBottomOf="@+id/searchStore_TextInputLayout"
         tools:listitem="@layout/card_list_store" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/goToSearch_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Search Shop"
+        style="@style/ConfirmButton"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,12 +55,13 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/searchStoreButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="Search"
+        style="@style/ConfirmButton"
         app:layout_constraintBottom_toBottomOf="@+id/searchStore_TextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

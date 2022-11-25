@@ -270,6 +270,7 @@
             android:layout_height="wrap_content"
             android:text="Street View"
             android:paddingLeft="30dp"
+            style="@style/ConfirmButton"
             app:icon="@drawable/pin_drop"
             app:iconGravity="end"
             app:layout_constraintEnd_toEndOf="@+id/materialCardView"

@@ -15,24 +15,26 @@
            android:layout_height="match_parent">
 
 
-           <Button
+           <com.google.android.material.button.MaterialButton
                android:id="@+id/pickup_btn"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
-               android:background="@drawable/not_transparent_button"
                android:text="Pick Up"
+               app:backgroundTint="#FFA726"
+               android:background="@drawable/not_transparent_button"
                app:layout_constraintEnd_toStartOf="@+id/delivery_btn"
                app:layout_constraintHorizontal_bias="0.5"
                app:layout_constraintHorizontal_chainStyle="packed"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toTopOf="@+id/delivery_btn" />
 
-           <Button
+           <com.google.android.material.button.MaterialButton
                android:id="@+id/delivery_btn"
                android:layout_width="0dp"
                android:layout_height="wrap_content"
-               android:background="@drawable/transparent_button"
                android:text="Deliver"
+               app:backgroundTint="#F5F5F5"
+               android:background="@drawable/not_transparent_button"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintHorizontal_bias="0.5"
                app:layout_constraintStart_toEndOf="@+id/pickup_btn"
@@ -90,6 +92,7 @@
                android:layout_marginTop="8dp"
                app:layout_constraintBottom_toTopOf="@+id/cardView"
                app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toBottomOf="@+id/addressEdit_Card"
                tools:listitem="@layout/card_list_cart_product">

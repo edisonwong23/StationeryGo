@@ -4,20 +4,21 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentCartPageBinding
-import com.example.stationerygo.databinding.FragmentStoreDetailPageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import java.text.DecimalFormat
 
 private lateinit var binding : FragmentCartPageBinding
 private lateinit var database: DatabaseReference
@@ -47,8 +48,8 @@ class Cart_Page : Fragment() {
         getUserAddress()
 
         binding.pickupBtn.setOnClickListener {
-            binding.pickupBtn.setBackgroundResource(R.drawable.not_transparent_button)
-            binding.deliveryBtn.setBackgroundResource(R.drawable.transparent_button)
+            binding.pickupBtn.backgroundTintList = resources.getColorStateList(R.color.choosenButton)
+            binding.deliveryBtn.backgroundTintList = resources.getColorStateList(R.color.notChoosenButton)
             deliveryFee = "0.00"
             orderType = "Pick Up"
             binding.deliveryFeeAmountTxt.text = deliveryFee
@@ -58,8 +59,8 @@ class Cart_Page : Fragment() {
         }
 
         binding.deliveryBtn.setOnClickListener {
-            binding.pickupBtn.setBackgroundResource(R.drawable.transparent_button)
-            binding.deliveryBtn.setBackgroundResource(R.drawable.not_transparent_button)
+            binding.pickupBtn.backgroundTintList = resources.getColorStateList(R.color.notChoosenButton)
+            binding.deliveryBtn.backgroundTintList = resources.getColorStateList(R.color.choosenButton)
             deliveryFee = "5.00"
             orderType = "Delivery"
             binding.deliveryFeeAmountTxt.text = deliveryFee

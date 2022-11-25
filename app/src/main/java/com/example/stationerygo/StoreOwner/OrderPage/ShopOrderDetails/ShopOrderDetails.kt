@@ -103,9 +103,9 @@ class ShopOrderDetails : Fragment() {
 
             val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
             alartDialog.apply {
-                setTitle("Complete Order?")
-                setMessage("Are you sure you want to complete order?")
-                setPositiveButton("Complete"){ _: DialogInterface?, _: Int ->
+                setTitle("Deliver Order?")
+                setMessage("Start Delivering Order?")
+                setPositiveButton("Deliver"){ _: DialogInterface?, _: Int ->
                     deliverOrder()
                 }
                 setNegativeButton("Cancel"){_, _ ->

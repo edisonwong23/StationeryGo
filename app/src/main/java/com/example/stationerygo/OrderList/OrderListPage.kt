@@ -1,6 +1,12 @@
 package com.example.stationerygo.OrderList
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.ProgressDialog
+import android.content.Context
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +14,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +27,7 @@ import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentOrderListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.messaging.FirebaseMessaging
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -25,7 +37,6 @@ private lateinit var database: DatabaseReference
 private lateinit var auth: FirebaseAuth
 
 class OrderListPage : Fragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -209,12 +220,27 @@ class OrderListPage : Fragment() {
                 }
                 val sortedCurrentOrder = orderList.sortedByDescending { it.orderDate?.toDate() }
 
+                FirebaseMessaging.getInstance().token.addOnCompleteListener{task ->
+                    if (!task.isSuccessful) {
+                        Log.w("Order", "Fetching FCM registration token failed", task.exception)
+                    }
+
+                    // Get new FCM registration token
+                    val token = task.result
+
+                    // Log and toast
+                    Log.d("Order", token.toString())
+
+                }
+
+
                 recyclerView.adapter = OrderListAdapter(sortedCurrentOrder){ OrderListData, position:Int ->
                     var bundle = bundleOf(
                         "orderID" to sortedCurrentOrder[position].orderID,
                         "shopName" to sortedCurrentOrder[position].orderShop,
                         "orderKey" to sortedCurrentOrder[position].orderKey,
                     )
+
                     findNavController().navigate(R.id.action_homePage_to_orderDetailPage,bundle)
                 }
 
@@ -290,5 +316,7 @@ class OrderListPage : Fragment() {
         database.addValueEventListener(postListener)
 
     }
+
+
 
 }
