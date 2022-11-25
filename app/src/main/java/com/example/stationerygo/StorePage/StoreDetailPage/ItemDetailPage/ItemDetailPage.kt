@@ -27,7 +27,7 @@ private var productImage: String = ""
 private var productName: String = ""
 private var productQty: String = ""
 private var productPrice: String = ""
-private var amountToCart: String = ""
+private var amountToCart: String = "1"
 
 
 class ItemDetailPage : Fragment() {
@@ -187,6 +187,8 @@ class ItemDetailPage : Fragment() {
         var storeID = arguments?.getString("storeID").toString()
         var itemID = arguments?.getString("itemID").toString()
         var itemCurrentAmount = productQty
+
+        Log.d("Cart", itemCurrentAmount)
 
         database = FirebaseDatabase.getInstance().getReference("Cart")
         var dataref = database.child(uid).child(storeID).child(itemID)

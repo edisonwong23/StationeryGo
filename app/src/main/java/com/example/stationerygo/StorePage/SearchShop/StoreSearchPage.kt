@@ -160,7 +160,7 @@ class StoreSearchPage : Fragment() {
                         binding.noStoreFoundTxt.visibility = View.VISIBLE
                     }
 
-                    var sortedStoreList = storeArrayList.sortedWith(compareBy{it.city})
+                    var sortedStoreList = storeArrayList.sortedBy { it.city?.replace("KM","")?.toDouble() }
 
                     val recyclerView = binding.recyclerviewStores
                     recyclerView.layoutManager = LinearLayoutManager(context)
