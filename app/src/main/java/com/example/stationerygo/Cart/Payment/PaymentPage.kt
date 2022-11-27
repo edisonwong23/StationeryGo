@@ -32,6 +32,8 @@ private var minusProductID : MutableList<String> = ArrayList<String>()
 private var minusProductQty :MutableList<String> = ArrayList<String>()
 private var userLat = ""
 private var userLon = ""
+private var livingNo = ""
+private var livingType = ""
 
 class PaymentPage : Fragment() {
 
@@ -80,9 +82,13 @@ class PaymentPage : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var lat = snapshot.child("lat").value.toString()
                 var lon = snapshot.child("lon").value.toString()
+                var no = snapshot.child("livingNo").value.toString()
+                var type = snapshot.child("livingType").value.toString()
 
                 userLat = lat
                 userLon = lon
+                livingNo = no
+                livingType = type
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -288,7 +294,9 @@ class PaymentPage : Fragment() {
             currentStatus,
             userCurrentAddress,
             userLat,
-            userLon))
+            userLon,
+        livingNo,
+        livingType))
             .addOnCompleteListener{
             Toast.makeText(context,"Purchase Complete",Toast.LENGTH_SHORT).show()
                 decreaseStock()

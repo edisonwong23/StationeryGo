@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Date:"
+            android:text="Ordered At:"
             app:layout_constraintStart_toStartOf="@+id/orderShopName"
             app:layout_constraintTop_toBottomOf="@+id/orderShopName" />
 
@@ -57,7 +57,7 @@
             android:id="@+id/orderOrderDate_txttxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="8dp"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toEndOf="@+id/orderOrderDate"

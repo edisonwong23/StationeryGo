@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.location.Location
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -28,6 +29,9 @@ import com.example.stationerygo.databinding.FragmentShopOrderPageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 private lateinit var binding: FragmentShopOrderDetailsBinding
 private lateinit var database: DatabaseReference
@@ -236,6 +240,9 @@ class ShopOrderDetails : Fragment() {
                 var address = snapshot.child("address").value.toString()
                 var lat = snapshot.child("lat").value.toString()
                 var lon = snapshot.child("lon").value.toString()
+                var no = snapshot.child("userLivingNo").value.toString()
+                var type = snapshot.child("userLivingType").value.toString()
+                var completedDate = snapshot.child("CompletedDate").value.toString()
 
                 var userLat = 0.00
                 var userLon = 0.00
@@ -262,9 +269,14 @@ class ShopOrderDetails : Fragment() {
                 binding.shopOrderDetailsTotalAmountTxt.text = "RM "+totalAmount
                 binding.shopOrderDetailsPaymentDateTxt.text = purchaseDate
                 binding.shopOrderDetailsStatusTxt.text = orderStatus
+                binding.shopOrderUserNoTxt.text = no
+                binding.shopOrderLivingTypeTxt.text = type
+                binding.shopOrderCompletedDateTxt.text = completedDate
 
                 if(orderStatus == "Completed"){
                     binding.shopOrderDetailsStatusTxt.setTextColor(Color.parseColor("#689f38"))
+                    binding.shopOrderCompletedDateTxt.visibility = View.VISIBLE
+                    binding.shopOrderCompletedDate.visibility = View.VISIBLE
                 }
                 else if(orderStatus == "Pending"){
                     binding.shopOrderDetailsStatusTxt.setTextColor(Color.parseColor("#000000"))
@@ -358,6 +370,7 @@ class ShopOrderDetails : Fragment() {
         database = FirebaseDatabase.getInstance().getReference("Orders")
         var dataRef =  database.child(orderKey)
 
+
         dataRef.child("orderStatus").setValue("Preparing").addOnCompleteListener{
             if(it.isSuccessful){
                 Toast.makeText(context,"Order Has Been Accepted",Toast.LENGTH_SHORT).show()
@@ -375,9 +388,13 @@ class ShopOrderDetails : Fragment() {
         database = FirebaseDatabase.getInstance().getReference("Orders")
         var dataRef =  database.child(orderKey)
 
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        val currentDate = sdf.format(Date())
+
         dataRef.child("orderStatus").setValue("Completed").addOnCompleteListener{
             if(it.isSuccessful){
                 Toast.makeText(context,"Order Has Been Completed",Toast.LENGTH_SHORT).show()
+                dataRef.child("CompletedDate").setValue(currentDate)
             }
             else{
                 Toast.makeText(context,"Error in Database",Toast.LENGTH_SHORT).show()

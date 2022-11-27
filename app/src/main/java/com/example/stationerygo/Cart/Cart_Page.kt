@@ -144,9 +144,13 @@ class Cart_Page : Fragment() {
         val postListner = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 var userAddress = snapshot.child("address").value.toString()
+                var userNo = snapshot.child("livingNo").value.toString()
+                var userType = snapshot.child("livingType").value.toString()
 
                 binding.cartCurrentAddressTxt.text = userAddress
                 userCurrentAddress = userAddress
+                binding.cartLivingNoTxt.text = userNo
+                binding.cartLivingTypeTxt.text = userType
             }
 
             override fun onCancelled(error: DatabaseError) {

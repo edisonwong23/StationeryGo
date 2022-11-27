@@ -185,11 +185,11 @@ class RegisterPage : Fragment() {
             errorChecker = true
         }
         else if(displayNameUser.count() < 5){
-            binding.displayUsernameTextfield.error = " Must be Less then 20 Letters!"
+            binding.displayUsernameTextfield.error = " Must be More then 5 Letters!"
             errorChecker = true
         }
         else if(displayNameUser.count() > 20){
-            binding.displayUsernameTextfield.error = "Display User Name is too short!"
+            binding.displayUsernameTextfield.error = "Must be less then 20 Letters!"
             errorChecker = true
         }
         else{
@@ -223,7 +223,7 @@ class RegisterPage : Fragment() {
             errorChecker = true
         }
         else if(!pattern_password.matcher(password).matches()){
-            binding.passwordTextfield.error = "Invalid Password Type"
+            binding.passwordTextfield.error = "Must contain 1 Capital, 1 Number, 1 Symbol !"
             errorChecker = true
         }
         else

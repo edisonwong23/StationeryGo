@@ -130,6 +130,9 @@ class OrderDetailPage : Fragment() {
                 var orderPaymentAmount = ""
                 var orderAddress = ""
                 var orderType = ""
+                var orderUserNo = ""
+                var orderUserType = ""
+                var orderCompleted = ""
 
                 snapshot.children.forEach{
                     var orderTrue = it.child("orderID").value?.equals(orderID)
@@ -141,6 +144,10 @@ class OrderDetailPage : Fragment() {
                         orderPaymentAmount = it.child("totalAmount").value.toString()
                         orderAddress = it.child("address").value.toString()
                         orderType = it.child("orderType").value.toString()
+                        orderUserNo = it.child("userLivingNo").value.toString()
+                        orderUserType = it.child("userLivingType").value.toString()
+                        orderCompleted = it.child("CompletedDate").value.toString()
+
                     }
                 }
                 binding.orderDetailsShopNameTxt.text = shopName
@@ -149,9 +156,14 @@ class OrderDetailPage : Fragment() {
                 binding.orderDetailsPaymentTypeTxt.text = orderPaymentType
                 binding.orderDetailsPaymentAmountTxt.text = "RM "+orderPaymentAmount
                 binding.orderDetailsOrderTypeTxt.text = orderType
+                binding.userOrderLivingNoTxt.text = orderUserNo
+                binding.userOrderLivingTypeTxt.text = orderUserType
+                binding.userOrderCompletedDateTxt.text = orderCompleted
 
                 if(orderStatus == "Completed"){
                     binding.orderDetailsStatusTxt.setTextColor(Color.parseColor("#689f38"))
+                    binding.userOrderCompletedDateTxt.visibility = View.VISIBLE
+                    binding.userOrderCompletedDate.visibility = View.VISIBLE
                 }
                 else if(orderStatus == "Pending"){
                     binding.orderDetailsStatusTxt.setTextColor(Color.parseColor("#000000"))

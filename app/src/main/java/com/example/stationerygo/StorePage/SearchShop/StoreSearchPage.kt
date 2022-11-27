@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.text.toUpperCase
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,8 +64,8 @@ class StoreSearchPage : Fragment() {
 
                 snapshot.children.forEach {
 
-                    var compareName = it.child("storeName").value.toString()
-                    if(compareName.contains(searchedStore)){
+                    var compareName = it.child("storeName").value.toString().uppercase()
+                    if(compareName.contains(searchedStore.uppercase())){
 
                         var position = i++
                         var storeImage = it.child("storeImage").value.toString()

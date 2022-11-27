@@ -15,4 +15,6 @@ data class PaymentData(
     val address: String ?= null,
     val lat: String ?= null,
     val lon: String ?= null,
+    val userLivingNo : String ?= null,
+    val userLivingType: String ?= null,
 )
