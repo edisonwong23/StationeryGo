@@ -6,38 +6,32 @@ import android.content.Intent
 import android.graphics.Color
 import android.location.Location
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.animation.core.snap
-import androidx.core.os.bundleOf
-import androidx.core.view.isGone
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.stationerygo.Cart.Payment.PaymentData
 import com.example.stationerygo.OrderList.OrderDetailPage.OrderDetailsAdapter
 import com.example.stationerygo.OrderList.OrderDetailPage.OrderDetailsClass
 import com.example.stationerygo.R
-import com.example.stationerygo.StoreOwner.OrderPage.ShopOrderAdapter
 import com.example.stationerygo.databinding.FragmentShopOrderDetailsBinding
-import com.example.stationerygo.databinding.FragmentShopOrderPageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 private lateinit var binding: FragmentShopOrderDetailsBinding
 private lateinit var database: DatabaseReference
 private lateinit var auth : FirebaseAuth
 private var intentPhone = ""
 private var intentEmail = ""
+private var userLat = ""
+private var userLon = ""
+private var shopLat = ""
+private var shopLon = ""
 
 class ShopOrderDetails : Fragment() {
 
@@ -115,6 +109,14 @@ class ShopOrderDetails : Fragment() {
                 setNegativeButton("Cancel"){_, _ ->
                 }
             }.create().show()
+        }
+
+        binding.googleDirectionBtn.setOnClickListener{
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr=$shopLat,$shopLon&daddr=$userLat,$userLon")
+            )
+            startActivity(intent)
         }
 
         binding.readyForPickUpBtn.setOnClickListener {
@@ -214,6 +216,9 @@ class ShopOrderDetails : Fragment() {
                 var storeLat = snapshot.child("lat").value.toString().toDouble()
                 var storeLon = snapshot.child("lon").value.toString().toDouble()
 
+                shopLat = storeLat.toString()
+                shopLon = storeLon.toString()
+
                 loadPaymentDetails(storeLat,storeLon)
             }
 
@@ -243,6 +248,9 @@ class ShopOrderDetails : Fragment() {
                 var no = snapshot.child("userLivingNo").value.toString()
                 var type = snapshot.child("userLivingType").value.toString()
                 var completedDate = snapshot.child("CompletedDate").value.toString()
+
+                userLat = lat
+                userLon = lon
 
                 var userLat = 0.00
                 var userLon = 0.00

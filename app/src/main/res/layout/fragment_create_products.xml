@@ -44,9 +44,9 @@
                     style="@style/inputBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="16dp"
                     android:hint="Product Name"
                     app:counterEnabled="true"
                     app:counterMaxLength="20"
@@ -73,8 +73,8 @@
                     style="@style/inputBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:hint="Product Description"
                     app:counterEnabled="true"
                     app:counterMaxLength="50"
@@ -102,8 +102,8 @@
                     style="@style/dropDownBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:hint="Product Type"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -124,17 +124,15 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/productQty_TextField"
                     style="@style/inputBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:hint="Product Quantity"
-                    app:helperTextEnabled="true"
-                    app:helperText="Maximum of 1000 products only"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:helperText="Maximum of 1000 products only"
+                    app:helperTextEnabled="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/productType_TextField"
                     app:startIconContentDescription="@string/label">
@@ -152,17 +150,17 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/productPrice_TextField"
                     style="@style/inputBox"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
                     android:hint="Product Price"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/productQty_TextField"
+                    app:layout_constraintStart_toEndOf="@+id/productQty_TextField"
+                    app:layout_constraintTop_toTopOf="@+id/productQty_TextField"
                     app:startIconContentDescription="@string/label">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -177,18 +175,19 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/createProduct_btn"
+                    style="@style/ConfirmButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:text="Add Product"
-                    style="@style/ConfirmButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/productPrice_TextField" />
+                    app:layout_constraintTop_toBottomOf="@+id/productQty_TextField" />
 
                 <TextView
                     android:id="@+id/productImageNotification_txt"
@@ -198,6 +197,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/productCreateImageView" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>

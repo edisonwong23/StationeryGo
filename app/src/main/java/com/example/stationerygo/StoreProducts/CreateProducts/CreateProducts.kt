@@ -10,29 +10,28 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.compose.ui.graphics.Color
+import android.widget.*
+import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.R
-import com.example.stationerygo.StoreProducts.EditProducts.oldImagePath
 import com.example.stationerygo.databinding.FragmentCreateProductsBinding
-import com.example.stationerygo.databinding.FragmentProductListsBinding
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 private lateinit var binding : FragmentCreateProductsBinding
 private lateinit var database: DatabaseReference
@@ -42,6 +41,7 @@ private var imageUri: Uri? = null
 private lateinit var imageView: ImageView
 var dataToFirebase: Intent? = null
 private var current: String = "$0.00"
+//private var inputList: MutableList<TextInputLayout> = ArrayList<TextInputLayout>()
 
 class CreateProducts : Fragment() {
 
@@ -72,6 +72,51 @@ class CreateProducts : Fragment() {
         binding.createProductBtn.setOnClickListener{
             validationCheck()
         }
+
+        var oldAmount = 0
+        var textArrayList : MutableList<View> = ArrayList<View>()
+
+//        binding.addRadioButtonBtn.setOnClickListener {
+//
+//            val linearLayout = binding.textViewGenLinearLayout
+//
+//            val editText = TextInputEditText(requireContext())
+//            val editTextParams = LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.MATCH_PARENT
+//            )
+//
+//
+//            val textInputLayout = TextInputLayout(requireContext())
+//            val textInputLayoutParams = LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//            )
+//
+////            dynamicTextview.text = "Dynamically added text"
+//            textInputLayout.setLayoutParams(textInputLayoutParams);
+//            textInputLayout.addView(editText, editTextParams);
+//            textInputLayout.setHint("hint");
+//
+//            textArrayList.add(textInputLayout)
+//            Log.d("Create", textArrayList.count().toString())
+////            var newAmount = oldAmount + 1
+////            oldAmount = newAmount
+//
+////            Log.d("Create", oldAmount.toString())
+//
+//
+//
+////            textInputLayout.removeAllViews()
+//
+//
+//            for(data in textArrayList){
+//                linearLayout.removeAllViews()
+//                linearLayout.addView(textArrayList[textArrayList.count() - 1])
+//            }
+//
+////            linearLayout.removeView(textArrayList[i])
+//        }
 
         return binding.root
     }
@@ -234,9 +279,6 @@ class CreateProducts : Fragment() {
 
     private  fun  uploadImageToFirebase (data: Intent?, dataName: String,name:String,desc:String,type:String,qty:String,price:String){
         if(data != null){
-            val progress = ProgressDialog(activity)
-            progress.setTitle("Uploading Product Details")
-            progress.show()
             val fileName = UUID.randomUUID().toString() + ".jpg"
             val refStorage = FirebaseStorage.getInstance().reference.child("products/$fileName")
             data?.data?.let {
@@ -245,7 +287,6 @@ class CreateProducts : Fragment() {
                             taskSnapshot -> taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                         var imagePathFromFirebase = it.toString()
                         addItemToFirebase(imagePathFromFirebase,dataName,name,desc,type,qty,price)
-                        progress.hide()
                     }
                     }).addOnFailureListener({
                         Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
