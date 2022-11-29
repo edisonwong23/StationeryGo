@@ -187,7 +187,7 @@ class UserProfileEdit : Fragment() {
         var displayUserName = binding.userProfileEditDisplayNameTextfield.editText?.text.toString()
         var phone = binding.userProfileEditPhoneNumberTextfield.editText?.text.toString()
 
-        var userData = DataUserRegister(displayUserName,email,phone, userImgUri)
+//        var userData = DataUserRegister(displayUserName,email,phone, userImgUri)
 
         val profileUpdate = userProfileChangeRequest {
             displayName = displayUserName
@@ -196,11 +196,17 @@ class UserProfileEdit : Fragment() {
 
         auth.currentUser?.updateProfile(profileUpdate)?.addOnCompleteListener{
             if(it.isSuccessful){
-                dataRef.setValue(userData).addOnCompleteListener{
+                dataRef.child("displayUsername").setValue(displayUserName).addOnCompleteListener{
                     if(it.isSuccessful){
-                        Toast.makeText(context,"User Profile Update Successful!",Toast.LENGTH_SHORT).show()
-                        findNavController().navigateUp()
-                        progress.hide()
+                        dataRef.child("phone").setValue(phone).addOnCompleteListener {
+                            if(it.isSuccessful){
+                                dataRef.child("userImage").setValue(userImgUri).addOnCompleteListener {
+                                    Toast.makeText(context,"User Profile Update Successful!",Toast.LENGTH_SHORT).show()
+                                    findNavController().navigateUp()
+                                    progress.dismiss()
+                                }
+                            }
+                        }
                     }
                     else{
                         Toast.makeText(context,"Error in Database",Toast.LENGTH_SHORT).show()
@@ -208,7 +214,7 @@ class UserProfileEdit : Fragment() {
                 }
             }
             else{
-                progress.hide()
+                progress.dismiss()
                 Toast.makeText(context,"Error Updating User",Toast.LENGTH_SHORT).show()
             }
         }?.addOnFailureListener{
@@ -241,7 +247,7 @@ class UserProfileEdit : Fragment() {
                             taskSnapshot -> taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                         imagePathFromFirebase = it.toString()
                         updateUserProfile(imagePathFromFirebase)
-                        progress.hide()
+                        progress.dismiss()
                     }
                     })
             }

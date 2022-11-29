@@ -262,6 +262,10 @@ class RegisterAddressPage : Fragment() {
             binding.userAddressTextField.error = "Required*"
             errorChecker = true
         }
+        else if(checkAddress == "None"){
+            binding.userAddressTextField.error = "Required*"
+            errorChecker = true
+        }
         else{
             binding.userAddressTextField.isErrorEnabled = false
         }
