@@ -72,7 +72,7 @@ class ShopOrderPage : Fragment() {
                 orderID.clear()
                 orderKey.clear()
                 orderType.clear()
-                var i = 0
+
                 snapshot.children.forEach {
 //                    Log.d("Orders",it.value.toString())
                     if(it.child("storeID").value!!.equals(storeID)){
@@ -85,8 +85,6 @@ class ShopOrderPage : Fragment() {
                             orderType.add(it.child("orderType").value.toString())
                             orderKey.add(it.key.toString())
                             loadUserInfo(userID,orderStatus,orderDate,orderID,orderKey,orderType)
-
-                        i++
 
 //                        Log.d("Orders",orderID.toString())
                     }
@@ -123,9 +121,11 @@ class ShopOrderPage : Fragment() {
 
         val postListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                displayOrderList.clear()
-                displayCompletedList.clear()
-                for(data in orderID){
+//                displayOrderList.clear()
+//                displayCompletedList.clear()
+//                userDisplayName.clear()
+//                userImg.clear()
+                for(i in 0 until orderID.size){
 //                      Log.d("Orders","UserID: " + userID[i])
 //                    Log.d("Orders","UserID " + snapshot.child(userID[i]).value.toString())
                      userDisplayName.add(snapshot.child(userID[i]).child("displayUsername").value.toString())
@@ -139,9 +139,7 @@ class ShopOrderPage : Fragment() {
 //                        Log.d("Orders","$i " + orderStatus[i])
                         displayOrderList.add(ShopOrderData(orderKey[i],orderID[i],orderDate[i],orderStatus[i],userImg[i],userDisplayName[i],userID[i],orderType[i]))
                     }
-
-
-                     i++
+//                    i++
                 }
 
                 fun String.toDate(): Date {

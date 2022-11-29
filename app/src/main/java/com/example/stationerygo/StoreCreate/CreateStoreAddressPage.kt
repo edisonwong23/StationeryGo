@@ -116,7 +116,7 @@ class CreateStoreAddressPage : Fragment() {
                 OnSuccessListener<UploadTask.TaskSnapshot>{
                         taskSnapshot -> taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                     imagePathFromFirebase = it.toString()
-                    progress.hide()
+                    progress.dismiss()
                     getCurrentUser(imagePathFromFirebase)
                 }
                 }).addOnFailureListener{
@@ -183,6 +183,14 @@ class CreateStoreAddressPage : Fragment() {
     private fun addressValidation(){
         var address = binding.shopAddressTextField.editText?.text.toString()
         var errorChecker = false
+
+        if(address.isEmpty()){
+            binding.shopAddressTextField.error = "Required*"
+            errorChecker = true
+        }
+        else{
+            binding.shopAddressTextField.isErrorEnabled = false
+        }
 
         if(errorChecker){
             Toast.makeText(context,"Check Input Boxes",Toast.LENGTH_SHORT).show()

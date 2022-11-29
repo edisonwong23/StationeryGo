@@ -187,6 +187,7 @@ class ItemDetailPage : Fragment() {
         var storeID = arguments?.getString("storeID").toString()
         var itemID = arguments?.getString("itemID").toString()
         var itemCurrentAmount = productQty
+        var qtyToCart = binding.itemCurrentQuantityTxt.text.toString()
 
         Log.d("Cart", itemCurrentAmount)
 
@@ -195,9 +196,9 @@ class ItemDetailPage : Fragment() {
 
         var postRef = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var cart = Cart_Data(itemID, productImage, productName,amountToCart, productPrice, itemCurrentAmount)
+                var cart = Cart_Data(itemID, productImage, productName,qtyToCart, productPrice, itemCurrentAmount)
                if(snapshot.exists()){
-                   dataref.child("itemQty").setValue(amountToCart).addOnCompleteListener{
+                   dataref.child("itemQty").setValue(qtyToCart).addOnCompleteListener{
                        Toast.makeText(context,"Item Amount Been Updated",Toast.LENGTH_SHORT).show()
                    }
                        .addOnFailureListener{

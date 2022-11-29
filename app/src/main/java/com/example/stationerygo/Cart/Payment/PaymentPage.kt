@@ -52,7 +52,7 @@ class PaymentPage : Fragment() {
 
         val stationeryBind = binding.expireMonthEdittextField
         var stationery = resources.getStringArray(R.array.Month)
-        stationery = stationery.sortedArray()
+        stationery = stationery
         val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,stationery)
         stationeryBind.setAdapter(adapter)
 
@@ -216,6 +216,9 @@ class PaymentPage : Fragment() {
         var pattern_MASTER = Pattern.compile(ptMasterCard)
 
         var cardNumber = binding.cardNumberTextField.editText?.text.toString()
+        var expMonth = binding.expireMonthTextField.editText?.text.toString()
+        var expYear = binding.expireYearTextField.editText?.text.toString()
+        var cvv = binding.cvcCodeTextField.editText?.text.toString()
         var errorChecker = false
 
         if(cardNumber.isEmpty()){
@@ -249,6 +252,38 @@ class PaymentPage : Fragment() {
             }
         }
 
+        if(expMonth.isEmpty()){
+            binding.expireMonthTextField.error = "Required*"
+            errorChecker = true
+        }
+        else{
+            binding.expireMonthTextField.isErrorEnabled = false
+        }
+
+        if(expYear.isEmpty()){
+            binding.expireYearTextField.error = "Required*"
+            errorChecker = true
+        }
+        else if(expYear.count() > 4){
+            binding.expireYearTextField.error = "Invalid Year*"
+            errorChecker = true
+        }
+        else{
+            binding.expireYearTextField.isErrorEnabled = false
+        }
+
+        if(cvv.isEmpty()){
+            binding.cvcCodeTextField.error = "Invalid Year*"
+            errorChecker = true
+        }
+        else if(cvv.count() > 3){
+            binding.cvcCodeTextField.error = "Invalid CVC*"
+            errorChecker = true
+        }
+        else{
+            binding.cvcCodeTextField.isErrorEnabled = false
+        }
+
         if(selectedPaymentType == "Cash"){
             confirmOrder()
         }
@@ -262,6 +297,8 @@ class PaymentPage : Fragment() {
     }
 
     private fun confirmOrder(){
+        val progress = ProgressDialog(activity)
+        progress.show()
         var uid = auth.currentUser?.uid.toString()
         var totalAmount = arguments?.getString("totalAmount").toString()
         var storeName = arguments?.getString("StoreName").toString()
@@ -298,9 +335,11 @@ class PaymentPage : Fragment() {
         livingNo,
         livingType))
             .addOnCompleteListener{
+                progress.dismiss()
             Toast.makeText(context,"Purchase Complete",Toast.LENGTH_SHORT).show()
                 decreaseStock()
         }.addOnFailureListener {
+                progress.dismiss()
             Toast.makeText(context,"Fail To Purchase",Toast.LENGTH_SHORT).show()
             Log.d("Payment",it.toString())
         }
