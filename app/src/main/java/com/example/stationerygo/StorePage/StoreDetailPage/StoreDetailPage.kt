@@ -62,6 +62,11 @@ class StoreDetailPage : Fragment() {
         }
 
         binding.clearProductTypeSearchBtn.setOnClickListener {
+            try {
+                spinnerAdapter()
+            }catch (ex:Exception){
+                Log.d("Details", ex.toString())
+            }
             spinnerAdapter()
         }
 
@@ -86,7 +91,7 @@ class StoreDetailPage : Fragment() {
 
     private fun spinnerAdapter(){
         val spinner: Spinner = binding.productTypeSpinner
-        val product = resources.getStringArray(R.array.Stationery2)
+        val product = context?.resources?.getStringArray(R.array.Stationery2)
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -100,13 +105,15 @@ class StoreDetailPage : Fragment() {
         }
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                var productType = product[p2]
+                var productType = product?.get(p2)
 
                 if(productType == "None"){
                     getStoreProducts(dataID)
                 }
                 else{
-                    getSearchedProducts(productType)
+                    if (productType != null) {
+                        getSearchedProducts(productType)
+                    }
                 }
 
 
@@ -143,11 +150,11 @@ class StoreDetailPage : Fragment() {
                     }
                 }
                 if(productData.isEmpty()){
-                    progress.hide()
+                    progress.dismiss()
                     binding.storeDetailsRecyclerView.visibility = View.GONE
                     binding.noProductFoundText.visibility = View.VISIBLE
                 }else{
-                    progress.hide()
+                    progress.dismiss()
                     binding.noProductFoundText.visibility = View.GONE
                     binding.storeDetailsRecyclerView.visibility = View.VISIBLE
                     val recyclerView = binding.storeDetailsRecyclerView
@@ -164,7 +171,7 @@ class StoreDetailPage : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                progress.hide()
+                progress.dismiss()
                 Log.d("Products",error.toString())
             }
         }
@@ -192,21 +199,27 @@ class StoreDetailPage : Fragment() {
                         .into(binding.storeimageImg)
                 }
                 if(storeStatus == "Close"){
-                    progress.hide()
+                    progress.dismiss()
                     binding.productTypeSpinner.visibility = View.INVISIBLE
                     binding.clearProductTypeSearchBtn.visibility = View.INVISIBLE
                     binding.imageView4.visibility = View.VISIBLE
                     binding.navigateToCartFAB.visibility = View.GONE
                 }
                 else if(dataName == ""){
-                    progress.hide()
+                    progress.dismiss()
                     Toast.makeText(context,"No Item Listed!",Toast.LENGTH_SHORT).show()
                 }
                 else{
 //                    (activity as AppCompatActivity).supportActionBar?.title = dataName
 //                    getStoreProducts(dataID)
-                    spinnerAdapter()
-                    progress.hide()
+                    try {
+                        spinnerAdapter()
+                    }
+                    catch (ex:Exception){
+                        Log.d("Details",ex.toString())
+                    }
+
+                    progress.dismiss()
                     checkTotalInCart()
                 }
 
@@ -222,9 +235,9 @@ class StoreDetailPage : Fragment() {
     }
 
     private fun getStoreProducts(dataName:String){
-        val progress = ProgressDialog(activity)
-        progress.setTitle("Loading Products")
-        progress.show()
+//        val progress = ProgressDialog(activity)
+//        progress.setTitle("Loading Products")
+//        progress.show()
 
         var productData = ArrayList<StoreProductData>()
         database = FirebaseDatabase.getInstance().getReference("Products")
@@ -242,12 +255,12 @@ class StoreDetailPage : Fragment() {
                     productData.add(StoreProductData(i++,productID,productImage,productName,productQty,productPrice))
                 }
                 if(productData.isEmpty()){
-                    progress.hide()
+//                    progress.hide()
                     binding.noProductFoundText.visibility = View.VISIBLE
                     binding.storeDetailsRecyclerView.visibility = View.GONE
 //                    Toast.makeText(context,"Store is Empty",Toast.LENGTH_SHORT).show()
                 }else{
-                    progress.hide()
+//                    progress.hide()
                     binding.noProductFoundText.visibility = View.GONE
                     binding.storeDetailsRecyclerView.visibility = View.VISIBLE
                     val recyclerView = binding.storeDetailsRecyclerView
@@ -264,7 +277,7 @@ class StoreDetailPage : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                progress.hide()
+//                progress.hide()
                 Log.d("Products",error.toString())
             }
         }
@@ -272,8 +285,8 @@ class StoreDetailPage : Fragment() {
     }
 
     private fun checkTotalInCart(){
-        val progress = ProgressDialog(activity)
-        progress.show()
+//        val progress = ProgressDialog(activity)
+//        progress.show()
         auth = FirebaseAuth.getInstance()
         var uid = auth.currentUser?.uid.toString()
 
@@ -285,12 +298,12 @@ class StoreDetailPage : Fragment() {
                     var total = snapshot.childrenCount
                     binding.totalInCartTxt.visibility = View.VISIBLE
                     binding.totalInCartTxt.text = total.toString()
-                    progress.hide()
+//                    progress.hide()
                 }
                 else{
                     binding.navigateToCartFAB.visibility = View.GONE
                     binding.totalInCartTxt.visibility = View.INVISIBLE
-                    progress.hide()
+//                    progress.hide()
                 }
             }
 
