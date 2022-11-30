@@ -187,27 +187,27 @@ class StoreManagentPage : Fragment() {
                 endingTime = endTime
 
 
-                if(operatingDay.contains("Sunday,", ignoreCase = true)){
+                if(operatingDay.contains("Sunday")){
                     binding.sundayCheckBox.setChecked(true)
                 }
-                if(operatingDay.contains("Monday,", ignoreCase = true)){
+                if(operatingDay.contains("Monday")){
 //                    Log.d("Update","Monday is True")
                     binding.mondayCheckBox.setChecked(true)
                 }
-                if(operatingDay.contains("Tuesday,", ignoreCase = true)){
+                if(operatingDay.contains("Tuesday")){
 //                    Log.d("Update","Tuesday is True")
                     binding.tuesdayCheckBox.setChecked(true)
                 }
-                if(operatingDay.contains("Wednesday,")){
+                if(operatingDay.contains("Wednesday")){
                     binding.wednesdayCheckBox.setChecked(true)
                 }
-                if(operatingDay.contains("Thursday,")){
+                if(operatingDay.contains("Thursday")){
                     binding.thursdayCheckBox.setChecked(true)
                 }
-                if(operatingDay.contains("Friday,")){
+                if(operatingDay.contains("Friday")){
                     binding.fridayCheckBox.setChecked(true)
                 }
-                if(operatingDay.contains("Satuday,")){
+                if(operatingDay.contains("Saturday")){
                     binding.saturdayCheckBox.setChecked(true)
                 }
 
