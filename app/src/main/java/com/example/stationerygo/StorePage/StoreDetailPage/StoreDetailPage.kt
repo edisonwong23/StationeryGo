@@ -143,11 +143,11 @@ class StoreDetailPage : Fragment() {
                     }
                 }
                 if(productData.isEmpty()){
-                    progress.hide()
+                    progress.dismiss()
                     binding.storeDetailsRecyclerView.visibility = View.GONE
                     binding.noProductFoundText.visibility = View.VISIBLE
                 }else{
-                    progress.hide()
+                    progress.dismiss()
                     binding.noProductFoundText.visibility = View.GONE
                     binding.storeDetailsRecyclerView.visibility = View.VISIBLE
                     val recyclerView = binding.storeDetailsRecyclerView
@@ -164,7 +164,7 @@ class StoreDetailPage : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                progress.hide()
+                progress.dismiss()
                 Log.d("Products",error.toString())
             }
         }
@@ -192,7 +192,7 @@ class StoreDetailPage : Fragment() {
                         .into(binding.storeimageImg)
                 }
                 if(storeStatus == "Close"){
-                    progress.hide()
+                    progress.dismiss()
                     binding.productTypeSpinner.visibility = View.INVISIBLE
                     binding.clearProductTypeSearchBtn.visibility = View.INVISIBLE
                     binding.imageView4.visibility = View.VISIBLE
@@ -206,14 +206,14 @@ class StoreDetailPage : Fragment() {
 //                    (activity as AppCompatActivity).supportActionBar?.title = dataName
 //                    getStoreProducts(dataID)
                     spinnerAdapter()
-                    progress.hide()
+                    progress.dismiss()
                     checkTotalInCart()
                 }
 
             }
 
             override fun onCancelled(error: DatabaseError) {
-                progress.hide()
+                progress.dismiss()
                 Log.d("Details", "Error: " + error.toString())
             }
         }
@@ -242,12 +242,12 @@ class StoreDetailPage : Fragment() {
                     productData.add(StoreProductData(i++,productID,productImage,productName,productQty,productPrice))
                 }
                 if(productData.isEmpty()){
-                    progress.hide()
+                    progress.dismiss()
                     binding.noProductFoundText.visibility = View.VISIBLE
                     binding.storeDetailsRecyclerView.visibility = View.GONE
 //                    Toast.makeText(context,"Store is Empty",Toast.LENGTH_SHORT).show()
                 }else{
-                    progress.hide()
+                    progress.dismiss()
                     binding.noProductFoundText.visibility = View.GONE
                     binding.storeDetailsRecyclerView.visibility = View.VISIBLE
                     val recyclerView = binding.storeDetailsRecyclerView
@@ -290,7 +290,7 @@ class StoreDetailPage : Fragment() {
                 else{
                     binding.navigateToCartFAB.visibility = View.GONE
                     binding.totalInCartTxt.visibility = View.INVISIBLE
-                    progress.hide()
+                    progress.dismiss()
                 }
             }
 
