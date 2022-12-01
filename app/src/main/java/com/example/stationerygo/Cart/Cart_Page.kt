@@ -30,6 +30,8 @@ private var orderType = "Pick Up"
 private var userCurrentAddress = "None"
 private var isDelivery = false
 private var storeName = ""
+private var storeAddress = ""
+
 
 class Cart_Page : Fragment() {
 
@@ -102,8 +104,8 @@ class Cart_Page : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
                     if(it.child("storeID").value!!.equals(getStoreID)){
-                        Log.d("Cart","Here ")
                         storeName = it.child("storeName").value.toString()
+                        storeAddress = it.child("address").value.toString()
                     }
                     else{
                         Log.d("Cart","Rejected ")
@@ -237,6 +239,7 @@ class Cart_Page : Fragment() {
             "orderType" to orderType,
             "storeID" to storeID,
             "userCurrentAddress" to userCurrentAddress,
+            "storeAddress" to storeAddress
         )
         findNavController().navigate(R.id.action_cart_Page_to_paymentPage,bundle)
     }

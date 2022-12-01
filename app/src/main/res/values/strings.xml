@@ -24,8 +24,7 @@
     </string-array>
 
     <string-array name="Payments">
-        <item>MasterCard</item>
-        <item>Visa</item>
+        <item>Paypal</item>
         <item>Cash</item>
     </string-array>
 

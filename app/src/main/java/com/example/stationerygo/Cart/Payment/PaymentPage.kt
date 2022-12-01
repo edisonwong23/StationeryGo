@@ -19,6 +19,19 @@ import com.example.stationerygo.databinding.FragmentPaymentPageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import com.paypal.checkout.PayPalCheckout
+import com.paypal.checkout.approve.OnApprove
+import com.paypal.checkout.cancel.OnCancel
+import com.paypal.checkout.config.CheckoutConfig
+import com.paypal.checkout.config.Environment
+import com.paypal.checkout.config.SettingsConfig
+import com.paypal.checkout.createorder.CreateOrder
+import com.paypal.checkout.createorder.CurrencyCode
+import com.paypal.checkout.createorder.OrderIntent
+import com.paypal.checkout.createorder.UserAction
+import com.paypal.checkout.error.OnError
+import com.paypal.checkout.order.*
+import com.paypal.pyplcheckout.addshipping.model.Country
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -34,6 +47,7 @@ private var userLat = ""
 private var userLon = ""
 private var livingNo = ""
 private var livingType = ""
+private val YOUR_CLIENT_ID = "AS2mc_jiy0tnmtlt-fIHxoznNbsWL0K8rG7kjLo4vJUdH28VV1LUj5zYHeiu-kDkfArlY_nYTTucDqAZ"
 
 class PaymentPage : Fragment() {
 
@@ -64,6 +78,57 @@ class PaymentPage : Fragment() {
         spinnerAdapter()
 
         loadCartData()
+
+        val config = CheckoutConfig(
+            application = requireActivity().application,
+            clientId =YOUR_CLIENT_ID,
+            environment = Environment.SANDBOX,
+            returnUrl = "com.example.stationerygo://paypalpay",
+            currencyCode = CurrencyCode.MYR,
+            userAction = UserAction.PAY_NOW,
+            settingsConfig = SettingsConfig(
+                loggingEnabled = true
+            )
+        )
+        PayPalCheckout.setConfig(config)
+
+        var totalAmount = arguments?.getString("totalAmount").toString()
+        var userAddress = arguments?.getString("userCurrentAddress").toString()
+        var storeAddress = arguments?.getString("storeAddress").toString()
+//        var userAddress = "18, Jalan Desa Ampang 22"
+
+        binding.paymentButtonContainer.setup(
+            createOrder =
+            CreateOrder { createOrderActions ->
+                val order =
+                    Order(
+                        intent = OrderIntent.CAPTURE,
+                        appContext = AppContext(userAction = UserAction.PAY_NOW,
+                        ),
+                        purchaseUnitList =
+                        listOf(
+                            PurchaseUnit(
+                                amount =
+                                Amount(currencyCode = CurrencyCode.MYR, value = totalAmount),
+                            )
+                        )
+                    )
+                createOrderActions.create(order)
+            },
+            onApprove =
+            OnApprove{ approval ->
+                approval.orderActions.capture{ captureOrderResult ->
+                    confirmOrder()
+                }
+            },
+            onCancel = OnCancel {
+                Toast.makeText(context,"Paypal has been canceled",Toast.LENGTH_SHORT).show()
+            },
+            onError = OnError { errorInfo ->
+                Log.d("Payment", errorInfo.toString())
+                Toast.makeText(context,"Error Connecting Paypal",Toast.LENGTH_SHORT).show()
+            }
+        )
 
         binding.confirmOrderBtn.setOnClickListener{
             validatePayment()
@@ -185,8 +250,13 @@ class PaymentPage : Fragment() {
                         child.setEnabled(false)
                         i++
                     }
+                    binding.paymentButtonContainer.visibility = View.GONE
+                    binding.confirmOrderBtn.visibility = View.VISIBLE
                 }
                 else{
+                    binding.paymentButtonContainer.visibility = View.VISIBLE
+                    binding.confirmOrderBtn.visibility = View.GONE
+
                     binding.paymentDetailsCard.setCardBackgroundColor(resources.getColor(androidx.cardview.R.color.cardview_light_background))
                     var layout = binding.paymentDetailsConstraintLayout
                     var i = 0
@@ -287,12 +357,16 @@ class PaymentPage : Fragment() {
         if(selectedPaymentType == "Cash"){
             confirmOrder()
         }
-        else if(errorChecker == false){
-            confirmOrder()
+        else if(selectedPaymentType == "Paypal"){
+            checkPayPal()
         }
         else{
             Toast.makeText(context,"Please Check Above Input Boxes!",Toast.LENGTH_SHORT).show()
         }
+
+    }
+
+    private fun checkPayPal(){
 
     }
 
