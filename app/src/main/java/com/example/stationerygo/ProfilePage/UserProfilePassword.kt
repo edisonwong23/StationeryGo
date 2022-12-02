@@ -116,21 +116,25 @@ class UserProfilePassword : Fragment() {
         progress.show()
 
         val user = auth.currentUser
+
+
+
          user!!.updatePassword(newPass).addOnCompleteListener{
              if(it.isSuccessful){
 //                 auth.signOut()
                  Toast.makeText(context,"User Password Updated!",Toast.LENGTH_SHORT).show()
                  findNavController().navigateUp()
-                 progress.hide()
+                 progress.dismiss()
 //                 auth.signInWithEmailAndPassword(email,newPass)
              }
              else{
                  Toast.makeText(context, "User fail to update password",Toast.LENGTH_SHORT).show()
-                 progress.hide()
+                 progress.dismiss()
              }
          }.addOnFailureListener{
-             Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
-             progress.hide()
+             Log.d("Password", it.toString())
+//             Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
+             progress.dismiss()
          }
     }
 

@@ -205,12 +205,12 @@ class PaymentPage : Fragment() {
                 }
                 cartData = cartArray
 //                Log.d("Payment", "Current Data:" + cartData.toString())
-                progress.hide()
+                progress.dismiss()
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.d("Payment","Encounter Error $error")
-                progress.hide()
+                progress.dismiss()
             }
 
         }
