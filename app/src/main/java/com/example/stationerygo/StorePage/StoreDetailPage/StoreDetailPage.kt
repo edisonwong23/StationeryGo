@@ -199,7 +199,7 @@ class StoreDetailPage : Fragment() {
                     binding.navigateToCartFAB.visibility = View.GONE
                 }
                 else if(dataName == ""){
-                    progress.hide()
+                    progress.dismiss()
                     Toast.makeText(context,"No Item Listed!",Toast.LENGTH_SHORT).show()
                 }
                 else{
@@ -264,7 +264,7 @@ class StoreDetailPage : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                progress.hide()
+                progress.dismiss()
                 Log.d("Products",error.toString())
             }
         }
@@ -285,7 +285,7 @@ class StoreDetailPage : Fragment() {
                     var total = snapshot.childrenCount
                     binding.totalInCartTxt.visibility = View.VISIBLE
                     binding.totalInCartTxt.text = total.toString()
-                    progress.hide()
+                    progress.dismiss()
                 }
                 else{
                     binding.navigateToCartFAB.visibility = View.GONE

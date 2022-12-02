@@ -60,7 +60,6 @@ class PaymentPage : Fragment() {
             false
         )
 
-
         val stationeryBind = binding.expireMonthEdittextField
         var stationery = resources.getStringArray(R.array.Month)
         stationery = stationery
@@ -76,60 +75,16 @@ class PaymentPage : Fragment() {
 
         loadCartData()
 
-        val config = CheckoutConfig(
-            application = requireActivity().application,
-            clientId =YOUR_CLIENT_ID,
-            environment = Environment.SANDBOX,
-            returnUrl = "com.example.stationerygo://paypalpay",
-            currencyCode = CurrencyCode.MYR,
-            userAction = UserAction.PAY_NOW,
-            settingsConfig = SettingsConfig(
-                loggingEnabled = true
-            )
-        )
-        PayPalCheckout.setConfig(config)
 
-        var totalAmount = arguments?.getString("totalAmount").toString()
-        var userAddress = arguments?.getString("userCurrentAddress").toString()
-        var storeAddress = arguments?.getString("storeAddress").toString()
-//        var userAddress = "18, Jalan Desa Ampang 22"
 
-        binding.paymentButtonContainer.setup(
-            createOrder =
-            CreateOrder { createOrderActions ->
-                val order =
-                    Order(
-                        intent = OrderIntent.CAPTURE,
-                        appContext = AppContext(userAction = UserAction.PAY_NOW,
-                            shippingPreference = ShippingPreference.NO_SHIPPING
-                        ),
-                        purchaseUnitList =
-                        listOf(
-                            PurchaseUnit(
-                                amount =
-                                Amount(currencyCode = CurrencyCode.MYR, value = totalAmount),
-                            )
-                        )
-                    )
-                createOrderActions.create(order)
-            },
-            onApprove =
-            OnApprove{ approval ->
-                approval.orderActions.capture{ captureOrderResult ->
-                    confirmOrder()
-                }
-            },
-            onCancel = OnCancel {
-                Toast.makeText(context,"Paypal has been canceled",Toast.LENGTH_SHORT).show()
-            },
-            onError = OnError { errorInfo ->
-                Log.d("Payment", errorInfo.toString())
-                Toast.makeText(context,"Error Connecting Paypal",Toast.LENGTH_SHORT).show()
-            }
-        )
+
 
         binding.confirmOrderBtn.setOnClickListener{
             validatePayment()
+        }
+
+        binding.returnToMainPageBtn4.setOnClickListener {
+            findNavController().navigate(R.id.action_paymentPage_to_homePage)
         }
 
         return binding.root
@@ -205,6 +160,7 @@ class PaymentPage : Fragment() {
                 }
                 cartData = cartArray
 //                Log.d("Payment", "Current Data:" + cartData.toString())
+                confirmOrder()
                 progress.dismiss()
             }
 
@@ -248,12 +204,12 @@ class PaymentPage : Fragment() {
                         child.setEnabled(false)
                         i++
                     }
-                    binding.paymentButtonContainer.visibility = View.GONE
-                    binding.confirmOrderBtn.visibility = View.VISIBLE
+//                    binding.paymentButtonContainer.visibility = View.GONE
+//                    binding.confirmOrderBtn.visibility = View.VISIBLE
                 }
                 else{
-                    binding.paymentButtonContainer.visibility = View.VISIBLE
-                    binding.confirmOrderBtn.visibility = View.GONE
+//                    binding.paymentButtonContainer.visibility = View.VISIBLE
+//                    binding.confirmOrderBtn.visibility = View.GONE
 
                     binding.paymentDetailsCard.setCardBackgroundColor(resources.getColor(androidx.cardview.R.color.cardview_light_background))
                     var layout = binding.paymentDetailsConstraintLayout
@@ -376,12 +332,14 @@ class PaymentPage : Fragment() {
         var storeName = arguments?.getString("StoreName").toString()
         var orderType = arguments?.getString("orderType").toString()
         var storeID = arguments?.getString("storeID").toString()
-        var paymentType = selectedPaymentType
+        var paymentType = "Paypal"
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         val currentDate = sdf.format(Date())
         val currentStatus = "Pending"
         val userCurrentAddress = arguments?.getString("userCurrentAddress").toString()
 
+        binding.paymentpaymentAmountTxt3.text = "RM "+totalAmount
+        binding.paymentDateTxt3.text = currentDate
 //        Log.d("Payment",currentDate.toString())
 
         if(userCurrentAddress == "None"){
@@ -443,11 +401,10 @@ class PaymentPage : Fragment() {
 
         database.child(uid).removeValue().addOnCompleteListener{
             if(it.isSuccessful){
-                Toast.makeText(context,"Payment Done",Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_paymentPage_to_homePage)
+//                Toast.makeText(context,"Payment Done",Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(context,"Fail To Purchase",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context,"Fail To Purchase",Toast.LENGTH_SHORT).show()
             }
         }
     }

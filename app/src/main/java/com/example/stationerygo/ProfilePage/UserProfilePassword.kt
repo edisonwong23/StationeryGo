@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentUserProfileBinding
 import com.example.stationerygo.databinding.FragmentUserProfilePasswordBinding
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import java.util.regex.Pattern
@@ -44,7 +45,7 @@ class UserProfilePassword : Fragment() {
 
     private fun validatePassword(){
 
-//        var oldPass = binding.oldUpdatePasswordTextfield.editText?.text.toString()
+        var oldPass = binding.oldUpdatePasswordTextfield.editText?.text.toString()
         var pass1 = binding.newUpdatePassword1Textfield.editText?.text.toString()
         var pass2 = binding.newUpdatePassword2Textfield.editText?.text.toString()
         var errorChecker = false
@@ -53,17 +54,13 @@ class UserProfilePassword : Fragment() {
 //        var email = arguments?.getString("email").toString()
 //        var loginUser = auth.signInWithEmailAndPassword(email,oldPass).isSuccessful
 //        Log.d("User",email)
-//        if(oldPass.isEmpty() || oldPass == null){
-//            binding.oldUpdatePasswordTextfield.error = "Required*"
-//            errorChecker = true
-//        }
-//        else if(!loginUser){
-//            binding.oldUpdatePasswordTextfield.error = "Invalid Old Password!"
-//            errorChecker = true
-//        }
-//        else{
-//            binding.oldUpdatePasswordTextfield.isErrorEnabled = false
-//        }
+        if(oldPass.isEmpty() || oldPass == null){
+            binding.oldUpdatePasswordTextfield.error = "Required*"
+            errorChecker = true
+        }
+        else{
+            binding.oldUpdatePasswordTextfield.isErrorEnabled = false
+        }
 
         var PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=*])(?=\\S+$).{4,}$";
         var pattern_password = Pattern.compile(PASSWORD_PATTERN)
@@ -115,27 +112,34 @@ class UserProfilePassword : Fragment() {
         progress.setTitle("Changing to New Password")
         progress.show()
 
+        var userEmail = auth.currentUser?.email.toString()
+        var oldPassword = binding.oldUpdatePasswordTextfield.editText?.text.toString()
+
         val user = auth.currentUser
 
+        val credentials = EmailAuthProvider.getCredential(userEmail,oldPassword)
+
+        user?.reauthenticate(credentials)?.addOnSuccessListener {
+
+            binding.newUpdatePassword1Textfield.isErrorEnabled = false
+
+            user!!.updatePassword(newPass).addOnSuccessListener{
+
+                    Toast.makeText(context,"User Password Updated!",Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                    progress.dismiss()
+
+            }.addOnFailureListener{
+                Log.d("Password", it.toString())
+                progress.dismiss()
+            }
+        }?.addOnFailureListener{
+            binding.oldUpdatePasswordTextfield.error = "Invalid Password"
+            progress.dismiss()
+        }
 
 
-         user!!.updatePassword(newPass).addOnCompleteListener{
-             if(it.isSuccessful){
-//                 auth.signOut()
-                 Toast.makeText(context,"User Password Updated!",Toast.LENGTH_SHORT).show()
-                 findNavController().navigateUp()
-                 progress.dismiss()
-//                 auth.signInWithEmailAndPassword(email,newPass)
-             }
-             else{
-                 Toast.makeText(context, "User fail to update password",Toast.LENGTH_SHORT).show()
-                 progress.dismiss()
-             }
-         }.addOnFailureListener{
-             Log.d("Password", it.toString())
-//             Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
-             progress.dismiss()
-         }
+
     }
 
 }

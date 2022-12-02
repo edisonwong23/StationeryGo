@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
             .Builder(
                 R.id.homePage,
                 R.id.loginPage,
+                R.id.paymentPage,
             )
             .build()
         NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)

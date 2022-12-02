@@ -1,6 +1,7 @@
 package com.example.stationerygo.Cart
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,18 @@ import com.example.stationerygo.R
 import com.example.stationerygo.databinding.FragmentCartPageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.paypal.checkout.PayPalCheckout
+import com.paypal.checkout.approve.OnApprove
+import com.paypal.checkout.cancel.OnCancel
+import com.paypal.checkout.config.CheckoutConfig
+import com.paypal.checkout.config.Environment
+import com.paypal.checkout.config.SettingsConfig
+import com.paypal.checkout.createorder.*
+import com.paypal.checkout.error.OnError
+import com.paypal.checkout.order.Amount
+import com.paypal.checkout.order.AppContext
+import com.paypal.checkout.order.Order
+import com.paypal.checkout.order.PurchaseUnit
 
 private lateinit var binding : FragmentCartPageBinding
 private lateinit var database: DatabaseReference
@@ -31,6 +44,8 @@ private var userCurrentAddress = "None"
 private var isDelivery = false
 private var storeName = ""
 private var storeAddress = ""
+private var totalPalpayAmount = ""
+private val YOUR_CLIENT_ID = "AS2mc_jiy0tnmtlt-fIHxoznNbsWL0K8rG7kjLo4vJUdH28VV1LUj5zYHeiu-kDkfArlY_nYTTucDqAZ"
 
 
 class Cart_Page : Fragment() {
@@ -84,15 +99,67 @@ class Cart_Page : Fragment() {
             }.create().show()
         }
 
-        binding.proceedPaymentBtn.setOnClickListener{
+//        binding.proceedPaymentBtn.setOnClickListener{
+//
+//            if(itemInCart){
+//                proceedToPayment()
+//            }
+//           else
+//               Toast.makeText(context,"Cart Is Empty,Please Add Item to Cart!",Toast.LENGTH_SHORT).show()
+//        }
 
-            if(itemInCart){
-                proceedToPayment()
-            }
-           else
-               Toast.makeText(context,"Cart Is Empty,Please Add Item to Cart!",Toast.LENGTH_SHORT).show()
-        }
+        val config = CheckoutConfig(
+            application = requireActivity().application,
+            clientId = YOUR_CLIENT_ID,
+            environment = Environment.SANDBOX,
+            returnUrl = "com.example.stationerygo://paypalpay",
+            currencyCode = CurrencyCode.MYR,
+            userAction = UserAction.PAY_NOW,
+            settingsConfig = SettingsConfig(
+                loggingEnabled = true
+            )
+        )
+        PayPalCheckout.setConfig(config)
+
         return binding.root
+    }
+
+    private fun paypalButton(){
+
+        binding.paymentButtonContainer.setup(
+            createOrder =
+            CreateOrder { createOrderActions ->
+
+                val order =
+                    Order(
+                        intent = OrderIntent.CAPTURE,
+                        appContext = AppContext(userAction = UserAction.PAY_NOW,
+                            shippingPreference = ShippingPreference.NO_SHIPPING
+                        ),
+                        purchaseUnitList =
+                        listOf(
+                            PurchaseUnit(
+                                amount =
+                                Amount(currencyCode = CurrencyCode.MYR, value = totalPaymentAmount),
+                            )
+                        )
+                    )
+                createOrderActions.create(order)
+            },
+            onApprove =
+            OnApprove{ approval ->
+                approval.orderActions.capture{ captureOrderResult ->
+                    proceedToPayment()
+                }
+            },
+            onCancel = OnCancel {
+                Toast.makeText(context,"Paypal has been canceled",Toast.LENGTH_SHORT).show()
+            },
+            onError = OnError { errorInfo ->
+                Log.d("Payment", errorInfo.toString())
+                Toast.makeText(context,"Error Connecting Paypal",Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     private fun getShopName(){
@@ -136,7 +203,6 @@ class Cart_Page : Fragment() {
                     Toast.makeText(context,"Error Clearing Cart",Toast.LENGTH_SHORT).show()
             }
     }
-
 
     private fun getUserAddress(){
         var uid = auth.currentUser?.uid.toString()
@@ -207,6 +273,14 @@ class Cart_Page : Fragment() {
                  binding.totalAmountAmountTxt.text = "%.2f".format(totalAmount)
                  totalPaymentAmount = "%.2f".format(totalAmount)
 //                Log.d("Cart",cartArray.toString())
+
+                if(itemInCart){
+                    paypalButton()
+                    binding.paymentButtonContainer.visibility = View.VISIBLE
+                }
+                else{
+                    binding.paymentButtonContainer.visibility = View.GONE
+                }
 
                 val recycleView = binding.cartRecyclerview
                 recycleView.layoutManager = LinearLayoutManager(context)
