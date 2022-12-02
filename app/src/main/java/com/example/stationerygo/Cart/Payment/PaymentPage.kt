@@ -25,10 +25,7 @@ import com.paypal.checkout.cancel.OnCancel
 import com.paypal.checkout.config.CheckoutConfig
 import com.paypal.checkout.config.Environment
 import com.paypal.checkout.config.SettingsConfig
-import com.paypal.checkout.createorder.CreateOrder
-import com.paypal.checkout.createorder.CurrencyCode
-import com.paypal.checkout.createorder.OrderIntent
-import com.paypal.checkout.createorder.UserAction
+import com.paypal.checkout.createorder.*
 import com.paypal.checkout.error.OnError
 import com.paypal.checkout.order.*
 import com.paypal.pyplcheckout.addshipping.model.Country
@@ -104,6 +101,7 @@ class PaymentPage : Fragment() {
                     Order(
                         intent = OrderIntent.CAPTURE,
                         appContext = AppContext(userAction = UserAction.PAY_NOW,
+                            shippingPreference = ShippingPreference.NO_SHIPPING
                         ),
                         purchaseUnitList =
                         listOf(
