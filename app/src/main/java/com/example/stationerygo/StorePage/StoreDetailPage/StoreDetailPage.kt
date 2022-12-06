@@ -25,6 +25,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 
 private lateinit var binding: FragmentStoreDetailPageBinding
@@ -62,7 +63,13 @@ class StoreDetailPage : Fragment() {
         }
 
         binding.clearProductTypeSearchBtn.setOnClickListener {
-            spinnerAdapter()
+            try{
+                spinnerAdapter()
+            }
+            catch (ex: Exception)
+            {
+                Log.d("Error", ex.toString())
+            }
         }
 
         binding.navigateToCartFAB.setOnClickListener{
@@ -86,10 +93,10 @@ class StoreDetailPage : Fragment() {
 
     private fun spinnerAdapter(){
         val spinner: Spinner = binding.productTypeSpinner
-        val product = resources.getStringArray(R.array.Stationery2)
+        val product = activity?.resources?.getStringArray(R.array.Stationery2)
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
-            requireContext(),
+            requireActivity(),
             R.array.Stationery2,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
@@ -100,13 +107,15 @@ class StoreDetailPage : Fragment() {
         }
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                var productType = product[p2]
+                var productType = product?.get(p2)
 
                 if(productType == "None"){
                     getStoreProducts(dataID)
                 }
                 else{
-                    getSearchedProducts(productType)
+                    if (productType != null) {
+                        getSearchedProducts(productType)
+                    }
                 }
 
 
@@ -205,7 +214,12 @@ class StoreDetailPage : Fragment() {
                 else{
 //                    (activity as AppCompatActivity).supportActionBar?.title = dataName
 //                    getStoreProducts(dataID)
-                    spinnerAdapter()
+                    try {
+                        spinnerAdapter()
+                    }catch (ex:Exception){
+                        Log.d("Error", ex.toString())
+                    }
+
                     progress.dismiss()
                     checkTotalInCart()
                 }
@@ -272,8 +286,6 @@ class StoreDetailPage : Fragment() {
     }
 
     private fun checkTotalInCart(){
-        val progress = ProgressDialog(activity)
-        progress.show()
         auth = FirebaseAuth.getInstance()
         var uid = auth.currentUser?.uid.toString()
 
@@ -285,12 +297,10 @@ class StoreDetailPage : Fragment() {
                     var total = snapshot.childrenCount
                     binding.totalInCartTxt.visibility = View.VISIBLE
                     binding.totalInCartTxt.text = total.toString()
-                    progress.dismiss()
                 }
                 else{
                     binding.navigateToCartFAB.visibility = View.GONE
                     binding.totalInCartTxt.visibility = View.INVISIBLE
-                    progress.dismiss()
                 }
             }
 
