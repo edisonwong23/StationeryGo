@@ -38,6 +38,8 @@ private var endingTime = "0:00"
 private var checkStartingTime : Date? = null
 private var checkEndingTime : Date? = null
 private var allStoreNames: MutableList<String> = ArrayList<String>()
+private var allStoreEmail: MutableList<String> = ArrayList<String>()
+private var allStorePhone: MutableList<String> = ArrayList<String>()
 
 class CreateStorePage : Fragment() {
 
@@ -59,6 +61,8 @@ class CreateStorePage : Fragment() {
 //        }
 
         checkStoreName()
+        checkStorePhone()
+        checkStoreEmail()
 
         imageView = binding.storeImage
         binding.storeImage.setOnClickListener{
@@ -80,7 +84,7 @@ class CreateStorePage : Fragment() {
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             imageUri = data?.data
             imageView.setImageURI(imageUri)
-            Log.d("Store",imageUri.toString())
+//            Log.d("Store",imageUri.toString())
         }
     }
 
@@ -95,10 +99,24 @@ class CreateStorePage : Fragment() {
         var phone = binding.storePhoneTextField.editText?.text.toString()
         var errorChecker = false
         var storeNameExist = false
+        var storeEmailExist = false
+        var storePhoneExist = false
 
         for(data in allStoreNames){
             if(data == storeName){
                 storeNameExist = true
+            }
+        }
+
+        for(data in allStoreEmail){
+            if(data == email){
+                storeEmailExist = true
+            }
+        }
+
+        for(data in allStorePhone){
+            if(data == phone){
+                storePhoneExist = true
             }
         }
 
@@ -215,6 +233,10 @@ class CreateStorePage : Fragment() {
             binding.storePhoneTextField.error = "Invalid Phone Number"
             errorChecker = true
         }
+        else if(storePhoneExist){
+            binding.storePhoneTextField.error = "Phone Number Already Exist"
+            errorChecker = true
+        }
         else{
             binding.storePhoneTextField.isErrorEnabled = false
         }
@@ -225,6 +247,10 @@ class CreateStorePage : Fragment() {
         }
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             binding.storeEmailTextField.error = "Invalid Email Address"
+            errorChecker = true
+        }
+        else if(storeEmailExist){
+            binding.storeEmailTextField.error = "Email Address Already Exist"
             errorChecker = true
         }
         else{
@@ -306,6 +332,50 @@ class CreateStorePage : Fragment() {
         }
 
         database.addValueEventListener(postListener)
+    }
+
+    private fun checkStoreEmail(){
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    allStoreEmail.add(it.child("email").value.toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.addValueEventListener(postListener)
+    }
+
+    private fun checkStorePhone(){
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    allStorePhone.add(it.child("phone").value.toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.addValueEventListener(postListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+//        Log.d("Store","onDestroy")
+        imageUri = null
     }
 
 }

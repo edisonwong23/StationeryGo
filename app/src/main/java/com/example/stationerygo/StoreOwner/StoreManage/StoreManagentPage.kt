@@ -64,7 +64,11 @@ private val pickImage = 100
 private var imageUri: Uri? = null
 lateinit var imageView: ImageView
 private var allStoreNames: MutableList<String> = ArrayList<String>()
+private var allStoreEmails: MutableList<String> = ArrayList<String>()
+private var allStorePhones: MutableList<String> = ArrayList<String>()
 private var oldStoreName: String ?= null
+private var oldStoreEmail: String ?= null
+private var oldStorePhone: String ?= null
 private var oldDesc: String ?= null
 private var oldOperatingDays: String ?= null
 private var oldEmail: String ?= null
@@ -100,6 +104,9 @@ class StoreManagentPage : Fragment() {
         stationeryBind.setAdapter(adapter)
 
         checkStoreName()
+        checkStoreEmail()
+        checkStorePhone()
+
         loadStoreDetailsDetails()
 
         binding.updateStoreDetailsDetailsBtn.setOnClickListener {
@@ -239,7 +246,10 @@ class StoreManagentPage : Fragment() {
         var phone = binding.storePhoneTextField.editText?.text.toString()
         var errorChecker = false
         var storeNameExist = false
+        var storeEmailExist = false
+        var storePhoneExist = false
 
+        //Store Name
         if(oldStoreName == storeName){
             storeNameExist = false
         }
@@ -247,6 +257,30 @@ class StoreManagentPage : Fragment() {
             for(data in allStoreNames){
                 if(data == storeName){
                     storeNameExist = true
+                }
+            }
+        }
+
+        //Store Email
+        if(oldEmail == email){
+            storeEmailExist = false
+        }
+        else{
+            for(data in allStoreEmails){
+                if(data == email){
+                    storeEmailExist = true
+                }
+            }
+        }
+
+        //Store Phone
+        if(oldPhone == phone){
+            storePhoneExist = false
+        }
+        else{
+            for(data in allStorePhones){
+                if(data == phone){
+                    storePhoneExist = true
                 }
             }
         }
@@ -363,6 +397,10 @@ class StoreManagentPage : Fragment() {
             binding.storePhoneTextField.error = "Invalid Phone Number"
             errorChecker = true
         }
+        else if(storePhoneExist == true){
+            binding.storePhoneTextField.error = "Phone Already Existed"
+            errorChecker = true
+        }
         else{
             binding.storePhoneTextField.isErrorEnabled = false
         }
@@ -373,6 +411,10 @@ class StoreManagentPage : Fragment() {
         }
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             binding.storeEmailTextField.error = "Invalid Email Address"
+            errorChecker = true
+        }
+        else if(storeEmailExist == true){
+            binding.storeEmailTextField.error = "Email Already Existed"
             errorChecker = true
         }
         else{
@@ -455,6 +497,44 @@ class StoreManagentPage : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
                     allStoreNames.add(it.child("storeName").value.toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.addValueEventListener(postListener)
+    }
+
+    private fun checkStoreEmail(){
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    allStoreEmails.add(it.child("email").value.toString())
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.addValueEventListener(postListener)
+    }
+
+    private fun checkStorePhone(){
+        database = FirebaseDatabase.getInstance().getReference("Stores")
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    allStorePhones.add(it.child("phone").value.toString())
                 }
             }
 

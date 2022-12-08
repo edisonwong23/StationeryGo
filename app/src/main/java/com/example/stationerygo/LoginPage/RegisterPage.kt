@@ -184,8 +184,8 @@ class RegisterPage : Fragment() {
             binding.displayUsernameTextfield.error = "Must Only Contain Letters!"
             errorChecker = true
         }
-        else if(displayNameUser.count() < 5){
-            binding.displayUsernameTextfield.error = " Must be More then 5 Letters!"
+        else if(displayNameUser.count() <= 1){
+            binding.displayUsernameTextfield.error = " Must be More then 1 Letters!"
             errorChecker = true
         }
         else if(displayNameUser.count() > 20){

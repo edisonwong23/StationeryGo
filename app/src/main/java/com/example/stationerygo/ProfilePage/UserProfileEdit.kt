@@ -113,12 +113,12 @@ class UserProfileEdit : Fragment() {
             binding.userProfileEditDisplayNameTextfield.error = "Must Only Contain Letters!"
             errorChecker = true
         }
-        else if(displayUserName.count() < 5){
-            binding.userProfileEditDisplayNameTextfield.error = " Must be Less then 20 Letters!"
+        else if(displayUserName.count() <= 1){
+            binding.userProfileEditDisplayNameTextfield.error = " Must be Less then 1 Letters!"
             errorChecker = true
         }
         else if(displayUserName.count() > 20){
-            binding.userProfileEditDisplayNameTextfield.error = "Display User Name is too short!"
+            binding.userProfileEditDisplayNameTextfield.error = "Display User Name is too long!"
             errorChecker = true
         }
         else{
