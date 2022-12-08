@@ -73,51 +73,6 @@ class CreateProducts : Fragment() {
             validationCheck()
         }
 
-        var oldAmount = 0
-        var textArrayList : MutableList<View> = ArrayList<View>()
-
-//        binding.addRadioButtonBtn.setOnClickListener {
-//
-//            val linearLayout = binding.textViewGenLinearLayout
-//
-//            val editText = TextInputEditText(requireContext())
-//            val editTextParams = LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.MATCH_PARENT
-//            )
-//
-//
-//            val textInputLayout = TextInputLayout(requireContext())
-//            val textInputLayoutParams = LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT
-//            )
-//
-////            dynamicTextview.text = "Dynamically added text"
-//            textInputLayout.setLayoutParams(textInputLayoutParams);
-//            textInputLayout.addView(editText, editTextParams);
-//            textInputLayout.setHint("hint");
-//
-//            textArrayList.add(textInputLayout)
-//            Log.d("Create", textArrayList.count().toString())
-////            var newAmount = oldAmount + 1
-////            oldAmount = newAmount
-//
-////            Log.d("Create", oldAmount.toString())
-//
-//
-//
-////            textInputLayout.removeAllViews()
-//
-//
-//            for(data in textArrayList){
-//                linearLayout.removeAllViews()
-//                linearLayout.addView(textArrayList[textArrayList.count() - 1])
-//            }
-//
-////            linearLayout.removeView(textArrayList[i])
-//        }
-
         return binding.root
     }
 
@@ -129,7 +84,6 @@ class CreateProducts : Fragment() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
-
 
             private var discount_amount_edit_text = binding.productPriceEdittextField
             override fun onTextChanged(
@@ -341,6 +295,13 @@ class CreateProducts : Fragment() {
             Log.d("Store", "Failure happen" +it.toString())
             Toast.makeText(getContext(), it.toString(), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+//        Log.d("Store","onDestroy")
+        imageUri = null
+        dataToFirebase = null
     }
 
 }
