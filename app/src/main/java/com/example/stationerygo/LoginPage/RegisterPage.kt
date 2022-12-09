@@ -39,9 +39,7 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
@@ -60,6 +58,7 @@ private var imageUri: Uri? = null
 lateinit var imageView: ImageView
 var imagePathFromFirebase : String = ""
 var dataToFirebase: Intent? = null
+private var allUserPhone: MutableList<String> = ArrayList<String>()
 
 class RegisterPage : Fragment() {
 
@@ -73,6 +72,9 @@ class RegisterPage : Fragment() {
             container,
             false
         )
+
+        checkPhoneNumber()
+
         imageView = binding.imageView
         binding.imageUploadBtn.setOnClickListener{
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -174,6 +176,15 @@ class RegisterPage : Fragment() {
         var password2 = binding.passwordTextfield2.editText?.text.toString()
         var phone = binding.phoneNumberTextfield.editText?.text.toString()
         var errorChecker = false
+        var phoneExist = false
+
+        for (data in allUserPhone){
+            if(data == phone){
+                phoneExist = true
+            }
+        }
+
+//        Log.d("Register", phoneExist.toString())
 
         if(displayNameUser.isEmpty()){
             binding.displayUsernameTextfield.error = "Required*"
@@ -255,6 +266,10 @@ class RegisterPage : Fragment() {
                 binding.phoneNumberTextfield.error = "Invalid Malaysian Phone Number"
                 errorChecker = true
             }
+            else if(phoneExist){
+                binding.phoneNumberTextfield.error = "Phone Number Already Exist"
+                errorChecker = true
+            }
             else{
                 binding.phoneNumberTextfield.isErrorEnabled = false
             }
@@ -274,6 +289,26 @@ class RegisterPage : Fragment() {
         else
             Toast.makeText(context,"Please Check Abobe Input Box",Toast.LENGTH_SHORT).show()
 
+    }
+
+    private fun checkPhoneNumber(){
+        database = FirebaseDatabase.getInstance().getReference("Users")
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    allUserPhone.add(it.child("phone").value.toString())
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.addValueEventListener(postListener)
     }
 
     private fun registerAuthUser(){

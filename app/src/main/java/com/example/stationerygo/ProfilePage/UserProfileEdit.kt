@@ -40,6 +40,8 @@ private var imageUri: Uri? = null
 lateinit var imageView: ImageView
 private var dataToFirebase: Intent? = null
 private var oldImagePath = ""
+private var allUserPhone: MutableList<String> = ArrayList<String>()
+private var oldPhone :String? = null
 
 class UserProfileEdit : Fragment() {
 
@@ -54,9 +56,12 @@ class UserProfileEdit : Fragment() {
             container,
             false
         )
+
         auth = FirebaseAuth.getInstance()
         var uid = auth.currentUser?.uid
         loadUserProfile(uid!!)
+
+        checkPhoneNumber()
 
         imageView = binding.imageView3
        binding.imageView3.setOnClickListener{
@@ -81,6 +86,7 @@ class UserProfileEdit : Fragment() {
                 var phone = snapshot.child("phone").value.toString()
                 var userImage = snapshot.child("userImage").value.toString()
                 oldImagePath = snapshot.child("userImage").value.toString()
+                oldPhone = phone
 
                 binding.userProfileEditDisplayNameEditTextField.setText(userDisplayName)
                 binding.userProfileEditPhoneNumberEditTextField.setText(phone)
@@ -101,8 +107,19 @@ class UserProfileEdit : Fragment() {
     private fun validationCheck(){
         var displayUserName = binding.userProfileEditDisplayNameTextfield.editText?.text.toString()
         var phone = binding.userProfileEditPhoneNumberTextfield.editText?.text.toString()
+        var phoneExist = false
+
 
         var errorChecker = false
+
+        if(oldPhone != phone){
+            for (data in allUserPhone){
+                if(data == phone){
+                    phoneExist = true
+                }
+            }
+        }
+
 
         if(displayUserName.isEmpty()){
             binding.userProfileEditDisplayNameTextfield.error = "Required*"
@@ -138,6 +155,10 @@ class UserProfileEdit : Fragment() {
             }
             else if(!pattern_phone.matcher(phone).matches()){
                 binding.userProfileEditPhoneNumberTextfield.error = "Invalid Malaysian Phone Number"
+                errorChecker = true
+            }
+            else if(phoneExist){
+                binding.userProfileEditPhoneNumberTextfield.error = "Phone Already Exist"
                 errorChecker = true
             }
             else{
@@ -222,6 +243,26 @@ class UserProfileEdit : Fragment() {
         }
 
 
+    }
+
+    private fun checkPhoneNumber(){
+        database = FirebaseDatabase.getInstance().getReference("Users")
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    allUserPhone.add(it.child("phone").value.toString())
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.addValueEventListener(postListener)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
