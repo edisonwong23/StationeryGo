@@ -226,11 +226,11 @@ class RegisterPage : Fragment() {
             errorChecker = true
         }
         else if(password.count() < 5){
-            binding.passwordTextfield.error = "Password is too short!"
+            binding.passwordTextfield.error = "Password must have more then 5!"
             errorChecker = true
         }
         else if(password.count() > 20){
-            binding.passwordTextfield.error = "Password must be less then 20"
+            binding.passwordTextfield.error = "Password must be less then 20!"
             errorChecker = true
         }
         else if(!pattern_password.matcher(password).matches()){

@@ -1,6 +1,8 @@
 package com.example.stationerygo.Cart.Payment
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,6 +46,7 @@ private var userLat = ""
 private var userLon = ""
 private var livingNo = ""
 private var livingType = ""
+private var oldOrderID = ""
 private val YOUR_CLIENT_ID = "AS2mc_jiy0tnmtlt-fIHxoznNbsWL0K8rG7kjLo4vJUdH28VV1LUj5zYHeiu-kDkfArlY_nYTTucDqAZ"
 
 class PaymentPage : Fragment() {
@@ -85,6 +88,19 @@ class PaymentPage : Fragment() {
 
         binding.returnToMainPageBtn4.setOnClickListener {
             findNavController().navigate(R.id.action_paymentPage_to_homePage)
+        }
+
+        binding.paymentCancelOrderBtn.setOnClickListener {
+            val alartDialog = AlertDialog.Builder(context,R.style.AlertDialogCustom)
+            alartDialog.apply {
+                setTitle("Confirm Cancel Order?")
+                setMessage("Are you sure you want to cancel order? Refunding Order might take a while")
+                setPositiveButton("Confirm"){ _: DialogInterface?, _: Int ->
+                    orderCancel()
+                }
+                setNegativeButton("Cancel"){_, _ ->
+                }
+            }.create().show()
         }
 
         return binding.root
@@ -320,6 +336,34 @@ class PaymentPage : Fragment() {
 
     }
 
+    private fun orderCancel(){
+        database = FirebaseDatabase.getInstance().getReference("Orders")
+
+        val postListener = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    var checkOrderID = it.child("orderID").value.toString()
+                    if(checkOrderID == oldOrderID){
+                        var orderKey = it.key.toString()
+                        database.child(orderKey).removeValue().addOnSuccessListener {
+                            Toast.makeText(context,"Order has been Cancel",Toast.LENGTH_SHORT).show()
+                            findNavController().navigate(R.id.action_paymentPage_to_homePage)
+                        }.addOnFailureListener {
+                            Toast.makeText(context,"Order Failed to Delete",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+
+        database.addValueEventListener(postListener)
+    }
+
     private fun checkPayPal(){
 
     }
@@ -349,6 +393,7 @@ class PaymentPage : Fragment() {
 
         database = FirebaseDatabase.getInstance().getReference("Orders")
         var orderID = UUID.randomUUID().toString()
+        oldOrderID = orderID
         var dataRef = database.push().
         setValue(PaymentData(orderID,
             storeID,

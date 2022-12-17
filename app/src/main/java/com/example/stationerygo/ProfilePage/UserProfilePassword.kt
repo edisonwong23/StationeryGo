@@ -69,7 +69,15 @@ class UserProfilePassword : Fragment() {
             errorChecker = true
         }
         else if(!pattern_password.matcher(pass1).matches()){
-            binding.newUpdatePassword1Textfield.error = "Invalid Password Type*"
+            binding.newUpdatePassword1Textfield.error = "Must contain 1 Capital, 1 Number, 1 Symbol !"
+            errorChecker = true
+        }
+        else if(pass1.count() < 5){
+            binding.newUpdatePassword1Textfield.error = "Password must have more then 5!"
+            errorChecker = true
+        }
+        else if(pass1.count() > 20){
+            binding.newUpdatePassword1Textfield.error= "Password must be less then 20!"
             errorChecker = true
         }
         else{

@@ -127,7 +127,7 @@ class UserProfileEdit : Fragment() {
         }
         else if(!displayUserName.matches("^[a-zA-Z]*$".toRegex()))
         {
-            binding.userProfileEditDisplayNameTextfield.error = "Must Only Contain Letters!"
+            binding.userProfileEditDisplayNameTextfield.error = "Must Only Contain Letters & No Space Allow!"
             errorChecker = true
         }
         else if(displayUserName.count() <= 1){
@@ -135,7 +135,7 @@ class UserProfileEdit : Fragment() {
             errorChecker = true
         }
         else if(displayUserName.count() > 20){
-            binding.userProfileEditDisplayNameTextfield.error = "Display User Name is too long!"
+            binding.userProfileEditDisplayNameTextfield.error = "Display User Name cannot be more then 20"
             errorChecker = true
         }
         else{
